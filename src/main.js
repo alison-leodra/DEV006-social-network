@@ -2,7 +2,6 @@ import home from './templates/home';
 import register from './templates/register';
 import registerEmail from './templates/registerEmail';
 
-
 const routes = [
   { path: '/', component: home },
   { path: '/register', component: register },
@@ -15,7 +14,7 @@ const root = document.getElementById('id');
 
 const navigateTo = (hash) => {
   const route = routes.find((routeFound) => routeFound.path === hash);
-  
+
   if (route && route.component) {
     window.history.pushState(
       {},
@@ -27,7 +26,7 @@ const navigateTo = (hash) => {
       root.removeChild(root.firstChild);
     }
     root.appendChild(route.component());
-   } else {
+  } else {
     navigateTo('/error');
   }
-}
+};

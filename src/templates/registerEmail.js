@@ -1,36 +1,3 @@
-const registerEmail = () => {
-  return `
-  <div class="registroEmail">
-    <header>
-      <div class="imgLogo">
-        <img src="./img/logo2.png" alt="logo">
-      </div>
-    </header>
-
-    <main>
-      <div class="container">
-        <form id="signInFormEmail">
-          <input type="text" id="sigInName" class="formControl" placeholder="nombre de usuario" required>
-          <input type="text" id="sigInEmail" class="formControl" placeholder="email@correo.com" required>
-          <input type="password" id="sigInPassword" class="formControl" placeholder="contraseña" required>
-          <input type="password" id="sigInPasswordConfirm" class="formControl" placeholder="confirmar contraseña"
-              required>
-          <textarea readonly>
-            ${terminosYCondiciones()}
-          </textarea>
-          <p class="check">
-            <input type="checkbox" id="sigInTerminos">
-            <label class="terminos"> Aceptar los términos y condiciones.</label>
-          </p>
-          <button type="button" class="registerEmail">Registrarse</button>
-        </form>
-      </div>
-    </main>
-    
-  </div>
-  `;
-}
-
 const terminosYCondiciones = () => {
   return `
 Términos y Condiciones
@@ -70,6 +37,41 @@ Exclusión de garantías y responsabilidades
     6.2. Playmates no se hace responsable de los contenidos y servicios prestados por terceros a través de la App. 
     6.3. El usuario reconoce y acepta que utiliza la App y los servicios proporcionados a través de ella bajo su exclusiva responsabilidad.
   `;
-}
+};
+
+const registerEmail = () => {
+  return `
+  <div class="registroEmail">
+    <header>
+      <div class="imgLogo">
+        <img src="./img/logo2.png" alt="logo">
+      </div>
+    </header>
+
+    <main>
+      <div class="container">
+        <form id="signInFormEmail">
+          <input type="text" id="sigInName" class="formControl" placeholder="nombre de usuario" required>
+          <input type="text" id="sigInEmail" class="formControl" placeholder="email@correo.com" required>
+          <input type="password" id="sigInPassword" class="formControl" placeholder="contraseña" required>
+          <input type="password" id="sigInPasswordConfirm" class="formControl" placeholder="confirmar contraseña"
+              required>
+          <textarea readonly>
+            ${terminosYCondiciones()}
+          </textarea>
+          <p class="check">
+            <input type="checkbox" id="sigInTerminos">
+            <label class="terminos"> Aceptar los términos y condiciones.</label>
+          </p>
+          <button type="button" class="registerEmail">Registrarse</button>
+        </form>
+      </div>
+    </main>
+    
+  </div>
+  `;
+};
+
+
 
 export default registerEmail;

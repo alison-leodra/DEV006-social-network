@@ -21,6 +21,6 @@ const register = () => {
     </footer>
   </div>
   `;
-}
+};
 
 export default register;

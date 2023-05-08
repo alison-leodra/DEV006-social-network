@@ -24,6 +24,6 @@ const home = (navigateTo) => {
     </footer>
   </div>
   `;
-}
+};
 
 export default home;
