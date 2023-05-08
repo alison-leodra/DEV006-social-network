@@ -1,21 +1,18 @@
+// file main.js finished
 import home from './templates/home.js';
-import register from './templates/register.js';
-// import registerEmail from './templates/registerEmail.js';
-// import error from './templates/error.js';
+import error from './templates/error.js';
 
 const routes = [
   { path: '/', component: home },
-  { path: '/register', component: register },
-  // { path: '/registerEmail', component: registerEmail },
-  // { path: '/error', component: error },
+  { path: '/error', component: error },
 ];
 
 const defaultRoute = '/';
-const root = document.getElementById('id');
+const root = document.getElementById('root');
 
-const navigateTo = (hash) => {
+function navigateTo(hash) {
   const route = routes.find((routeFound) => routeFound.path === hash);
-
+  
   if (route && route.component) {
     window.history.pushState(
       {},
@@ -26,12 +23,11 @@ const navigateTo = (hash) => {
     if (root.firstChild) {
       root.removeChild(root.firstChild);
     }
-    root.appendChild(route.component());
-  } else if (hash !== '/error') {
+    root.appendChild(route.component(navigateTo));
+   } else {
     navigateTo('/error');
   }
-};
-
+}
 
 window.onpopstate = () => {
   navigateTo(window.location.pathname);

@@ -150,9 +150,11 @@ footer img {
   padding-bottom: 10px;
 }
 
-.check input[type="checkbox"] {
+input[type="checkbox"] {
+  accent-color: #66fcf1;
   margin-right: 10px;
 }
+
 
 input[type="checkbox"]:hover {
   box-shadow: 0 0 5px #66fcf1,
