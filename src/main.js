@@ -1,4 +1,4 @@
-const appContainer = document.getElementById("app");
+const appContainer = document.getElementById("root");
 
 
 const inicioTemplate = () => {
