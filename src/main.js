@@ -7,5 +7,4 @@ const routes = [
   { path: '/', component: home },
   { path: '/register', component: register },
   { path: '/registerEmail', component: registerEmail }
-]
-  ;
+];
