@@ -16,7 +16,6 @@
 } */
 
 body {
-  min-height: 100vw;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
@@ -69,10 +68,6 @@ input[type="password"]:focus {
     0 0 10px #66fcf1;
 }
 
-.imgLogo img {
-  width: 100%;
-}
-
 .logInbtn {
   margin-right: 20px;
 }
@@ -107,7 +102,10 @@ footer img {
   display: block;
   margin: 0 auto;
   padding-bottom: 20px;
+}
 
+.imgLogo img {
+  width: 100%;
 }
 
 

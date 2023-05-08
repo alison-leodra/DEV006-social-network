@@ -1,4 +1,5 @@
-const home = (navigateTo) => `
+const home = (navigateTo) => {
+  const template = `
   <div class="inicioTemplate">
     <header>
       <div class="imgLogo">
@@ -23,5 +24,16 @@ const home = (navigateTo) => `
     </footer>
   </div>
   `;
+
+  // Obtiene el botón "Registrarse" por su clase
+  const signBtn = template.querySelector('.signbtn');
+
+  // Agrega el evento "click" al botón "Registrarse"
+  signBtn.addEventListener('click', () => {
+    navigateTo('/register');
+  });
+
+  return template;
+};
 
 export default home;

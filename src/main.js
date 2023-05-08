@@ -1,13 +1,13 @@
-import home from './templates/home';
-import register from './templates/register';
-import registerEmail from './templates/registerEmail';
-import error from './templates/error';
+import home from './templates/home.js';
+import register from './templates/register.js';
+// import registerEmail from './templates/registerEmail.js';
+// import error from './templates/error.js';
 
 const routes = [
   { path: '/', component: home },
   { path: '/register', component: register },
-  { path: '/registerEmail', component: registerEmail },
-  { path: '/error', component: error },
+  // { path: '/registerEmail', component: registerEmail },
+  // { path: '/error', component: error },
 ];
 
 const defaultRoute = '/';
@@ -27,7 +27,14 @@ const navigateTo = (hash) => {
       root.removeChild(root.firstChild);
     }
     root.appendChild(route.component());
-  } else {
+  } else if (hash !== '/error') {
     navigateTo('/error');
   }
 };
+
+
+window.onpopstate = () => {
+  navigateTo(window.location.pathname);
+};
+
+navigateTo(window.location.pathname || defaultRoute);
