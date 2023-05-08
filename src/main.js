@@ -6,5 +6,5 @@ import registerEmail from './templates/registerEmail';
 const routes = [
   { path: '/', component: home },
   { path: '/register', component: register },
-  { path: '/registerEmail', component: registerEmail }
+  { path: '/registerEmail', component: registerEmail },
 ];
