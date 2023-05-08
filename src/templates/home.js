@@ -1,5 +1,4 @@
-const home = (navigateTo) => {
-  return `
+const home = (navigateTo) => `
   <div class="inicioTemplate">
     <header>
       <div class="imgLogo">
@@ -24,6 +23,5 @@ const home = (navigateTo) => {
     </footer>
   </div>
   `;
-};
 
 export default home;

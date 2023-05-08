@@ -1,12 +1,13 @@
 import home from './templates/home';
 import register from './templates/register';
 import registerEmail from './templates/registerEmail';
+import error from './templates/error';
 
 const routes = [
   { path: '/', component: home },
   { path: '/register', component: register },
   { path: '/registerEmail', component: registerEmail },
-  { path: '/error', component: registerEmail },
+  { path: '/error', component: error },
 ];
 
 const defaultRoute = '/';

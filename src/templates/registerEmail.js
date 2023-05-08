@@ -1,5 +1,4 @@
-const terminosYCondiciones = () => {
-  return `
+const terminosYCondiciones = () => `
 Términos y Condiciones
 
     1.1. Bienvenido a Playmates, una aplicación móvil que te permite encontrar compañeros de juego para tus juegos favoritos.
@@ -37,10 +36,8 @@ Exclusión de garantías y responsabilidades
     6.2. Playmates no se hace responsable de los contenidos y servicios prestados por terceros a través de la App. 
     6.3. El usuario reconoce y acepta que utiliza la App y los servicios proporcionados a través de ella bajo su exclusiva responsabilidad.
   `;
-};
 
-const registerEmail = () => {
-  return `
+const registerEmail = () => `
   <div class="registroEmail">
     <header>
       <div class="imgLogo">
@@ -70,8 +67,5 @@ const registerEmail = () => {
     
   </div>
   `;
-};
-
-
 
 export default registerEmail;
