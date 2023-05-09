@@ -1,9 +1,9 @@
-// file main.js finished
+import './firebase.js';
 import home from './templates/home.js';
 import error from './templates/error.js';
 import register from './templates/register.js';
 import registerEmail from './templates/registerEmail.js';
-import userRegister from './templates/userRegister';
+import userRegister from './templates/userRegister.js';
 
 const routes = [
   { path: '/', component: home },
