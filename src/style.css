@@ -3,7 +3,7 @@
   color: #c5c6c8;
   font-family: 'Montserrat', sans-serif;
   font-weight: normal;
-  font-size: 12px;
+  font-size: 1.8vh;
   text-align: center;
   margin: 0;
 }
@@ -11,8 +11,8 @@
 /* .neon-border {
   border: 2px solid #66fcf1;
   border-radius: 10px;
-  box-shadow: 0 0 5px #66fcf1,
-              0 0 10px #66fcf1;
+  box-shadow: 0 0 1vw #66fcf1,
+    0 0 2.5vw #66fcf1;
 } */
 
 body {
@@ -20,41 +20,51 @@ body {
   flex-direction: column;
   min-height: 100vh;
   justify-content: center;
-  padding: 0 10px;
+  padding: 0 2vh;
+  align-items: stretch;
 }
 
-main,
 header {
+  width: 95%;
+  margin: 0 auto;
+  flex: 0 0 auto;
+  padding-bottom: 4vh;
+}
+
+main {
   width: 80%;
   margin: 0 auto;
-  padding-top: 20px;
+  flex: 1 0 auto;
 }
 
 /* PAGINA DE INICIO */
 .tittle {
   padding: 10px 0;
-  font-size: 2.4vh;
-  padding-bottom: 30px;
+  font-size: 2.2vh;
+  padding-bottom: 2vh;
 }
 
 #logInForm {
   text-align: center;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
 }
 
 input[type="text"],
 input[type="password"] {
   width: 80%;
-  margin: 10px 5px 10px 5px;
+  margin: 1vh 0.5vh 1vh 0.5vh;
   border: 1px solid #66fcf1;
-  border-radius: 6px;
-  padding: 10px;
-  font-size: 16px;
+  border-radius: 1.5vw;
+  padding: 2vh;
+  font-size: 2.3vh;
   color: #c5c6c8;
 }
 
 input[type="text"]:hover,
 input[type="password"]:hover {
-  border: 1px solid #66fcf1;
+  border: 0.2vw solid #66fcf1;
   box-shadow: 0 0 5px #66fcf1,
     0 0 10px #66fcf1;
 }
@@ -68,22 +78,19 @@ input[type="password"]:focus {
     0 0 10px #66fcf1;
 }
 
-.logInbtn {
-  margin-right: 20px;
-}
 
 .logInbtn,
 .signbtn {
   background-color: #202833;
-  border: 2px solid #66fcf1;
-  border-radius: 6px;
-  box-shadow: 0 0 5px #66fcf1,
-    0 0 10px #66fcf1;
+  border: 0.2vh solid #66fcf1;
+  border-radius: 1.5vw;
+  box-shadow: 0 0 1vw #66fcf1,
+    0 0 2.5vw #66fcf1;
   color: #c5c6c8;
-  padding: 10px;
+  padding: 1.7vh;
   text-transform: uppercase;
   font-weight: bold;
-  margin: 20px 10px;
+  margin: 2vh 1.6vh;
 }
 
 .logInbtn:hover,
@@ -95,13 +102,13 @@ input[type="password"]:focus {
 
 footer {
   margin-top: auto;
+  flex: 0 0 auto;
+  padding-top: 10vw;
 }
 
 footer img {
   width: 80%;
-  display: block;
   margin: 0 auto;
-  padding-bottom: 20px;
 }
 
 .imgLogo img {
@@ -112,22 +119,21 @@ footer img {
 
 /* PAGINA DE REGISTRO */
 #signInFormFirst {
-  margin: 70px 0;
   text-align: center;
 }
 
 .signInFormEmail,
 .signInFormGoogle {
   background-color: #202833;
-  border: 2px solid #66fcf1;
-  border-radius: 6px;
-  box-shadow: 0 0 5px #66fcf1,
-    0 0 10px #66fcf1;
+  border: 0.2vw solid #66fcf1;
+  border-radius: 1.5vw;
+  box-shadow: 0 0 1vw #66fcf1,
+    0 0 2.5vw #66fcf1;
   color: #c5c6c8;
-  padding: 10px;
+  padding: 3.5vw;
   text-transform: uppercase;
   font-weight: bold;
-  margin: 20px 10px;
+  margin: 3vw;
 }
 
 .signInFormEmail:hover,
@@ -139,20 +145,22 @@ footer img {
 
 /* PAGINA DE REGISTRO EMAIL */
 #signInFormEmail {
-  margin: 0px 0;
   text-align: center;
 }
 
 .check {
   display: flex;
   justify-content: center;
-  padding-top: 20px;
-  padding-bottom: 10px;
+  padding: 3.5vw;
 }
 
 input[type="checkbox"] {
   accent-color: #66fcf1;
   margin-right: 10px;
+  width: 3vw;
+  height: 3vw;
+  box-shadow: 0 0 1vw #66fcf1,
+    0 0 2.5vw #66fcf1;
 }
 
 
@@ -166,21 +174,21 @@ input[type="checkbox"]:hover {
   color: #66fcf1;
 }
 
-.registerEmail {
-  width: 85%;
+.registerUser {
+  padding: 3.5vw 16vw;
   background-color: #202833;
-  border: 2px solid #66fcf1;
-  border-radius: 6px;
-  box-shadow: 0 0 5px #66fcf1,
-    0 0 10px #66fcf1;
+  border: 0.2vw solid #66fcf1;
+  border-radius: 1.5vw;
+  box-shadow: 0 0 1vw #66fcf1,
+    0 0 2.5vw #66fcf1;
   color: #c5c6c8;
-  padding: 10px;
   text-transform: uppercase;
   font-weight: bold;
   margin: 1px 10px;
+  margin-bottom: 4vw;
 }
 
-.registerEmail:hover {
+.registerUser:hover {
   background-color: #66fcf1;
   color: #202833;
   font-weight: bold;
@@ -192,15 +200,17 @@ textarea {
   overflow: scroll;
   resize: none;
   width: 80%;
-  height: 160px;
+  height: 30vw;
   text-align: justify;
   margin-top: 10px;
-  border: 1px solid #66fcf1;
-  border-radius: 6px;
-  padding: 10px;
+  border: 0.2vw solid #66fcf1;
+  border-radius: 1.5vw;
+  padding: 2vw;
 }
 
 textarea:hover {
-  box-shadow: 0 0 5px #66fcf1,
-    0 0 10px #66fcf1;
+  background-color: #66fcf1;
+  box-shadow: 0 0 1vw #66fcf1,
+    0 0 2.5vw #66fcf1;
+  color: #202833;
 }
