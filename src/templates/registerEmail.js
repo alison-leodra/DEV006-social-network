@@ -1,6 +1,6 @@
-//import { createUserWithEmailAndPassword } from "firebase/auth";
-//import { auth } from "../firebase.js"
-//import { async } from "regenerator-runtime";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebase.js"
+
 const registerEmail = (navigateTo) => {
   const template = `
   <div class="registerEmail">
@@ -79,25 +79,45 @@ const registerEmail = (navigateTo) => {
   registerUser.addEventListener('click', async () => {
 
 
-    const email = document.querySelector("#signUpEmail").value;
-    const password = document.querySelector("#signUpPassword").value;
-    const passwordConfirm = document.querySelector("#signUpPasswordConfirm").value;
-    const signUpTerms = document.querySelector("#signUpTerms");
-    const passwordError = document.querySelector(".passwordError");
-    const termsError = document.querySelector(".termsError");
-    const emailError = document.querySelector(".emailError");
+    const email = document.querySelector('#signUpEmail').value;
+    const password = document.querySelector('#signUpPassword').value;
+    const passwordConfirm = document.querySelector('#signUpPasswordConfirm').value;
+    const signUpTerms = document.querySelector('#signUpTerms');
+    const passwordError = document.querySelector('.passwordError');
+    const termsError = document.querySelector('.termsError');
+    const emailError = document.querySelector('.emailError');
 
-    /*
-        try {
-          const userCredentials = await createUserWithEmailAndPassword(auth, email, password);
-          console.log(userCredentials);
-        } catch (error) {
-          console.log(error.code);
-          if (error.code === "auth/invalid-email") {
-    
-          }
-        }
-        */
+
+
+    //aqui deberian ir las restricciones que no tienen que ver con el auto
+
+
+    try {
+      const userCredentials = await createUserWithEmailAndPassword(auth, email, password);
+      console.log(userCredentials);
+    } catch (error) {
+      console.log(error.code);
+      if ((password !== passwordConfirm || password === '' || passwordConfirm === '') && (signUpTerms.checked !== true)
+        && (error.code === 'auth/invalid-email' || error.code === 'auth/missing-email')) {
+        passwordError.style.display = 'block';
+        termsError.style.display = 'block';
+        emailError.style.display = 'block';
+      } else if (signUpTerms.checked !== true) {
+        termsError.style.display = 'block';
+        passwordError.style.display = 'none';
+        emailError.style.display = 'none';
+      } else if (password !== passwordConfirm || password === '' || passwordConfirm === '') {
+        passwordError.style.display = 'block';
+        termsError.style.display = 'none';
+        emailError.style.display = 'none';
+      } else if (error.code === 'auth/invalid-email' || error.code === 'auth/missing-email') {
+        emailError.style.display = 'block';
+        termsError.style.display = 'none';
+        passwordError.style.display = 'none';
+      } else {
+        navigateTo('/userRegister');
+      }
+    }
   });
 
   // Retorna el elemento del DOM creado a partir de la plantilla
@@ -105,31 +125,3 @@ const registerEmail = (navigateTo) => {
 };
 
 export default registerEmail;
-/*
-try {
-  const userCredentials = await createUserWithEmailAndPassword(auth, email, password);
-  console.log(userCredentials);
-} catch (error) {
-  console.log(error.code);
-  if ((password !== passwordConfirm || password === "" || passwordConfirm === "") && (signUpTerms.checked !== true) && (error.code === "auth/invalid-email" || error.code === "auth/missing-email")) {
-    passwordError.style.display = "block";
-    termsError.style.display = "block";
-    emailError.style.display = "block";
-  } else if (signUpTerms.checked !== true) {
-    termsError.style.display = "block";
-    passwordError.style.display = "none";
-    emailError.style.display = "none";
-  } else if (password !== passwordConfirm || password === "" || passwordConfirm === "") {
-    passwordError.style.display = "block";
-    termsError.style.display = "none";
-    emailError.style.display = "none";
-  } else if (error.code === "auth/invalid-email" || error.code === "auth/missing-email") {
-    emailError.style.display = "block";
-    termsError.style.display = "none";
-    passwordError.style.display = "none";
-  } else {
-    navigateTo('/userRegister');
-  }
-
-}
-*/
