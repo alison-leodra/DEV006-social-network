@@ -1,6 +1,4 @@
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebase.js"
-import { async } from "regenerator-runtime";
+
 const registerEmail = (navigateTo) => {
   const template = `
   <div class="registerEmail">
@@ -88,15 +86,7 @@ const registerEmail = (navigateTo) => {
     const emailError = document.querySelector(".emailError");
 
 
-    try {
-      const userCredentials = await createUserWithEmailAndPassword(auth, email, password);
-      console.log(userCredentials);
-    } catch (error) {
-      console.log(error.code);
-      if (error.code === "auth/invalid-email") {
-
-      }
-    }
+   
   });
 
   // Retorna el elemento del DOM creado a partir de la plantilla
