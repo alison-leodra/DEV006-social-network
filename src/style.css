@@ -169,6 +169,13 @@ input[type="checkbox"]:hover {
     0 0 10px #66fcf1;
 }
 
+.passwordError,
+.termsError,
+.emailError {
+  display: none;
+  color: #66fcf1;
+}
+
 .registerUser,
 .logInRegister {
   padding: 3.5vw 16vw;

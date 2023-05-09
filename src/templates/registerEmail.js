@@ -13,9 +13,9 @@ const registerEmail = (navigateTo) => {
     <main>
       <div class="container">
         <form id="signUpFormEmail">
-          <input type="text" id="signUpName" class="formControl" placeholder="nombre de usuario" required>
           <input type="text" id="signUpEmail" class="formControl" placeholder="email@correo.com" required>
           <input type="password" id="signUpPassword" class="formControl" placeholder="contraseña" required>
+          <p class="passwordError">La contraseña no coincide</p>
           <input type="password" id="signUpPasswordConfirm" class="formControl" placeholder="confirmar contraseña"
               required>
           <textarea readonly>
@@ -57,9 +57,10 @@ const registerEmail = (navigateTo) => {
           6.3. El usuario reconoce y acepta que utiliza la App y los servicios proporcionados a través de ella bajo su exclusiva responsabilidad.
           </textarea>
           <p class="check">
-            <input type="checkbox" id="sigUpTerms">
+            <input type="checkbox" id="signUpTerms">
             <label class="terms"> Aceptar los términos y condiciones.</label>
           </p>
+          <p class="termsError">Debes aceptar los términos y condiciones</p>
           <button type="button" class="registerUser">Registrarse</button>
         </form>
       </div>
@@ -76,18 +77,35 @@ const registerEmail = (navigateTo) => {
   // Agrega el evento "click" al botón "Registrarse"
   registerUser.addEventListener('click', async () => {
 
-    //const name = document.querySelector("#signUpName").value;
+
     const email = document.querySelector("#signUpEmail").value;
     const password = document.querySelector("#signUpPassword").value;
+    const passwordConfirm = document.querySelector("#signUpPasswordConfirm").value;
+    const signUpTerms = document.querySelector("#signUpTerms");
+    const passwordError = document.querySelector(".passwordError");
+    const termsError = document.querySelector(".termsError");
 
-    try {
-      const userCredentials = await createUserWithEmailAndPassword(auth, email, password)
-      console.log(userCredentials);
-    } catch (error) {
-      console.log(error)
+
+    if ((password !== passwordConfirm || password === "" || passwordConfirm === "") && (signUpTerms.checked !== true)) {
+      passwordError.style.display = "block";
+      termsError.style.display = "block";
+    } else if (signUpTerms.checked !== true) {
+      termsError.style.display = "block";
+      passwordError.style.display = "none";
+    } else if (password !== passwordConfirm || password === "" || passwordConfirm === "") {
+      passwordError.style.display = "block";
+      termsError.style.display = "none";
+    } else {
+      try {
+        const userCredentials = await createUserWithEmailAndPassword(auth, email, password)
+        console.log(userCredentials);
+      } catch (error) {
+        console.log(error)
+      }
+
+      navigateTo('/userRegister');
     }
 
-    navigateTo('/userRegister');
   });
 
   // Retorna el elemento del DOM creado a partir de la plantilla
