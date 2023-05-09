@@ -51,7 +51,7 @@ main {
   justify-content: space-around;
 }
 
-input[type="text"],
+input[type="email"],
 input[type="password"] {
   width: 80%;
   margin: 1vh 0.5vh 1vh 0.5vh;
@@ -62,14 +62,14 @@ input[type="password"] {
   color: #c5c6c8;
 }
 
-input[type="text"]:hover,
+input[type="email"]:hover,
 input[type="password"]:hover {
   border: 0.2vw solid #66fcf1;
   box-shadow: 0 0 5px #66fcf1,
     0 0 10px #66fcf1;
 }
 
-input[type="text"]:focus,
+input[type="email"]:focus,
 input[type="password"]:focus {
   outline: none;
   background-color: #66fcf1;

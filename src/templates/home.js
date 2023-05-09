@@ -11,7 +11,7 @@ const home = (navigateTo) => {
         <div class="container">
           <h2 class="tittle">Encuentra a tus compañeros de juego perfectos</h2>
           <form id="logInForm">
-            <input type="text" id="logInEmail" class="formControl" placeholder="email@correo.com" required>
+            <input type="email" id="logInEmail" class="formControl" placeholder="email@correo.com" required>
             <input type="password" id="logInPassword" class="formControl" placeholder="contraseña" required>
             <button type="button" class="logInbtn">Inciar Sesión</button> 
             <button type="button" class="signbtn">Registrarse</button>
