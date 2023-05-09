@@ -1,6 +1,6 @@
 const registerEmail = (navigateTo) => {
   const template = `
-  <div class="registroEmail">
+  <div class="registerEmail">
     <header>
       <div class="imgLogo">
         <img src="./img/logo2.png" alt="logo">
@@ -9,11 +9,11 @@ const registerEmail = (navigateTo) => {
 
     <main>
       <div class="container">
-        <form id="signInFormEmail">
-          <input type="text" id="sigInName" class="formControl" placeholder="nombre de usuario" required>
-          <input type="text" id="sigInEmail" class="formControl" placeholder="email@correo.com" required>
-          <input type="password" id="sigInPassword" class="formControl" placeholder="contraseña" required>
-          <input type="password" id="sigInPasswordConfirm" class="formControl" placeholder="confirmar contraseña"
+        <form id="signUpFormEmail">
+          <input type="text" id="signUpName" class="formControl" placeholder="nombre de usuario" required>
+          <input type="text" id="signUpEmail" class="formControl" placeholder="email@correo.com" required>
+          <input type="password" id="signUpPassword" class="formControl" placeholder="contraseña" required>
+          <input type="password" id="signUpPasswordConfirm" class="formControl" placeholder="confirmar contraseña"
               required>
           <textarea readonly>
           Términos y Condiciones
@@ -54,8 +54,8 @@ const registerEmail = (navigateTo) => {
           6.3. El usuario reconoce y acepta que utiliza la App y los servicios proporcionados a través de ella bajo su exclusiva responsabilidad.
           </textarea>
           <p class="check">
-            <input type="checkbox" id="sigInTerminos">
-            <label class="terminos"> Aceptar los términos y condiciones.</label>
+            <input type="checkbox" id="sigUpTerms">
+            <label class="terms"> Aceptar los términos y condiciones.</label>
           </p>
           <button type="button" class="registerUser">Registrarse</button>
         </form>
