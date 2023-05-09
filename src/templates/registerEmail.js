@@ -1,3 +1,6 @@
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebase.js"
+import { async } from "regenerator-runtime";
 const registerEmail = (navigateTo) => {
   const template = `
   <div class="registerEmail">
@@ -71,13 +74,19 @@ const registerEmail = (navigateTo) => {
   const registerUser = element.querySelector('.registerUser');
 
   // Agrega el evento "click" al botón "Registrarse"
-  registerUser.addEventListener('click', () => {
+  registerUser.addEventListener('click', async () => {
 
-    const name = document.querySelector("#signUpName").value;
+    //const name = document.querySelector("#signUpName").value;
     const email = document.querySelector("#signUpEmail").value;
     const password = document.querySelector("#signUpPassword").value;
 
-    console.log(name, email, password);
+    try {
+      const userCredentials = await createUserWithEmailAndPassword(auth, email, password)
+      console.log(userCredentials);
+    } catch (error) {
+      console.log(error)
+    }
+
     navigateTo('/userRegister');
   });
 
