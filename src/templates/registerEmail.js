@@ -72,7 +72,7 @@ const registerEmail = (navigateTo) => {
 
   // Agrega el evento "click" al botón "Registrarse"
   registerUser.addEventListener('click', () => {
-    navigateTo('/error');
+    navigateTo('/userRegister');
   });
 
   // Retorna el elemento del DOM creado a partir de la plantilla

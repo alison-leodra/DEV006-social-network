@@ -174,7 +174,7 @@ input[type="checkbox"]:hover {
   color: #66fcf1;
 }
 
-.registerUser {
+.registerUser, .logInRegister {
   padding: 3.5vw 16vw;
   background-color: #202833;
   border: 0.2vw solid #66fcf1;
@@ -188,7 +188,7 @@ input[type="checkbox"]:hover {
   margin-bottom: 4vw;
 }
 
-.registerUser:hover {
+.registerUser:hover, .logInRegister:hover {
   background-color: #66fcf1;
   color: #202833;
   font-weight: bold;
@@ -213,4 +213,33 @@ textarea:hover {
   box-shadow: 0 0 1vw #66fcf1,
     0 0 2.5vw #66fcf1;
   color: #202833;
+}
+
+/* USUARIO REGISTRADO */
+
+.logInRegister {
+  padding: 3.5vw 6vw;
+  background-color: #202833;
+  border: 0.2vw solid #66fcf1;
+  border-radius: 1.5vw;
+  box-shadow: 0 0 1vw #66fcf1,
+    0 0 2.5vw #66fcf1;
+  color: #c5c6c8;
+  text-transform: uppercase;
+  font-weight: bold;
+  margin-top: 4vw;
+  margin-bottom: 4vw;
+}
+
+.logInRegister:hover {
+  background-color: #66fcf1;
+  color: #202833;
+  font-weight: bold;
+}
+
+.tittleUserRegister{
+  font-weight: bold;
+  text-shadow: 0 0 4px rgba(114, 219, 254) , 0 0 20px rgb(114, 219, 254);
+  margin: 10vw 0 2vw 0;
+  font-size: 6vw;
 }
