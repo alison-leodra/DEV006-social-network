@@ -1,6 +1,4 @@
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebase.js"
-import { async } from "regenerator-runtime";
+
 const registerEmail = (navigateTo) => {
   const template = `
   <div class="registerEmail">
