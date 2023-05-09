@@ -72,6 +72,12 @@ const registerEmail = (navigateTo) => {
 
   // Agrega el evento "click" al botón "Registrarse"
   registerUser.addEventListener('click', () => {
+
+    const name = document.querySelector("#signUpName").value;
+    const email = document.querySelector("#signUpEmail").value;
+    const password = document.querySelector("#signUpPassword").value;
+
+    console.log(name, email, password);
     navigateTo('/userRegister');
   });
 
