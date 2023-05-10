@@ -1,12 +1,13 @@
 * {
-  background-color: #202833;
-  color: #c5c6c8;
+  margin: 0;
+  padding: 0;
   font-family: 'Montserrat', sans-serif;
   font-weight: normal;
   font-size: 1.8vh;
   text-align: center;
-  margin: 0;
+  box-sizing: border-box;
 }
+
 
 /* .neon-border {
   border: 2px solid #66fcf1;
@@ -15,26 +16,34 @@
     0 0 2.5vw #66fcf1;
 } */
 
+html {
+  height: 100%;
+}
+
 body {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
-  justify-content: center;
-  padding: 0 2vh;
-  align-items: stretch;
+  background-color: #202833;
+  min-height: 100%;
+  color: #c5c6c8;
+  min-height: 100%;
 }
 
+
 header {
-  width: 95%;
-  margin: 0 auto;
-  flex: 0 0 auto;
-  padding-bottom: 4vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+header img {
+  width: 40vw;
 }
 
 main {
   width: 80%;
   margin: 0 auto;
-  flex: 1 0 auto;
 }
 
 /* PAGINA DE INICIO */
@@ -79,13 +88,12 @@ input[type="password"]:focus {
 }
 
 
-.logInbtn,
-.signbtn {
+.logInbtn {
   background-color: #202833;
-  border: 0.2vh solid #66fcf1;
-  border-radius: 1.5vw;
-  box-shadow: 0 0 1vw #66fcf1,
-    0 0 2.5vw #66fcf1;
+  border: 2px solid #66fcf1;
+  border-radius: 10px;
+  box-shadow: 0 0 5px #66fcf1,
+    0 0 10px #66fcf1;
   color: #c5c6c8;
   padding: 1.7vh;
   text-transform: uppercase;
@@ -93,157 +101,81 @@ input[type="password"]:focus {
   margin: 2vh 1.6vh;
 }
 
-.logInbtn:hover,
-.signbtn:hover {
+.logInbtn:hover {
   background-color: #66fcf1;
   color: #202833;
   font-weight: bold;
 }
 
 footer {
-  margin-top: auto;
-  flex: 0 0 auto;
-  padding-top: 10vw;
-}
-
-footer img {
-  width: 80%;
-  margin: 0 auto;
-}
-
-.imgLogo img {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
   width: 100%;
+  margin-top: auto;
 }
 
-
-
-/* PAGINA DE REGISTRO */
-#signInFormFirst {
+.registerHome {
   text-align: center;
-}
-
-.signInFormEmail,
-.signInFormGoogle {
-  background-color: #202833;
-  border: 0.2vw solid #66fcf1;
-  border-radius: 1.5vw;
-  box-shadow: 0 0 1vw #66fcf1,
-    0 0 2.5vw #66fcf1;
-  color: #c5c6c8;
-  padding: 3.5vw;
-  text-transform: uppercase;
-  font-weight: bold;
-  margin: 3vw;
-}
-
-.signInFormEmail:hover,
-.signInFormGoogle:hover {
-  background-color: #66fcf1;
+  background: #66fcf1;
+  width: 100%;
+  height: 4vw;
   color: #202833;
-  font-weight: bold;
-}
-
-/* PAGINA DE REGISTRO EMAIL */
-#signInFormEmail {
-  text-align: center;
-}
-
-.check {
+  font-size: 1.6vw;
   display: flex;
   justify-content: center;
-  padding: 3.5vw;
+  align-items: center;
+  text-decoration: none;
 }
 
-input[type="checkbox"] {
-  accent-color: #66fcf1;
-  margin-right: 10px;
-  width: 3vw;
-  height: 3vw;
-  box-shadow: 0 0 1vw #66fcf1,
-    0 0 2.5vw #66fcf1;
-}
-
-
-input[type="checkbox"]:hover {
-  box-shadow: 0 0 5px #66fcf1,
-    0 0 10px #66fcf1;
-}
-
-.passwordError,
-.termsError,
-.emailError {
-  display: none;
+.forgotButton {
+  text-decoration: none;
   color: #66fcf1;
 }
 
-.registerUser,
-.logInRegister {
-  padding: 3.5vw 16vw;
-  background-color: #202833;
-  border: 0.2vw solid #66fcf1;
-  border-radius: 1.5vw;
-  box-shadow: 0 0 1vw #66fcf1,
-    0 0 2.5vw #66fcf1;
-  color: #c5c6c8;
-  text-transform: uppercase;
-  font-weight: bold;
-  margin: 1px 10px;
-  margin-bottom: 4vw;
+
+
+
+footer img {
+  width: 40%;
+  margin: 0 auto;
 }
 
-.registerUser:hover,
-.logInRegister:hover {
-  background-color: #66fcf1;
-  color: #202833;
-  font-weight: bold;
+
+
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+  main {
+    width: 70%;
+  }
 }
 
-/* TERMINOS Y CONDICIONES */
-
-textarea {
-  overflow: scroll;
-  resize: none;
-  width: 80%;
-  height: 30vw;
-  text-align: justify;
-  margin-top: 10px;
-  border: 0.2vw solid #66fcf1;
-  border-radius: 1.5vw;
-  padding: 2vw;
-  outline: none;
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+  main {
+    width: 65%;
+  }
 }
 
-textarea:hover {
-  background-color: #66fcf1;
-  box-shadow: 0 0 1vw #66fcf1,
-    0 0 2.5vw #66fcf1;
-  color: #202833;
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+  main {
+    width: 60%;
+  }
 }
 
-/* USUARIO REGISTRADO */
-.logInRegister {
-  padding: 3.5vw 6vw;
-  background-color: #202833;
-  border: 0.2vw solid #66fcf1;
-  border-radius: 1.5vw;
-  box-shadow: 0 0 1vw #66fcf1,
-    0 0 2.5vw #66fcf1;
-  color: #c5c6c8;
-  text-transform: uppercase;
-  font-weight: bold;
-  margin-top: 4vw;
-  margin-bottom: 4vw;
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+  main {
+    width: 55%;
+  }
 }
 
-.logInRegister:hover {
-  background-color: #66fcf1;
-  color: #202833;
-  font-weight: bold;
-}
-
-.tittleUserRegister {
-  font-weight: bold;
-  text-shadow: 0 0 4px rgba(114, 219, 254), 0 0 20px rgb(114, 219, 254);
-  margin: 10vw 0 2vw 0;
-  font-size: 6vw;
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+  main {
+    width: 50%;
+  }
 }
