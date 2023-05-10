@@ -1,5 +1,6 @@
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../firebase.js';
+import error from './error.js';
 
 const registerEmail = (navigateTo) => {
   const template = `
@@ -93,30 +94,31 @@ const registerEmail = (navigateTo) => {
         emailError.style.display = 'none';
       }
 
-      if (password === '' || passwordConfirm === '') {
+      if ((password === '' && passwordConfirm === '') || (password === '' || passwordConfirm === '')
+        ) {
         passwordError.style.display = 'block';
         passwordError.textContent = 'Debe ingresar una contraseña y confirmarla.';
-      } else {
+        console.log("errorPasswords")
+        }
+       else {
         passwordError.style.display = 'none';
       }
+
+      if (!signUpTerms.checked) {
+        termsError.style.display = 'block';
+        termsError.textContent = 'Debe aceptar los términos y condiciones.';
+        console.log("errorTerminos")
+      } else {
+        termsError.style.display = 'none';
+      }
+  
+      
 
       return;
     }
 
     // Validar que se haya aceptado el checkbox del checkout y las contraseñas coincidan
-    if (!signUpTerms.checked) {
-      termsError.style.display = 'block';
-      termsError.textContent = 'Debe aceptar los términos y condiciones.';
-    } else {
-      termsError.style.display = 'none';
-    }
-
-    if (password !== passwordConfirm) {
-      passwordError.style.display = 'block';
-      passwordError.textContent = 'Las contraseñas ingresadas no coinciden.';
-    } else {
-      passwordError.style.display = 'none';
-    }
+    
 
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);

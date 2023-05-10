@@ -31,6 +31,14 @@ const register = (navigateTo) => {
   signInFormEmail.addEventListener('click', () => {
     navigateTo('/registerEmail');
   });
+  const signInFormGoogle = element.querySelector('.signInFormGoogle');
+
+  // Agrega el evento "click" al botón "Registrarse"
+  signInFormGoogle.addEventListener('click', () => {
+    navigateTo('/registerGoogle');
+  });
+
+
 
   // Retorna el elemento del DOM creado a partir de la plantilla
   return element.firstChild;
