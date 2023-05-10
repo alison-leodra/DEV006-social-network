@@ -1,23 +1,20 @@
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth } from '../firebase.js';
+import { async } from "regenerator-runtime";
 
-const signInFormGoogle = document.querySelector(".signInFormGoogle");
-const registerGoogle = (navigateTo) => {
-    const template = `
-    <div>
-      <header>
-        <div >
-         <p>hola</p>
-        </div>
-      </header>
-  
-      <main>
-        
-      </main>
-    </div> `;
+//const googleBtn = document.querySelector("#googleBtn");
+//googleBtn.addEventListener('click', async(e) => { 
+//e.preventDefault();
+//const provider = new GoogleAuthProvider ();
+//try {
+//   const credentials = await signInWithPopup(auth, provider)
+//   console.log(credentials)
+//}
+// catch(error) {
+//    console.log(error)
+// }
+//})
 
-  
-    const element = document.createElement('div');
-    element.innerHTML = template.trim();
-}
-export default registerGoogle;
+
+
+//export default googleBtn;

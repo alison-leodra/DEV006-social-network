@@ -4,14 +4,13 @@ import error from './templates/error.js';
 import register from './templates/register.js';
 import registerEmail from './templates/registerEmail.js';
 import userRegister from './templates/userRegister.js';
-import registerGoogle from './templates/registerGoogle.js';
+
 
 const routes = [
   { path: '/', component: home },
   { path: '/error', component: error },
   { path: '/register', component: register },
   { path: '/registerEmail', component: registerEmail },
-  { path: '/registerGoogle', component: registerGoogle },
   { path: '/userRegister', component: userRegister },
 ];
 
