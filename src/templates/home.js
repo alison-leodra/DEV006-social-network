@@ -4,17 +4,18 @@ const home = (navigateTo) => {
       <header>
       <div class="imgLogo">
         <img src="./img/logo2.png" alt="logo">
+        <h2 class="tittle">Encuentra a tus compañeros de juego perfectos</h2>
       </div>
     </header>
 
     <main>
       <div class="container">
-        <h2 class="tittle">Encuentra a tus compañeros de juego perfectos</h2>
         <form id="logInForm">
           <input type="email" id="logInEmail" class="formControl" placeholder="email@correo.com" required>
           <input type="password" id="logInPassword" class="formControl" placeholder="contraseña" required>
           <div>
-            <button type="button" class="logInbtn">Inciar Sesión</button>
+            <button type="button" class="logInbtn">Inciar con correo</button>
+            <button type="button" class="logInGoogle">Inciar con Google</button>
             <p>
               <a href="#" class="forgotButton">¿Olvidaste tu contraseña?</a>
             </p>

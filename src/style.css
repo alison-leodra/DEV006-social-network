@@ -38,19 +38,18 @@ header {
 }
 
 header img {
-  width:80%;
+  width: 80%;
 }
 
 main {
   width: 80%;
   margin: 0 auto;
+  padding-top: 30px;
 }
 
 /* PAGINA DE INICIO */
 .tittle {
-  padding: 10px 0;
   font-size: 2.2vh;
-  padding-bottom: 2vh;
 }
 
 #logInForm {
@@ -69,11 +68,14 @@ input[type="password"] {
   padding: 2vh;
   font-size: 2.3vh;
   color: #c5c6c8;
+  background-color: #202833;
 }
 
 input[type="email"]:hover,
 input[type="password"]:hover {
-  border: 0.2vw solid #66fcf1;
+  outline: none;
+  background-color: #66fcf1;
+  color: #202833;
   box-shadow: 0 0 5px #66fcf1,
     0 0 10px #66fcf1;
 }
@@ -92,17 +94,19 @@ button {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
   background-color: #202833;
   border: 2px solid #66fcf1;
   border-radius: 10px;
   box-shadow: 0 0 5px #66fcf1,
     0 0 10px #66fcf1;
   color: #c5c6c8;
-  padding: 1.7vh 10vh;
   text-transform: uppercase;
   font-weight: bold;
-  margin: 2vh auto;
+  margin: 3vh auto;
   padding: 2vh 7vh;
+  width: 38vh;
+  text-align: center;
 }
 
 button:hover {
@@ -141,9 +145,9 @@ footer {
 
 
 footer img {
-  width: 80%;
+  width: 64%;
   margin: 0 auto;
-  margin-top: 50px;
+  margin-top: 20px;
 }
 
 
@@ -164,6 +168,66 @@ footer img {
   font-size: 6vw;
 }
 
+/* TERMINOS Y CONDICIONES */
+
+.check {
+  display: flex;
+  justify-content: center;
+  padding: 3.5vw;
+}
+
+
+input[type="checkbox"] {
+  accent-color: #66fcf1;
+  margin-right: 10px;
+  width: 13px;
+  height: 13px;
+  box-shadow: 0 0 1vw #66fcf1,
+    0 0 2.5vw #66fcf1;
+}
+
+
+input[type="checkbox"]:hover {
+  box-shadow: 0 0 5px #66fcf1,
+    0 0 10px #66fcf1;
+}
+
+.passwordError,
+.termsError,
+.emailError {
+  display: none;
+  color: #66fcf1;
+}
+
+textarea {
+  overflow: scroll;
+  resize: none;
+  width: 90vh;
+  height: 200px;
+  text-align: justify;
+  margin-top: 10px;
+  border: 1px solid #66fcf1;
+  border-radius: 10px;
+  padding: 2vw;
+  outline: none;
+  background-color: #202833;
+  color: #c5c6c8;
+}
+
+textarea:hover {
+  background-color: #66fcf1;
+  box-shadow: 0 0 5px #66fcf1,
+  0 0 10px #66fcf1;
+  color: #202833;
+}
+
+textarea:focus {
+  background-color: #66fcf1;
+  box-shadow: 0 0 5px #66fcf1,
+    0 0 10px #66fcf1;
+  color: #202833;
+}
+
 
 
 /* Extra small devices (phones, 600px and down) */
@@ -178,6 +242,7 @@ footer img {
   main {
     width: 65%;
   }
+
   .registerHome {
     font-size: 14px;
   }
@@ -188,6 +253,7 @@ footer img {
   main {
     width: 60%;
   }
+
   .registerHome {
     font-size: 16px;
   }
@@ -198,9 +264,11 @@ footer img {
   main {
     width: 55%;
   }
+
   .registerHome {
     font-size: 18px;
   }
+
   footer img {
     width: 50%;
     margin-top: 20px;
@@ -221,5 +289,11 @@ footer img {
     width: 50%;
     margin-top: 20px;
   }
-  
+
+  textarea {
+   
+    height: 150px;
+ 
+  }
+
 }

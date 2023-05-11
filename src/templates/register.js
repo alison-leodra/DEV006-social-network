@@ -36,15 +36,17 @@ const register = (navigateTo) => {
     e.preventDefault();
     navigateTo('/registerEmail');
   });
-  const signInFormGoogle = element.querySelector('.signInFormGoogle');
 
+
+  const signInFormGoogle = element.querySelector('.signInFormGoogle');
   // Agrega el evento "click" al botón "Registrarse"
-  signInFormGoogle.addEventListener('click', async (e) => {
-    e.preventDefault();
+  signInFormGoogle.addEventListener('click', async () => {
+    
     const provider = new GoogleAuthProvider ();
     try {
        const credentials = await signInWithPopup(auth, provider)
        console.log(credentials)
+       navigateTo('/');
     }
     catch(error) {
        console.log(error)
