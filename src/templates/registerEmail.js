@@ -1,5 +1,6 @@
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebase.js"
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../firebase.js';
+import error from './error.js';
 
 const registerEmail = (navigateTo) => {
   const template = `
@@ -75,10 +76,7 @@ const registerEmail = (navigateTo) => {
   // Obtiene el botón "Registrarse" por su clase
   const registerUser = element.querySelector('.registerUser');
 
-  // Agrega el evento "click" al botón "Registrarse"
   registerUser.addEventListener('click', async () => {
-
-
     const email = document.querySelector('#signUpEmail').value;
     const password = document.querySelector('#signUpPassword').value;
     const passwordConfirm = document.querySelector('#signUpPasswordConfirm').value;
@@ -87,35 +85,68 @@ const registerEmail = (navigateTo) => {
     const termsError = document.querySelector('.termsError');
     const emailError = document.querySelector('.emailError');
 
+    // Validar que se hayan ingresado todos los campos
+    if (email === '' || password === '' || passwordConfirm === '') {
+      if (email === '') {
+        emailError.style.display = 'block';
+        emailError.textContent = 'Debe ingresar un correo electrónico.';
+      } else {
+        emailError.style.display = 'none';
+      }
+
+      if ((password === '' && passwordConfirm === '') || (password === '' || passwordConfirm === '')
+      ) {
+        passwordError.style.display = 'block';
+        passwordError.textContent = 'Debe ingresar una contraseña y confirmarla.';
+        console.log("errorPasswords")
+      }
+      else {
+        passwordError.style.display = 'none';
+      }
+
+      if (!signUpTerms.checked) {
+        termsError.style.display = 'block';
+        termsError.textContent = 'Debe aceptar los términos y condiciones.';
+        console.log("errorTerminos")
+      } else {
+        termsError.style.display = 'none';
+      }
 
 
-    //aqui deberian ir las restricciones que no tienen que ver con el auto
+
+      return;
+    }
+
+    // Validar que se haya aceptado el checkbox del checkout y las contraseñas coincidan
 
 
     try {
-      const userCredentials = await createUserWithEmailAndPassword(auth, email, password);
-      console.log(userCredentials);
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      console.log(userCredential);
+
+      termsError.style.display = 'none';
+      passwordError.style.display = 'none';
+      emailError.style.display = 'none';
+
+      navigateTo('/userRegister');
+
+      // si se crea el usuario correctamente, no hay errores que mostrar
     } catch (error) {
+      console.log(error.message);
       console.log(error.code);
-      if ((password !== passwordConfirm || password === '' || passwordConfirm === '') && (signUpTerms.checked !== true)
-        && (error.code === 'auth/invalid-email' || error.code === 'auth/missing-email')) {
-        passwordError.style.display = 'block';
-        termsError.style.display = 'block';
+
+      if (error.code === 'auth/invalid-email') {
         emailError.style.display = 'block';
-      } else if (signUpTerms.checked !== true) {
-        termsError.style.display = 'block';
-        passwordError.style.display = 'none';
-        emailError.style.display = 'none';
-      } else if (password !== passwordConfirm || password === '' || passwordConfirm === '') {
-        passwordError.style.display = 'block';
-        termsError.style.display = 'none';
-        emailError.style.display = 'none';
-      } else if (error.code === 'auth/invalid-email' || error.code === 'auth/missing-email') {
+        emailError.textContent = 'El correo electrónico ingresado no es válido.';
+      } else if (error.code === 'auth/email-already-in-use') {
         emailError.style.display = 'block';
-        termsError.style.display = 'none';
-        passwordError.style.display = 'none';
-      } else {
-        navigateTo('/userRegister');
+        emailError.textContent = 'El correo electrónico ingresado ya está en uso.';
+      } else if (error.code === 'auth/weak-password') {
+        passwordError.style.display = 'block';
+        passwordError.textContent = 'La contraseña debe tener al menos 6 caracteres.';
+      } else if (error.code === 'auth/missing-password') {
+        passwordError.style.display = 'block';
+        passwordError.textContent = 'Debe ingresar una contraseña.';
       }
     }
   });

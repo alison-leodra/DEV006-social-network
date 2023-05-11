@@ -5,6 +5,7 @@ import register from './templates/register.js';
 import registerEmail from './templates/registerEmail.js';
 import userRegister from './templates/userRegister.js';
 
+
 const routes = [
   { path: '/', component: home },
   { path: '/error', component: error },
