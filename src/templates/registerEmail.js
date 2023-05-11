@@ -30,7 +30,8 @@ const registerEmail = (navigateTo) => {
   // Obtiene el botón "Registrarse" por su clase
   const registerUser = element.querySelector('.registerUser');
 
-  registerUser.addEventListener('click', async () => {
+  registerUser.addEventListener('click', async (e) => {
+    e.preventDefault();
     const email = document.querySelector('#signUpEmail').value;
     const password = document.querySelector('#signUpPassword').value;
     const passwordError = document.querySelector('.passwordError');

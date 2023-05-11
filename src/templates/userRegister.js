@@ -11,7 +11,7 @@ const userRegister = (navigateTo) => {
       <button type="button" class="logInRegister"> Iniciar sesión </button>
     </main>
     <footer>
-      <img src="./img/UserRegister.png" alt="userRegister">
+      <img src="./img/Sin título-4.png" alt="footer">
     </footer>
   </div>
   `;
