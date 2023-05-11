@@ -148,11 +148,21 @@ footer img {
 
 
 /* PAGINA DE REGISTRO */
-#signInFormFirst {
+#signUpFormEmail {
   text-align: center;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
 }
 
 
+/* PAGINA USER REGISTER */
+.tittleUserRegister {
+  font-weight: bold;
+  text-shadow: 0 0 4px rgba(114, 219, 254), 0 0 20px rgb(114, 219, 254);
+  margin: 10vw 0 2vw 0;
+  font-size: 6vw;
+}
 
 
 

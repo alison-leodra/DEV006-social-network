@@ -32,7 +32,8 @@ const register = (navigateTo) => {
   const signInFormEmail = element.querySelector('.signInFormEmail');
 
   // Agrega el evento "click" al botón "Registrarse"
-  signInFormEmail.addEventListener('click', () => {
+  signInFormEmail.addEventListener('click', (e) => {
+    e.preventDefault();
     navigateTo('/registerEmail');
   });
   const signInFormGoogle = element.querySelector('.signInFormGoogle');

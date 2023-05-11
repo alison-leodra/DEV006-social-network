@@ -4,7 +4,7 @@ import { auth } from '../firebase.js';
 const registerEmail = (navigateTo) => {
   const template = `
   <div class="registerEmail">
-    <header>
+      <header>
       <div class="imgLogo">
         <img src="./img/logo2.png" alt="logo">
       </div>
@@ -13,6 +13,7 @@ const registerEmail = (navigateTo) => {
     <main>
       <div class="container">
         <form id="signUpFormEmail">
+        <input type="email" id="logInEmail" class="formControl" placeholder="email@correo.com" required>
           <input type="email" id="signUpEmail" class="formControl" placeholder="email@correo.com" required>
           <p class="emailError"></p>
           <input type="password" id="signUpPassword" class="formControl" placeholder="contraseña" required>

@@ -7,9 +7,11 @@ const userRegister = (navigateTo) => {
       </div>
     </header>
     <main>
+      <div class="container">
       <h2 class="tittleUserRegister">Usuario registrado</h2>
       <button type="button" class="logInRegister"> Iniciar sesión </button>
-    </main>
+      </div>
+      </main>
     <footer>
       <img src="./img/Sin título-4.png" alt="footer">
     </footer>
