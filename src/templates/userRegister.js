@@ -7,11 +7,14 @@ const userRegister = (navigateTo) => {
       </div>
     </header>
     <main>
-      <h2 class="tittleUserRegister">Usuario registrado</h2>
+      <div class="container">
+      <h2 class="tittleUserRegister">¡ Registro exitoso !</h2>
+      <p>Inicia sesión con tu correo y contraseña.</p>
       <button type="button" class="logInRegister"> Iniciar sesión </button>
-    </main>
+      </div>
+      </main>
     <footer>
-      <img src="./img/UserRegister.png" alt="userRegister">
+      <img src="./img/UserRegister.png" alt="footer">
     </footer>
   </div>
   `;
@@ -23,7 +26,8 @@ const userRegister = (navigateTo) => {
   const logInRegister = element.querySelector('.logInRegister');
 
   // Agrega el evento "click" al botón "Registrarse"
-  logInRegister.addEventListener('click', () => {
+  logInRegister.addEventListener('click', (e) => {
+    e.preventDefault();
     navigateTo('/');
   });
 

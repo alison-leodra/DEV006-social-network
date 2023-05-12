@@ -32,7 +32,8 @@ const register = (navigateTo) => {
   const signInFormEmail = element.querySelector('.signInFormEmail');
 
   // Agrega el evento "click" al botón "Registrarse"
-  signInFormEmail.addEventListener('click', () => {
+  signInFormEmail.addEventListener('click', (e) => {
+    e.preventDefault();
     navigateTo('/registerEmail');
   });
   const signInFormGoogle = element.querySelector('.signInFormGoogle');
@@ -44,6 +45,24 @@ const register = (navigateTo) => {
     try {
        const credentials = await signInWithPopup(auth, provider)
        console.log(credentials)
+    }
+    catch(error) {
+       console.log(error)
+    }
+  });
+
+
+
+
+  const signInFormGoogle = element.querySelector('.signInFormGoogle');
+  // Agrega el evento "click" al botón "Registrarse"
+  signInFormGoogle.addEventListener('click', async () => {
+    
+    const provider = new GoogleAuthProvider ();
+    try {
+       const credentials = await signInWithPopup(auth, provider)
+       console.log(credentials)
+       navigateTo('/');
     }
     catch(error) {
        console.log(error)
