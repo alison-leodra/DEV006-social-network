@@ -23,6 +23,10 @@ const registerEmail = (navigateTo) => {
           </form>
       </div>
     </main>
+
+    <footer>
+      <img src="./img/Sin título-4.png" alt="footer">
+    </footer>
     </div>
   `;
 
