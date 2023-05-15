@@ -14,6 +14,7 @@ const registerEmail = (navigateTo) => {
     <main>
       <div class="container">
         <form id="signUpFormEmail">
+            <input type="text" id="userName" class="oo" placeholder="Nombre usuario" required> 
             <input type="email" id="signUpEmail" class="formControl" placeholder="email@correo.com" required>
             <p class="emailError"></p>
             <input type="password" id="signUpPassword" class="formControl" placeholder="contraseña" required>
@@ -41,7 +42,7 @@ const registerEmail = (navigateTo) => {
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       console.log(userCredential);
-
+      userCredential.user.displayName = document.getElementById("userName").value;
       passwordError.style.display = 'none';
       emailError.style.display = 'none';
 
