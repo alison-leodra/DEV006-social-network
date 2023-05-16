@@ -14,7 +14,8 @@ const registerEmail = (navigateTo) => {
     <main>
       <div class="container">
         <form id="signUpFormEmail">
-            <input type="text" id="userName" class="oo" placeholder="Nombre usuario" required> 
+            <input type="text" id="userName" class="formControl" placeholder="Nombre usuario" required> 
+            <p class="nameError"></p>
             <input type="email" id="signUpEmail" class="formControl" placeholder="email@correo.com" required>
             <p class="emailError"></p>
             <input type="password" id="signUpPassword" class="formControl" placeholder="contraseña" required>
@@ -38,17 +39,26 @@ const registerEmail = (navigateTo) => {
 
   registerUser.addEventListener('click', async (e) => {
     e.preventDefault();
+    const userName = document.querySelector('#userName').value;
     const email = document.querySelector('#signUpEmail').value;
     const password = document.querySelector('#signUpPassword').value;
     const passwordError = document.querySelector('.passwordError');
     const emailError = document.querySelector('.emailError');
+    const nameError = document.querySelector('.nameError');
+
 
     try {
+      if (userName === '') {
+        nameError.style.display = 'block';
+        nameError.textContent = 'El nombre de usuario no es valido.';
+        return;
+      }
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      console.log(userCredential);
-      userCredential.user.displayName = document.getElementById("userName").value;
+      userCredential.user.displayName = userName;
       passwordError.style.display = 'none';
       emailError.style.display = 'none';
+      nameError.style.display = 'none';
+      console.log(userCredential);
 
       navigateTo('/userRegister');
 
@@ -57,21 +67,30 @@ const registerEmail = (navigateTo) => {
       console.log(error.message);
       console.log(error.code);
 
-      if (error.code === 'auth/invalid-email') {
+      if (error.code === 'auth/invalid-display-name') {
+        emailError.style.display = 'none';
+        passwordError.style.display = 'none';
+        nameError.style.display = 'block';
+        nameError.textContent = 'El nombre de usuario no es valido.';
+      } else if (error.code === 'auth/invalid-email') {
         emailError.style.display = 'block';
         passwordError.style.display = 'none';
+        nameError.style.display = 'none';
         emailError.textContent = 'El correo electrónico ingresado no es válido.';
       } else if (error.code === 'auth/email-already-in-use') {
         emailError.style.display = 'block';
         passwordError.style.display = 'none';
+        nameError.style.display = 'none';
         emailError.textContent = 'El correo electrónico ingresado ya está en uso.';
       } else if (error.code === 'auth/weak-password') {
         passwordError.style.display = 'block';
         emailError.style.display = 'none';
+        nameError.style.display = 'none';
         passwordError.textContent = 'La contraseña debe tener al menos 6 caracteres.';
       } else if (error.code === 'auth/missing-password') {
         passwordError.style.display = 'block';
         emailError.style.display = 'none';
+        nameError.style.display = 'none';
         passwordError.textContent = 'Debe ingresar una contraseña.';
       }
     }
