@@ -1,5 +1,5 @@
 import './firebase.js';
-import home from './templates/home.js';
+import login from './templates/login.js';
 import error from './templates/error.js';
 import register from './templates/register.js';
 import registerEmail from './templates/registerEmail.js';
@@ -7,7 +7,7 @@ import userRegister from './templates/userRegister.js';
 
 
 const routes = [
-  { path: '/', component: home },
+  { path: '/', component: login },
   { path: '/error', component: error },
   { path: '/register', component: register },
   { path: '/registerEmail', component: registerEmail },

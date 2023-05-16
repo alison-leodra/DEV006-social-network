@@ -2,9 +2,9 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../firebase.js';
 import error from './error.js';
 
-const home = (navigateTo) => {
+const login = (navigateTo) => {
   const template = `
-  <div class="home">
+  <div class="login">
       <header>
       <div class="imgLogo">
         <img src="./img/logo2.png" alt="logo">
@@ -99,4 +99,4 @@ const home = (navigateTo) => {
   return element.firstChild;
 };
 
-export default home;
+export default login;
