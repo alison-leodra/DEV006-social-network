@@ -15,6 +15,7 @@ const home = (navegateTo) => {
     <img src="./img/avatarDefault(1).png" alt="profile photo">
     <p class="userName"></p>
     <input class="post" type="text">
+    <p class="postError"></p>
     <button type="button" class="publish">publicar</button>
     </form>
   </div>
@@ -27,13 +28,22 @@ const home = (navegateTo) => {
 
 
   document.addEventListener('DOMContentLoaded', () => {
-    // Call the home function here
     const publish = document.querySelector(".publish");
-    publish.addEventListener("click", (e) => {
+    publish.addEventListener("click", async (e) => {
       e.preventDefault
-  
       const post = document.querySelector('.post');
-      savePost(post.value);
+      const postError = document.querySelector('.postError');
+
+      if (post.value === '') {
+        postError.style.display = 'block';
+        postError.textContent = 'Debe ingresar un mensaje.';
+      } else { 
+        savePost(post.value);
+        post.value = '';
+        postError.style.display = 'none';
+      }
+
+
     });
   });
 

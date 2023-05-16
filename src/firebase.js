@@ -28,4 +28,5 @@ const db = getFirestore(app);
 
 export const savePost = (post) => {
   addDoc(collection(db, 'publish'), {post})
+  
 }
