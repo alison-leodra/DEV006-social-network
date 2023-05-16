@@ -1,3 +1,6 @@
+import {auth } from '../firebase.js';
+import { sendPasswordResetEmail } from 'firebase/auth';
+
 const home = (navigateTo) => {
   const template = `
   <div class="home">
@@ -11,7 +14,7 @@ const home = (navigateTo) => {
     <main>
       <div class="container">
         <form id="logInForm">
-          <input type="email" id="logInEmail" class="formControl" placeholder="email@correo.com" required>
+          <input type="email" id="logInEmail" class="formControl email" placeholder="email@correo.com" required>
           <input type="password" id="logInPassword" class="formControl" placeholder="contraseña" required>
           <div>
             <button type="button" class="logInbtn">Inciar con correo</button>
@@ -43,6 +46,24 @@ const home = (navigateTo) => {
     e.preventDefault();
     navigateTo('/register');
   });
+
+  const resetPassword = element.querySelector('.forgotButton');
+  const mailField = element.querySelector('.email');
+
+  resetPassword.addEventListener('click', async() => {
+    const email = mailField.value;
+    if (email !== "") {
+      try {
+        const result = await sendPasswordResetEmail(auth, email);
+        console.log('¡El correo electónico de restablecimiento de la contraseña se ha enviado con éxito!');
+      } catch (error) {
+        console.error(error);
+      }
+    } else{
+      console.log('IngreseEmail')
+    }
+    
+});
 
   // Retorna el elemento del DOM creado a partir de la plantilla
   return element.firstChild;
