@@ -1,5 +1,4 @@
-import { auth } from '../firebase.js';
-
+import { savePost } from '../firebase.js';
 
 
 const home = (navegateTo) => {
@@ -22,7 +21,6 @@ const home = (navegateTo) => {
 </main>
 </div>
 `;
-  const user = auth.currentUser;
   const element = document.createElement('div');
   element.innerHTML = template.trim();
 
@@ -34,7 +32,8 @@ const home = (navegateTo) => {
     publish.addEventListener("click", (e) => {
       e.preventDefault
   
-  
+      const post = document.querySelector('.post');
+      savePost(post.value);
     });
   });
 
