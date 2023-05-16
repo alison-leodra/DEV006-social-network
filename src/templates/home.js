@@ -26,12 +26,17 @@ const home = (navegateTo) => {
   const element = document.createElement('div');
   element.innerHTML = template.trim();
 
-  const publish = document.querySelector(".publish");
-  publish.addEventListener("click", () => {
 
 
-
-  })
+  document.addEventListener('DOMContentLoaded', () => {
+    // Call the home function here
+    const publish = document.querySelector(".publish");
+    publish.addEventListener("click", (e) => {
+      e.preventDefault
+  
+  
+    });
+  });
 
   return element.firstChild;
 };
