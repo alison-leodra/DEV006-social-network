@@ -1,4 +1,6 @@
+import { auth } from '../firebase.js';
 
+import { sendPasswordResetEmail } from 'firebase/auth';
 const recovery = (navigateTo) => {
   const template = `
   <div class="recovery">
@@ -14,10 +16,8 @@ const recovery = (navigateTo) => {
         <h3>Ingresa tu correo</h3>
           <input type="email" id="recoveryInput" class="formControl" placeholder="email@correo.com" required>
           <p class="emailError"></p>
-            <p>
-              <a href="#" class="forgotButton">¿Olvidaste tu contraseña?</a>
-            </p>
-            
+          <button type="button" class="forgotButton">recuperar contraseña</button>
+          <button type="button" class="returnLogIn">Volver al inicio</button>
           </div>
         </form>
       </div>
@@ -33,35 +33,41 @@ const recovery = (navigateTo) => {
   const element = document.createElement('div');
   element.innerHTML = template.trim();
 
-  // Obtiene el botón "Registrarse" por su clase
-  const signUpButton = element.querySelector('.signUpButton');
-
-  // Agrega el evento "click" al botón "Registrarse"
-  signUpButton.addEventListener('click', (e) => {
-    e.preventDefault();
-    navigateTo('/register');
-  });
+  // document.addEventListener('DOMContentLoaded', () => {
+  //   const returnLogIn = document.querySelector('.returnLogIn');
+  //   returnLogIn.addEventListener('click', async () => {
+  //     navigateTo('/');
+  //   })
+  // });
 
 
   const resetPassword = element.querySelector('.forgotButton');
   const mailField = element.querySelector('#recoveryInput');
+  const returnLogIn = document.querySelector('.returnLogIn');
+    
 
   resetPassword.addEventListener('click', async () => {
+    const emailError = document.querySelector('.emailError');
     const email = mailField.value;
     if (email !== "") {
       try {
         const result = await sendPasswordResetEmail(auth, email);
-        console.log('¡El correo electónico de restablecimiento de la contraseña se ha enviado con éxito!');
+        emailError.style.display = 'block';
+        emailError.textContent = '¡El correo electrónico se ha restablecido correctamente!'
+        resetPassword.style.display = 'none';
         console.log(result);
       } catch (error) {
         console.error(error);
       }
     } else {
       console.log('IngreseEmail')
+      emailError.style.display = 'block';
+      emailError.textContent = 'Debe ingresar un email válido'
     }
 
   });
 
+  
 
 
 

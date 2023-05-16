@@ -24,7 +24,7 @@ const login = (navigateTo) => {
             <button type="button" class="logInbtn">Inciar con correo</button>
             <button type="button" class="logInGoogle">Inciar con Google</button>
             <p>
-              <a href="#" class="forgotButton">¿Olvidaste tu contraseña?</a>
+              <a href="#" class="forgotBtn">¿Olvidaste tu contraseña?</a>
             </p>
             
           </div>
@@ -51,8 +51,8 @@ const login = (navigateTo) => {
     navigateTo('/register');
   });
 
-    const forgotButton = element.querySelector('.forgotButton');
-    forgotButton.addEventListener('click', (e) => {
+    const forgotBtn = element.querySelector('.forgotBtn');
+    forgotBtn.addEventListener('click', (e) => {
       e.preventDefault();
       navigateTo('/recovery');
     });
