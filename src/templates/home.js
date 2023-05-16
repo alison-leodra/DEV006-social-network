@@ -1,6 +1,12 @@
 import { savePost } from '../firebase.js';
 
 
+function autoResize() {
+  const textarea = document.getElementById("myTextarea");
+  textarea.style.height = "auto";
+  textarea.style.height = textarea.scrollHeight + "px";
+}
+
 const home = (navegateTo) => {
   const template = `
   <div class="home">
@@ -14,7 +20,7 @@ const home = (navegateTo) => {
   <form id="postForm">
     <img src="./img/avatarDefault(1).png" alt="profile photo">
     <p class="userName"></p>
-    <input class="post" type="text">
+    <textarea id="myTextarea" class="post" placeholder="Escribe aquí..."></textarea>
     <p class="postError"></p>
     <button type="button" class="publish">publicar</button>
     </form>
@@ -22,32 +28,32 @@ const home = (navegateTo) => {
 </main>
 </div>
 `;
-  const element = document.createElement('div');
-  element.innerHTML = template.trim();
+const element = document.createElement('div');
+element.innerHTML = template.trim();
 
+document.addEventListener('DOMContentLoaded', () => {
+  const publish = document.querySelector(".publish");
+  const textarea = document.getElementById("myTextarea");
 
+  publish.addEventListener("click", async (e) => {
+    e.preventDefault();
+    const post = textarea.value;
+    const postError = document.querySelector('.postError');
 
-  document.addEventListener('DOMContentLoaded', () => {
-    const publish = document.querySelector(".publish");
-    publish.addEventListener("click", async (e) => {
-      e.preventDefault
-      const post = document.querySelector('.post');
-      const postError = document.querySelector('.postError');
-
-      if (post.value === '') {
-        postError.style.display = 'block';
-        postError.textContent = 'Debe ingresar un mensaje.';
-      } else { 
-        savePost(post.value);
-        post.value = '';
-        postError.style.display = 'none';
-      }
-
-
-    });
+    if (post === '') {
+      postError.style.display = 'block';
+      postError.textContent = 'Debes ingresar un mensaje.';
+    } else {
+      savePost(post);
+      textarea.value = '';
+      postError.style.display = 'none';
+    }
   });
+  
+  textarea.addEventListener("input", autoResize);
+});
 
-  return element.firstChild;
+return element.firstChild;
 };
 
 export default home;
