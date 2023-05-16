@@ -5,20 +5,15 @@ const recovery = (navigateTo) => {
       <header>
       <div class="imgLogo">
         <img src="./img/logo2.png" alt="logo">
-        <h2 class="tittle">Encuentra a tus compañeros de juego perfectos</h2>
       </div>
     </header>
 
     <main>
       <div class="container">
         <form id="logInForm">
-          <input type="email" id="logInEmail" class="formControl" placeholder="email@correo.com" required>
+        <h3>Ingresa tu correo</h3>
+          <input type="email" id="recoveryInput" class="formControl" placeholder="email@correo.com" required>
           <p class="emailError"></p>
-          <input type="password" id="logInPassword" class="formControl" placeholder="contraseña" required>
-          <p class="passwordError"></p>
-          <div>
-            <button type="button" class="logInbtn">Inciar con correo</button>
-            <button type="button" class="logInGoogle">Inciar con Google</button>
             <p>
               <a href="#" class="forgotButton">¿Olvidaste tu contraseña?</a>
             </p>
@@ -47,8 +42,25 @@ const recovery = (navigateTo) => {
     navigateTo('/register');
   });
 
- 
 
+  const resetPassword = element.querySelector('.forgotButton');
+  const mailField = element.querySelector('#recoveryInput');
+
+  resetPassword.addEventListener('click', async () => {
+    const email = mailField.value;
+    if (email !== "") {
+      try {
+        const result = await sendPasswordResetEmail(auth, email);
+        console.log('¡El correo electónico de restablecimiento de la contraseña se ha enviado con éxito!');
+        console.log(result);
+      } catch (error) {
+        console.error(error);
+      }
+    } else {
+      console.log('IngreseEmail')
+    }
+
+  });
 
 
 
@@ -57,4 +69,4 @@ const recovery = (navigateTo) => {
   return element.firstChild;
 };
 
-export default login;
+export default recovery;

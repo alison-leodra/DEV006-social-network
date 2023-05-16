@@ -51,6 +51,12 @@ const login = (navigateTo) => {
     navigateTo('/register');
   });
 
+    const forgotButton = element.querySelector('.forgotButton');
+    forgotButton.addEventListener('click', (e) => {
+      e.preventDefault();
+      navigateTo('/recovery');
+    });
+
   document.addEventListener('DOMContentLoaded', () => {
     // Call the home function here
     const logInbtn = document.querySelector(".logInbtn");

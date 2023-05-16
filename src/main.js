@@ -5,6 +5,7 @@ import register from './templates/register.js';
 import registerEmail from './templates/registerEmail.js';
 import userRegister from './templates/userRegister.js';
 import home from './templates/home.js';
+import recovery from './templates/recovery.js';
 
 
 const routes = [
@@ -14,6 +15,7 @@ const routes = [
   { path: '/registerEmail', component: registerEmail },
   { path: '/userRegister', component: userRegister },
   { path: '/home', component: home },
+  { path: '/recovery', component: recovery },
 ];
 
 const defaultRoute = '/';
