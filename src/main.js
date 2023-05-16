@@ -4,6 +4,7 @@ import error from './templates/error.js';
 import register from './templates/register.js';
 import registerEmail from './templates/registerEmail.js';
 import userRegister from './templates/userRegister.js';
+import home from './templates/home.js';
 
 
 const routes = [
@@ -12,6 +13,7 @@ const routes = [
   { path: '/register', component: register },
   { path: '/registerEmail', component: registerEmail },
   { path: '/userRegister', component: userRegister },
+  { path: '/home', component: home },
 ];
 
 const defaultRoute = '/';

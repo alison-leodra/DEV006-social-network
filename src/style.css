@@ -52,7 +52,8 @@ main {
   font-size: 2.2vh;
 }
 
-#logInForm {
+#logInForm,
+#postForm {
   text-align: center;
   display: flex;
   flex-wrap: wrap;
@@ -220,7 +221,7 @@ textarea {
 textarea:hover {
   background-color: #66fcf1;
   box-shadow: 0 0 5px #66fcf1,
-  0 0 10px #66fcf1;
+    0 0 10px #66fcf1;
   color: #202833;
 }
 
@@ -294,9 +295,15 @@ textarea:focus {
   }
 
   textarea {
-   
+
     height: 150px;
- 
+
   }
 
+}
+
+/* Home */
+
+#postForm img {
+  width: 20%;
 }

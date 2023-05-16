@@ -1,4 +1,5 @@
 import { signInWithEmailAndPassword } from "firebase/auth";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth } from '../firebase.js';
 import error from './error.js';
 
@@ -58,12 +59,12 @@ const login = (navigateTo) => {
       const email = document.querySelector('#logInEmail').value;
       const password = document.querySelector('#logInPassword').value;
       const passwordError = document.querySelector('.passwordError');
-    const emailError = document.querySelector('.emailError');
+      const emailError = document.querySelector('.emailError');
 
       try {
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
         console.log(userCredential);
-        navigateTo('/register');
+        navigateTo('/home');
 
       } catch (error) {
         console.log(error.message);
@@ -89,7 +90,20 @@ const login = (navigateTo) => {
       }
     })
   });
-
+  const signInFormGoogle = element.querySelector('.logInGoogle');
+  // Agrega el evento "click" al botón "Registrarse"
+  signInFormGoogle.addEventListener('click', async (e) => {
+    e.preventDefault();
+    const provider = new GoogleAuthProvider();
+    try {
+      const credentials = await signInWithPopup(auth, provider);
+      console.log(credentials);
+      navigateTo('/home');
+    }
+    catch (error) {
+      console.log(error);
+    }
+  });
 
 
 
