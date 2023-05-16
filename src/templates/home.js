@@ -16,7 +16,9 @@ const home = (navigateTo) => {
       <div class="container">
         <form id="logInForm">
           <input type="email" id="logInEmail" class="formControl" placeholder="email@correo.com" required>
+          <p class="emailError"></p>
           <input type="password" id="logInPassword" class="formControl" placeholder="contraseña" required>
+          <p class="passwordError"></p>
           <div>
             <button type="button" class="logInbtn">Inciar con correo</button>
             <button type="button" class="logInGoogle">Inciar con Google</button>
@@ -48,26 +50,48 @@ const home = (navigateTo) => {
     navigateTo('/register');
   });
 
-  const logIn = document.querySelector('.logInbtn');
-  logIn.addEventListener('click', () => {
-    navigateTo('/register');
+  document.addEventListener('DOMContentLoaded', () => {
+    // Call the home function here
+    const logInbtn = document.querySelector(".logInbtn");
+    logInbtn.addEventListener('click', async (e) => {
+      e.preventDefault();
+      const email = document.querySelector('#logInEmail').value;
+      const password = document.querySelector('#logInPassword').value;
+      const passwordError = document.querySelector('.passwordError');
+    const emailError = document.querySelector('.emailError');
+
+      try {
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        console.log(userCredential);
+        navigateTo('/register');
+
+      } catch (error) {
+        console.log(error.message);
+        console.log(error.code);
+
+        if (error.code === 'auth/invalid-email') {
+          emailError.style.display = 'block';
+          passwordError.style.display = 'none';
+          emailError.textContent = 'El correo electrónico ingresado no es válido.';
+        } else if (error.code === 'auth/user-not-found') {
+          emailError.style.display = 'block';
+          passwordError.style.display = 'none';
+          emailError.textContent = 'El correo electrónico ingresado no ha sido encontrado';
+        } else if (error.code === 'auth/wrong-password') {
+          passwordError.style.display = 'block';
+          emailError.style.display = 'none';
+          passwordError.textContent = 'La contraseña es incorrecta';
+        } else if (error.code === 'auth/missing-password') {
+          passwordError.style.display = 'block';
+          emailError.style.display = 'none';
+          passwordError.textContent = 'Debe ingresar una contraseña.';
+        }
+      }
+    })
   });
 
-  // const logInUser = document.querySelector(".logInbtn");
-  // logInUser.addEventListener('click', async (e) => {
-  //   e.preventDefault();
-  //   const email = document.querySelector('#logInEmail').value;
-  //   const password = document.querySelector('#logInPassword').value;
 
-  //   try {
-  //     const userCredential = await signInWithEmailAndPassword(auth, email, password);
-  //     console.log(userCredential);
-      
-  //   } catch (error) {
-  //     console.log(error.message);
-  //     console.log(error.code);
-  //   }
-  // })
+
 
 
 
