@@ -1,3 +1,7 @@
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from '../firebase.js';
+import error from './error.js';
+
 const home = (navigateTo) => {
   const template = `
   <div class="home">
@@ -43,6 +47,29 @@ const home = (navigateTo) => {
     e.preventDefault();
     navigateTo('/register');
   });
+
+  const logIn = document.querySelector('.logInbtn');
+  logIn.addEventListener('click', () => {
+    navigateTo('/register');
+  });
+
+  // const logInUser = document.querySelector(".logInbtn");
+  // logInUser.addEventListener('click', async (e) => {
+  //   e.preventDefault();
+  //   const email = document.querySelector('#logInEmail').value;
+  //   const password = document.querySelector('#logInPassword').value;
+
+  //   try {
+  //     const userCredential = await signInWithEmailAndPassword(auth, email, password);
+  //     console.log(userCredential);
+      
+  //   } catch (error) {
+  //     console.log(error.message);
+  //     console.log(error.code);
+  //   }
+  // })
+
+
 
   // Retorna el elemento del DOM creado a partir de la plantilla
   return element.firstChild;
