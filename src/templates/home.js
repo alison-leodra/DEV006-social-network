@@ -20,6 +20,29 @@ const templateHeader = `
       <img src="./img/logo2.png" alt="logo">
     </div>
     </header>
+
+    <main>
+      <div class="container">
+        <form id="logInForm">
+          <input type="email" id="logInEmail" class="formControl" placeholder="email@correo.com" required>
+          <input type="password" id="logInPassword" class="formControl" placeholder="contraseña" required>
+          <div>
+            <button type="button" class="logInbtn">Inciar con correo</button>
+            <button type="button" class="logInGoogle">Inciar con Google</button>
+            <p>
+              <a href="#" class="forgotButton">¿Olvidaste tu contraseña?</a>
+            </p>
+            
+          </div>
+        </form>
+      </div>
+    </main>
+
+    <footer>
+      <img src="./img/Sin título-4.png" alt="footer">
+        <a href="" class="signUpButton registerHome">¿Aún no tienes cuenta? Registrate aquí</a>
+    </footer>
+    </div>
   `;
 
 homeContainer.innerHTML = templateHeader;
@@ -76,10 +99,9 @@ element.append(homeContainer);
       postError.style.display = 'none';
     }
   });
-  
-  textarea.addEventListener("input", autoResize);
 
-return element;
+  // Retorna el elemento del DOM creado a partir de la plantilla
+  return element.firstChild;
 };
 
 export default home;
