@@ -8,34 +8,13 @@ function autoResize() {
 }
 
 const home = (navegateTo) => {
-//   const template = `
-//   <div class="home">
-//   <header>
-//   <div class="imgLogo">
-//     <img src="./img/logo2.png" alt="logo">
-//   </div>
-// </header>
-//   <main>
-//   <div class="container">
-//   <form id="postForm">
-//     <img src="./img/avatarDefault(1).png" alt="profile photo">
-//     <p class="userName"></p>
-//     <textarea id="myTextarea" class="post" placeholder="Escribe aquí..."></textarea>
-//     <p class="postError"></p>
-//     <button type="button" class="publish">publicar</button>
-//     </form>
-//   </div>
-// </main>
-// </div>
-// `;
 
 const element = document.createElement('div');
-// element.innerHTML = template.trim();
 
 const homeContainer = document.createElement('div');
 homeContainer.classList.add('home');
 
-const template2 = `
+const templateHeader = `
     <header>
     <div class="imgLogo">
       <img src="./img/logo2.png" alt="logo">
@@ -43,7 +22,7 @@ const template2 = `
     </header>
   `;
 
-homeContainer.innerHTML = template2;
+homeContainer.innerHTML = templateHeader;
 
 const main = document.createElement('main');
 const container = document.createElement('div');
