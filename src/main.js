@@ -1,18 +1,22 @@
 import './firebase.js';
-import home from './templates/home.js';
+import login from './templates/login.js';
 import error from './templates/error.js';
 import register from './templates/register.js';
 import registerEmail from './templates/registerEmail.js';
 import userRegister from './templates/userRegister.js';
+import home from './templates/home.js';
+import recovery from './templates/recovery.js';
 
 
 
 const routes = [
-  { path: '/', component: home },
+  { path: '/', component: login },
   { path: '/error', component: error },
   { path: '/register', component: register },
   { path: '/registerEmail', component: registerEmail },
-  { path: '/userRegister', component: userRegister }
+  { path: '/userRegister', component: userRegister },
+  { path: '/home', component: home },
+  { path: '/recovery', component: recovery },
 ];
 
 const defaultRoute = '/';
