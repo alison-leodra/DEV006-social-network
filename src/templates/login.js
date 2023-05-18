@@ -4,40 +4,6 @@ import { auth } from "../firebase.js";
 import error from "./error.js";
 
 const login = (navigateTo) => {
-  const template = `
-  <div class="login">
-      <header>
-      <div class="imgLogo">
-        <img src="./img/logo2.png" alt="logo">
-        <h2 class="tittle">Encuentra a tus compañeros de juego perfectos</h2>
-      </div>
-    </header>
-
-    // <main>
-      // <div class="container">
-        // <form id="logInForm">
-        //   <input type="email" id="logInEmail" class="formControl" placeholder="email@correo.com" required>
-        //   <p class="emailError"></p>
-        //   <input type="password" id="logInPassword" class="formControl" placeholder="contraseña" required>
-        //   <p class="passwordError"></p>
-          // <div>
-          //   <button type="button" class="logInbtn">Inciar con correo</button>
-          //   <button type="button" class="logInGoogle">Inciar con Google</button>
-            // <p>
-            //   <a href="#" class="forgotBtn">¿Olvidaste tu contraseña?</a>
-            // </p>
-            
-          // </div>
-        // </form>
-      // </div>
-    // </main>
-
-    <footer>
-      <img src="./img/Sin título-4.png" alt="footer">
-        <a href="" class="signUpButton registerHome">¿Aún no tienes cuenta? Registrate aquí</a>
-    </footer>
-    </div>
-  `;
 
   const element = document.createElement("div");
   const loginContainer = document.createElement("div");
