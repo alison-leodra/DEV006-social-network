@@ -27,6 +27,10 @@ export const auth = getAuth(app);
 const db = getFirestore(app);
 
 export const savePost = (post) => {
-  addDoc(collection(db, 'publish'), {post})
-  
+  addDoc(collection(db, 'publish'), { post })
+
+};
+
+export const saveUserName = (userName) => {
+  addDoc(collection(db, "userNames"), { userName });
 }

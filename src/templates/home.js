@@ -1,4 +1,5 @@
 import { savePost } from '../firebase.js';
+import { auth } from '../firebase.js';
 
 
 function autoResize() {
@@ -9,12 +10,12 @@ function autoResize() {
 
 const home = (navegateTo) => {
 
-const element = document.createElement('div');
+  const element = document.createElement('div');
 
-const homeContainer = document.createElement('div');
-homeContainer.classList.add('home');
+  const homeContainer = document.createElement('div');
+  homeContainer.classList.add('home');
 
-const templateHeader = `
+  const templateHeader = `
     <header>
     <div class="imgLogo">
       <img src="./img/logo2.png" alt="logo">
@@ -22,45 +23,49 @@ const templateHeader = `
     </header>
   `;
 
-homeContainer.innerHTML = templateHeader;
+  homeContainer.innerHTML = templateHeader;
 
-const main = document.createElement('main');
-const container = document.createElement('div');
-container.classList.add('container');
+  const main = document.createElement('main');
+  const container = document.createElement('div');
+  container.classList.add('container');
 
-const form = document.createElement('form');
-form.setAttribute('id', 'postForm');
+  const form = document.createElement('form');
+  form.setAttribute('id', 'postForm');
 
-const img = document.createElement('img');
-img.setAttribute('src', './img/avatarDefault(1).png');
-img.setAttribute('alt', 'profile photo')
+  const img = document.createElement('img');
+  img.setAttribute('src', './img/avatarDefault(1).png');
+  img.setAttribute('alt', 'profile photo');
 
-const pName = document.createElement('p');
-pName.classList.add('userName');
+  const pName = document.createElement('p');
+  pName.classList.add('userName');
 
-const textarea = document.createElement('textarea');
-textarea.setAttribute('id', 'myTextarea');
-textarea.classList.add('post');
-textarea.setAttribute('placeholder', 'Escribe aquí...');
+  const user = auth.currentUser;
+  const userName = user.displayName;
+  pName.innerText = userName;
 
-const pError = document.createElement('p');
-pError.classList.add('postError');
+  const textarea = document.createElement('textarea');
+  textarea.setAttribute('id', 'myTextarea');
+  textarea.classList.add('post');
+  textarea.setAttribute('placeholder', 'Escribe aquí...');
 
-const publish = document.createElement('button');
-publish.classList.add('publish');
-publish.innerText = 'Publicar';
+  const pError = document.createElement('p');
+  pError.classList.add('postError');
 
-form.append(img);
-form.append(pName);
-form.append(textarea);
-form.append(pError);
-form.append(publish);
+  const publish = document.createElement('button');
+  publish.classList.add('publish');
+  publish.innerText = 'Publicar';
 
-container.appendChild(form);
-main.appendChild(container);
+  form.append(img);
+  form.append(pName);
+  form.append(textarea);
+  form.append(pError);
+  form.append(publish);
 
-homeContainer.append(main);
-element.append(homeContainer);
+  container.appendChild(form);
+  main.appendChild(container);
+
+  homeContainer.append(main);
+  element.append(homeContainer);
 
   publish.addEventListener("click", (e) => {
     e.preventDefault();
@@ -76,10 +81,10 @@ element.append(homeContainer);
       postError.style.display = 'none';
     }
   });
-  
+
   textarea.addEventListener("input", autoResize);
 
-return element;
+  return element;
 };
 
 export default home;
