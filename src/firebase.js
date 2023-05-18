@@ -1,7 +1,8 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
-import { getFirestore, collection, addDoc } from "firebase/firestore";
+import { getFirestore, collection, addDoc, getDocs, onSnapshot } from "firebase/firestore";
+import { query, orderBy } from "firebase/firestore";
 
 
 // TODO: Add SDKs for Firebase products that you want to use
@@ -17,6 +18,7 @@ const firebaseConfig = {
   appId: '1:1010530380419:web:eca2efbfec7083dcea89b6',
 };
 
+
 // Initialize Firebase
 export const app = initializeApp(firebaseConfig);
 
@@ -28,5 +30,11 @@ const db = getFirestore(app);
 
 export const savePost = (post) => {
   addDoc(collection(db, 'publish'), {post})
-  
 }
+
+export const getPost = () => getDocs(collection(db, 'publish'));
+
+export const onGetPost = (callback) => {
+  const q = query(collection(db, 'publish'), orderBy('post', 'asc'));
+  return onSnapshot(q, callback);
+};

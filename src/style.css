@@ -156,7 +156,7 @@ footer img {
 
 
 /* PAGINA DE REGISTRO */
-#signUpFormEmail {
+#signUpFormEmail, .postUsersContainer {
   text-align: center;
   display: flex;
   flex-wrap: wrap;

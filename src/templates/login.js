@@ -73,6 +73,11 @@ const login = (navigateTo) => {
   signUpButton.classList.add('registerHome');
   signUpButton.innerText = '¿Aún no tienes cuenta? Registrate aquí';
   
+  const postContainer = document.createElement('div');
+  postContainer.setAttribute('id', 'postContainer');
+
+  
+
   pContainerForgot.append(forgotBtn);
   divLoginBtnContainer.append(logInBtn);
   divLoginBtnContainer.append(loginGoogleBtn);
@@ -85,6 +90,7 @@ const login = (navigateTo) => {
   form.append(divLoginBtnContainer);
 
   container.append(form);
+  container.appendChild(postContainer);
   main.append(container);
 
   registerFooter.append(imgGeneral);
