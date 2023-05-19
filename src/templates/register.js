@@ -1,6 +1,6 @@
 import { async } from "regenerator-runtime";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { auth } from '../firebase.js';
+import { auth, saveUserName } from '../firebase.js';
 
 const register = (navigateTo) => {
   const template = `
@@ -44,6 +44,7 @@ const register = (navigateTo) => {
     const provider = new GoogleAuthProvider();
     try {
       const credentials = await signInWithPopup(auth, provider);
+      saveUserName(auth.currentUser.displayName);
       console.log(credentials);
       navigateTo('/');
     }

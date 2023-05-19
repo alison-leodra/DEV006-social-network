@@ -1,6 +1,6 @@
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { auth } from "../firebase.js";
+import { auth, saveUserName } from "../firebase.js";
 import error from "./error.js";
 
 const login = (navigateTo) => {
@@ -161,6 +161,7 @@ const login = (navigateTo) => {
     try {
       const credentials = await signInWithPopup(auth, provider);
       console.log(credentials);
+      saveUserName(auth.currentUser.displayName);
       navigateTo("/home");
     } catch (error) {
       console.log(error);
