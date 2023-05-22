@@ -1,6 +1,5 @@
-
-import { savePost, onGetPost } from "../firebase.js";
 import { deleteDoc, doc, getFirestore } from "firebase/firestore";
+import { savePost, handleUserAuth, onGetPost } from '../firebase.js';
 import { auth } from '../firebase.js';
 
 let currentUserName = ''; // Variable para almacenar el nombre del usuario actual
@@ -74,7 +73,6 @@ const home = (navegateTo) => {
   const user = auth.currentUser;
   img.setAttribute('src', user.photoURL);
 
-
   const dropdownTitle = document.createElement("div");
   dropdownTitle.classList.add("title", "pointerCursor");
   dropdownTitle.textContent = "...";
@@ -107,7 +105,6 @@ const home = (navegateTo) => {
 
   container.appendChild(form);
   container.appendChild(postContainer);
-  //container.appendChild(dropdownPost);
   main.appendChild(container);
 
   homeContainer.append(main);
@@ -128,40 +125,6 @@ const home = (navegateTo) => {
     }
   });
 
-  // OBTENER POST DESDE FIRESTORE
-
-  onGetPost((querySnapshot) => {
-    let html = "";
-    let userEmail = sessionStorage.getItem("userEmail");
-
-    querySnapshot.forEach((docs) => {
-      const postData = docs.data();
-      html += `
-      <div class="postUsersContainer">
-        <textarea readOnly>${postData.post}</textarea>`;
-      if (docs.data().userEmail === userEmail) {
-        html += `
-        <div class="dropdownPost">
-          <div class="title pointerCursor">...</div>
-          <div class="dropdown-container">
-            <div class="option delete" id="`+ docs.id +`">delete</div>
-            <div class="option" id="edit">edit</div>
-          </div>
-        </div>`;
-      }
-      html += `</div>`;
-    });
-
-    postContainer.innerHTML = html;
-    const db = getFirestore();
-
-    let deleteBtns = document.querySelectorAll('.delete');
-    deleteBtns.forEach((btn) => {
-      btn.addEventListener('click', (e) => {
-        const docRef = doc(db, 'publish', e.target.id)
-        deleteDoc(docRef);
-      });
-    })
 
   handleUserAuth(); // Invocar handleUserAuth para obtener la imagen y el usuario
 
@@ -176,8 +139,9 @@ const home = (navegateTo) => {
       console.log('docs', docs.data()); //transformar a un objeto de JS, ya no sera de Firebase
 
       // Obtener imagen y usuario
-      const userImage = postData.userImage;
-      const userName = postData.userName;
+      let userImage = postData.userImage;
+      let userName = postData.userName;
+      let userEmail = sessionStorage.getItem("userEmail");
 
       html += `
       <div class="postUsersContainer">
@@ -194,14 +158,30 @@ const home = (navegateTo) => {
             <p class="coments"><i class="fa-regular fa-comment fa-2xl" style="color: #c5c6c8;"></i> 1</p>
           </div>
         </div>
-      </div>
-      `;
+        `;
+        if (docs.data().userEmail === userEmail) {
+          html += `
+          <div class="dropdownPost">
+            <div class="title pointerCursor">...</div>
+            <div class="dropdown-container">
+              <div class="option delete" id="`+ docs.id +`">delete</div>
+              <div class="option" id="edit">edit</div>
+            </div>
+          </div>`;
+        }
+        html += `</div>`;
     });
 
     postContainer.innerHTML = html;
+    const db = getFirestore();
 
-  });
-
+    let deleteBtns = document.querySelectorAll('.delete');
+    deleteBtns.forEach((btn) => {
+      btn.addEventListener('click', (e) => {
+        const docRef = doc(db, 'publish', e.target.id)
+        deleteDoc(docRef);
+      });
+    })
 
   });
 
