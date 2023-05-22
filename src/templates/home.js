@@ -1,4 +1,8 @@
-import { savePost, getPost, onGetPost } from '../firebase.js';
+import { savePost, handleUserAuth, onGetPost } from '../firebase.js';
+import { auth } from '../firebase.js';
+
+let currentUserName = ''; // Variable para almacenar el nombre del usuario actual
+let currentUserImage = ''; // Variable para almacenar la imagen del usuario actual
 
 function autoResize() {
   const textareas = document.querySelectorAll("textarea");
@@ -42,8 +46,10 @@ const home = (navegateTo) => {
   form.setAttribute('id', 'postForm');
 
   const img = document.createElement('img');
-  img.setAttribute('src', './img/avatarDefault(1).png');
-  img.setAttribute('alt', 'profile photo')
+  img.setAttribute('alt', 'profile photo');
+
+  const user = auth.currentUser;
+  img.setAttribute('src', user.photoURL);
 
   const pName = document.createElement('p');
   pName.classList.add('userName');
@@ -90,25 +96,45 @@ const home = (navegateTo) => {
       postError.style.display = 'none';
     }
   });
-  
+
   // OBTENER POST DESDE FIRESTORE
-    onGetPost((querySnapshot) => {
-      console.log('query', querySnapshot);
-  
-      let html = '';
-  
-      querySnapshot.forEach(docs => {
-        const postData = docs.data();
-        console.log('docs', docs.data()); //transformar a un objeto de JS, ya no sera de Firebase
-        html += `
+  handleUserAuth(); // Invocar handleUserAuth para obtener la imagen y el usuario
+
+  // OBTENER POST DESDE FIRESTORE
+  onGetPost((querySnapshot) => {
+    console.log('query', querySnapshot);
+
+    let html = '';
+
+    querySnapshot.forEach(docs => {
+      const postData = docs.data();
+      console.log('docs', docs.data()); //transformar a un objeto de JS, ya no sera de Firebase
+
+      // Obtener imagen y usuario
+      const userImage = postData.userImage;
+      const userName = postData.userName;
+
+      html += `
       <div class="postUsersContainer">
+        <div class="postUsersData">
+          <img src="${userImage}" alt="profile photo">
+          <p class="userName">${userName}</p>
+        </div>  
         <textarea readOnly>${postData.post}</textarea>
+        <div class="postInfoContainer">
+          <div class="likesContainer">
+            <p class="likes"><i class="fa-regular fa-heart fa-2xl" style="color: #c5c6c8;"></i> 1</p>
+          </div>
+          <div class="comentsContainer">
+            <p class="coments"><i class="fa-regular fa-comment fa-2xl" style="color: #c5c6c8;"></i> 1</p>
+          </div>
+        </div>
       </div>
       `;
-      });
-  
-      postContainer.innerHTML = html;
-  
+    });
+
+    postContainer.innerHTML = html;
+
   });
 
 
@@ -116,3 +142,4 @@ const home = (navegateTo) => {
 };
 
 export default home;
+

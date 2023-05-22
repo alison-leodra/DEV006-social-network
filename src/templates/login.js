@@ -51,10 +51,11 @@ const login = (navigateTo) => {
   logInBtn.classList.add('logInbtn');
   logInBtn.innerText = 'Inciar con correo';
 
-  const loginGoogleBtn = document.createElement('button');
-  loginGoogleBtn.setAttribute('type', 'button');
+
+  const loginGoogleBtn = document.createElement('img');
+  loginGoogleBtn.setAttribute('src', './img/btn_google_signin_dark_normal_web.png');
+  loginGoogleBtn.setAttribute('alt', 'google btn');
   loginGoogleBtn.classList.add('logInGoogle');
-  loginGoogleBtn.innerText = 'Inciar con Google';
 
   const pContainerForgot = document.createElement('p');
   const forgotBtn = document.createElement('a');
