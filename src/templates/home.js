@@ -148,7 +148,18 @@ const home = (navegateTo) => {
         <div class="postUsersData">
           <img src="${userImage}" alt="profile photo">
           <p class="userName">${userName}</p>
-        </div>  
+        </div> `;
+        if (docs.data().userEmail === userEmail) {
+          html += `
+          <div class="dropdownPost">
+                  <i class="fa-solid fa-ellipsis fa-xl" style="color: #66fcf1;"></i>
+                  <div class="dropdown-container">
+                    <div class="option delete" id="`+ docs.id +`"><i class="fa-solid fa-trash fa-xl" style="color: #202833;"></i>eliminar</div>
+                    <div class="option" id="edit"><i class="fa-solid fa-pen-to-square fa-xl" style="color: #202833;"></i>edit</div>
+                  </div>
+                </div>`;
+        }
+        html += `
         <textarea readOnly>${postData.post}</textarea>
         <div class="postInfoContainer">
           <div class="likesContainer">
@@ -159,16 +170,6 @@ const home = (navegateTo) => {
           </div>
         </div>
         `;
-        if (docs.data().userEmail === userEmail) {
-          html += `
-          <div class="dropdownPost">
-            <div class="title pointerCursor">...</div>
-            <div class="dropdown-container">
-              <div class="option delete" id="`+ docs.id +`">delete</div>
-              <div class="option" id="edit">edit</div>
-            </div>
-          </div>`;
-        }
         html += `</div>`;
     });
 
