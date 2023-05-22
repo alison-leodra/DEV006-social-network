@@ -1,8 +1,11 @@
-import { savePost, handleUserAuth, onGetPost } from '../firebase.js';
+
+import { savePost, onGetPost } from "../firebase.js";
+import { deleteDoc, doc, getFirestore } from "firebase/firestore";
 import { auth } from '../firebase.js';
 
 let currentUserName = ''; // Variable para almacenar el nombre del usuario actual
 let currentUserImage = ''; // Variable para almacenar la imagen del usuario actual
+
 
 function autoResize() {
   const textareas = document.querySelectorAll("textarea");
@@ -20,13 +23,11 @@ document.addEventListener("DOMContentLoaded", function () {
   setInterval(autoResize, 100); // Ejecuta autoResize() periódicamente para ajustar nuevos textareas agregados dinámicamente
 });
 
-
 const home = (navegateTo) => {
+  const element = document.createElement("div");
 
-  const element = document.createElement('div');
-
-  const homeContainer = document.createElement('div');
-  homeContainer.classList.add('home');
+  const homeContainer = document.createElement("div");
+  homeContainer.classList.add("home");
 
   const templateHeader = `
     <header>
@@ -38,12 +39,37 @@ const home = (navegateTo) => {
 
   homeContainer.innerHTML = templateHeader;
 
-  const main = document.createElement('main');
-  const container = document.createElement('div');
-  container.classList.add('container');
+  const main = document.createElement("main");
+  const container = document.createElement("div");
+  container.classList.add("container");
 
-  const form = document.createElement('form');
-  form.setAttribute('id', 'postForm');
+  const form = document.createElement("form");
+  form.setAttribute("id", "postForm");
+
+  const img = document.createElement("img");
+  img.setAttribute("src", "./img/avatarDefault(1).png");
+  img.setAttribute("alt", "profile photo");
+
+  const pName = document.createElement("p");
+  pName.classList.add("userName");
+
+  const textarea = document.createElement("textarea");
+  textarea.setAttribute("id", "myTextarea");
+  textarea.classList.add("post");
+  textarea.setAttribute("placeholder", "Escribe aquí...");
+
+  const pError = document.createElement("p");
+  pError.classList.add("postError");
+
+  const publish = document.createElement("button");
+  publish.classList.add("publish");
+  publish.innerText = "Publicar";
+
+  const postContainer = document.createElement("div");
+  postContainer.setAttribute("id", "postContainer");
+
+  const dropdownPost = document.createElement("div");
+  dropdownPost.classList.add("dropwnPost");
 
   const img = document.createElement('img');
   img.setAttribute('alt', 'profile photo');
@@ -51,23 +77,30 @@ const home = (navegateTo) => {
   const user = auth.currentUser;
   img.setAttribute('src', user.photoURL);
 
-  const pName = document.createElement('p');
-  pName.classList.add('userName');
 
-  const textarea = document.createElement('textarea');
-  textarea.setAttribute('id', 'myTextarea');
-  textarea.classList.add('post');
-  textarea.setAttribute('placeholder', 'Escribe aquí...');
+  const dropdownTitle = document.createElement("div");
+  dropdownTitle.classList.add("title", "pointerCursor");
+  dropdownTitle.textContent = "...";
+  dropdownPost.appendChild(dropdownTitle);
 
-  const pError = document.createElement('p');
-  pError.classList.add('postError');
+  const menuDropdownContainer = document.createElement("div");
+  menuDropdownContainer.classList.add("dropdown-container");
 
-  const publish = document.createElement('button');
-  publish.classList.add('publish');
-  publish.innerText = 'Publicar';
+  const deletePostSelect = document.createElement("div");
+  deletePostSelect.classList.add("option");
+  deletePostSelect.id = "delete";
+  deletePostSelect.textContent = "delete";
+  menuDropdownContainer.appendChild(deletePostSelect);
 
-  const postContainer = document.createElement('div');
-  postContainer.setAttribute('id', 'postContainer');
+  const editPost = document.createElement("div");
+  editPost.classList.add("option");
+  editPost.id = "edit";
+  editPost.textContent = "edit";
+  menuDropdownContainer.appendChild(editPost);
+
+  dropdownPost.appendChild(menuDropdownContainer);
+  dropdownPost.appendChild(textarea);
+  form.appendChild(textarea);
 
   form.append(img);
   form.append(pName);
@@ -77,6 +110,7 @@ const home = (navegateTo) => {
 
   container.appendChild(form);
   container.appendChild(postContainer);
+  //container.appendChild(dropdownPost);
   main.appendChild(container);
 
   homeContainer.append(main);
@@ -85,19 +119,53 @@ const home = (navegateTo) => {
   publish.addEventListener("click", (e) => {
     e.preventDefault();
     const post = textarea.value;
-    const postError = document.querySelector('.postError');
+    const postError = document.querySelector(".postError");
 
-    if (post === '') {
-      postError.style.display = 'block';
-      postError.textContent = 'Debes ingresar un mensaje.';
+    if (post === "") {
+      postError.style.display = "block";
+      postError.textContent = "Debes ingresar un mensaje.";
     } else {
       savePost(post);
-      textarea.value = '';
-      postError.style.display = 'none';
+      textarea.value = "";
+      postError.style.display = "none";
     }
   });
 
   // OBTENER POST DESDE FIRESTORE
+
+  onGetPost((querySnapshot) => {
+    let html = "";
+    let userEmail = sessionStorage.getItem("userEmail");
+
+    querySnapshot.forEach((docs) => {
+      const postData = docs.data();
+      html += `
+      <div class="postUsersContainer">
+        <textarea readOnly>${postData.post}</textarea>`;
+      if (docs.data().userEmail === userEmail) {
+        html += `
+        <div class="dropdownPost">
+          <div class="title pointerCursor">...</div>
+          <div class="dropdown-container">
+            <div class="option delete" id="`+ docs.id +`">delete</div>
+            <div class="option" id="edit">edit</div>
+          </div>
+        </div>`;
+      }
+      html += `</div>`;
+    });
+
+    postContainer.innerHTML = html;
+    const db = getFirestore();
+
+    let deleteBtns = document.querySelectorAll('.delete');
+    deleteBtns.forEach((btn) => {
+      btn.addEventListener('click', (e) => {
+        const docRef = doc(db, 'publish', e.target.id)
+        deleteDoc(docRef);
+      });
+    })
+
   handleUserAuth(); // Invocar handleUserAuth para obtener la imagen y el usuario
 
   // OBTENER POST DESDE FIRESTORE
@@ -137,6 +205,8 @@ const home = (navegateTo) => {
 
   });
 
+
+  });
 
   return element;
 };

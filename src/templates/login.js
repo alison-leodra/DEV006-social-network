@@ -132,7 +132,7 @@ const login = (navigateTo) => {
           email,
           password
         );
-        console.log(userCredential);
+        sessionStorage.setItem('userEmail', userCredential.user.email);
         navigateTo("/home");
       } catch (error) {
         console.log(error.message);

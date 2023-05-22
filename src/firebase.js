@@ -57,13 +57,16 @@ export const handleUserAuth = (post) => {
 
 
 export const savePost = (post) => {
+  let userEmail = sessionStorage.getItem('userEmail');
   addDoc(collection(db, 'publish'), {
     post,
+    userEmail,
     timestamp: serverTimestamp(),
     userName: currentUserName,
     userImage: currentUserImage
   });
 };
+
 
 export const getPost = () => getDocs(collection(db, 'publish'));
 
@@ -72,7 +75,4 @@ export const onGetPost = (callback) => {
   return onSnapshot(q, callback);
 };
 
-
-
-// ...
 
