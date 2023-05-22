@@ -1,8 +1,12 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from 'firebase/app';
+import { onAuthStateChanged } from 'firebase/auth';
 import { getAuth } from 'firebase/auth';
 import { getFirestore, collection, addDoc, getDocs, onSnapshot } from "firebase/firestore";
-import { query, orderBy } from "firebase/firestore";
+import { query, orderBy, serverTimestamp } from "firebase/firestore";
+
+let currentUserName = ''; // Variable para almacenar el nombre del usuario actual
+let currentUserImage = ''; // Variable para almacenar la imagen del usuario actual
 
 
 // TODO: Add SDKs for Firebase products that you want to use
@@ -28,14 +32,47 @@ export const auth = getAuth(app);
 // Initialize Cloud Firestore and get a reference to the service
 const db = getFirestore(app);
 
+// Obtener el nombre e imagen del usuario logeado
+export const handleUserAuth = (post) => {
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      console.log('Datos del usuario:', user);
+      currentUserName = user.displayName;
+      currentUserImage = user.photoURL;
+
+      console.log('Nombre del usuario:', currentUserName);
+      console.log('Imagen del usuario:', currentUserImage);
+
+      // Verificar si 'post' está definido antes de llamar a 'savePost'
+      if (typeof post !== 'undefined') {
+        savePost(post);
+      } 
+    } else {
+      currentUserImage = './img/avatarDefault(1).png';
+      savePost(post);
+    }
+  });
+};
+
+
+
 export const savePost = (post) => {
   let userEmail = sessionStorage.getItem('userEmail');
-  addDoc(collection(db, 'publish'), { post, userEmail })
-}
+  addDoc(collection(db, 'publish'), {
+    post,
+    userEmail,
+    timestamp: serverTimestamp(),
+    userName: currentUserName,
+    userImage: currentUserImage
+  });
+};
+
 
 export const getPost = () => getDocs(collection(db, 'publish'));
 
 export const onGetPost = (callback) => {
-  const q = query(collection(db, 'publish'), orderBy('post', 'asc'));
+  const q = query(collection(db, 'publish'), orderBy('timestamp', 'desc'));
   return onSnapshot(q, callback);
 };
+
+
