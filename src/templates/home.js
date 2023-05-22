@@ -46,9 +46,6 @@ const home = (navegateTo) => {
   const form = document.createElement("form");
   form.setAttribute("id", "postForm");
 
-  const img = document.createElement("img");
-  img.setAttribute("src", "./img/avatarDefault(1).png");
-  img.setAttribute("alt", "profile photo");
 
   const pName = document.createElement("p");
   pName.classList.add("userName");
