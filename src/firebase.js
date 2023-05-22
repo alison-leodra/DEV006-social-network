@@ -40,8 +40,6 @@ export const handleUserAuth = (post) => {
       currentUserName = user.displayName;
       currentUserImage = user.photoURL;
 
-      console.log('Nombre del usuario:', currentUserName);
-      console.log('Imagen del usuario:', currentUserImage);
 
       // Guardar el correo electrónico del usuario en sessionStorage
       sessionStorage.setItem('userEmail', user.email);

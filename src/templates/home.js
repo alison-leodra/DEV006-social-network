@@ -1,7 +1,6 @@
 import { deleteDoc, doc, getFirestore } from "firebase/firestore";
 import { savePost, handleUserAuth, onGetPost } from '../firebase.js';
 import { auth } from '../firebase.js';
-
 let currentUserName = ''; // Variable para almacenar el nombre del usuario actual
 let currentUserImage = ''; // Variable para almacenar la imagen del usuario actual
 
@@ -70,33 +69,13 @@ const home = (navegateTo) => {
   const img = document.createElement('img');
   img.setAttribute('alt', 'profile photo');
 
-  const user = auth.currentUser;
-  img.setAttribute('src', user.photoURL);
+  // const user = auth.currentUser;
+  // img.setAttribute('src', user.photoURL);
+  img.setAttribute('src', '../img/avatarDefault(1).png');
 
-  const dropdownTitle = document.createElement("div");
-  dropdownTitle.classList.add("title", "pointerCursor");
-  dropdownTitle.textContent = "...";
-  dropdownPost.appendChild(dropdownTitle);
 
-  const menuDropdownContainer = document.createElement("div");
-  menuDropdownContainer.classList.add("dropdown-container");
-
-  const deletePostSelect = document.createElement("div");
-  deletePostSelect.classList.add("option");
-  deletePostSelect.id = "delete";
-  deletePostSelect.textContent = "delete";
-  menuDropdownContainer.appendChild(deletePostSelect);
-
-  const editPost = document.createElement("div");
-  editPost.classList.add("option");
-  editPost.id = "edit";
-  editPost.textContent = "edit";
-  menuDropdownContainer.appendChild(editPost);
-
-  dropdownPost.appendChild(menuDropdownContainer);
-  dropdownPost.appendChild(textarea);
   form.appendChild(textarea);
-
+  
   form.append(img);
   form.append(pName);
   form.append(textarea);
@@ -152,12 +131,12 @@ const home = (navegateTo) => {
         if (docs.data().userEmail === userEmail) {
           html += `
           <div class="dropdownPost">
-                  <i class="fa-solid fa-ellipsis fa-xl" style="color: #66fcf1;"></i>
-                  <div class="dropdown-container">
-                    <div class="option delete" id="`+ docs.id +`"><i class="fa-solid fa-trash fa-xl" style="color: #202833;"></i>eliminar</div>
-                    <div class="option" id="edit"><i class="fa-solid fa-pen-to-square fa-xl" style="color: #202833;"></i>edit</div>
-                  </div>
-                </div>`;
+            <i class="fa-solid fa-ellipsis fa-2xl" style="color: #66fcf1;"></i>
+              <div class="dropdown-container">
+                <div class="option delete" id="`+ docs.id +`"><i class="fa-solid fa-trash fa-xl" style="color: #202833;"></i>eliminar</div>
+                <div class="option" id="edit"><i class="fa-solid fa-pen-to-square fa-xl" style="color: #202833;"></i>edit</div>
+              </div>
+          </div>`;
         }
         html += `
         <textarea readOnly>${postData.post}</textarea>
