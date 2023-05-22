@@ -15,7 +15,7 @@ const register = (navigateTo) => {
         <div class="container">
           <form id="signInFormFirst">
             <button type="button" class="signInFormEmail">Registrarse con correo</button>
-            <button type="button id="googleBtn" class="signInFormGoogle">Registrarse con Google</button>
+            <img src="./img/btn_google_signin_dark_normal_web.png" alt="google btn" id="googleBtn" class="signInFormGoogle">
           </form>
         </div>
       </main>
@@ -42,11 +42,12 @@ const register = (navigateTo) => {
   signInFormGoogle.addEventListener('click', async (e) => {
     e.preventDefault();
     const provider = new GoogleAuthProvider();
+    
     try {
       const credentials = await signInWithPopup(auth, provider);
       saveUserName(auth.currentUser.displayName);
       console.log(credentials);
-      navigateTo('/');
+      navigateTo('/home');
     }
     catch (error) {
       console.log(error);

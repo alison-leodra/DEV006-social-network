@@ -51,10 +51,11 @@ const login = (navigateTo) => {
   logInBtn.classList.add('logInbtn');
   logInBtn.innerText = 'Inciar con correo';
 
-  const loginGoogleBtn = document.createElement('button');
-  loginGoogleBtn.setAttribute('type', 'button');
+
+  const loginGoogleBtn = document.createElement('img');
+  loginGoogleBtn.setAttribute('src', './img/btn_google_signin_dark_normal_web.png');
+  loginGoogleBtn.setAttribute('alt', 'google btn');
   loginGoogleBtn.classList.add('logInGoogle');
-  loginGoogleBtn.innerText = 'Inciar con Google';
 
   const pContainerForgot = document.createElement('p');
   const forgotBtn = document.createElement('a');
@@ -73,6 +74,11 @@ const login = (navigateTo) => {
   signUpButton.classList.add('registerHome');
   signUpButton.innerText = '¿Aún no tienes cuenta? Registrate aquí';
 
+  const postContainer = document.createElement('div');
+  postContainer.setAttribute('id', 'postContainer');
+
+
+
   pContainerForgot.append(forgotBtn);
   divLoginBtnContainer.append(logInBtn);
   divLoginBtnContainer.append(loginGoogleBtn);
@@ -85,6 +91,7 @@ const login = (navigateTo) => {
   form.append(divLoginBtnContainer);
 
   container.append(form);
+  container.appendChild(postContainer);
   main.append(container);
 
   registerFooter.append(imgGeneral);
@@ -125,7 +132,7 @@ const login = (navigateTo) => {
         email,
         password
       );
-      console.log(userCredential);
+      sessionStorage.setItem('userEmail', userCredential.user.email);
       navigateTo("/home");
     } catch (error) {
       console.log(error.message);

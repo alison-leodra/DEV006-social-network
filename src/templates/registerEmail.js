@@ -1,6 +1,5 @@
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
-import { auth, saveUserName } from '../firebase.js';
-
+import { auth } from '../firebase.js';
 import error from './error.js';
 
 const registerEmail = (navigateTo) => {
@@ -40,13 +39,12 @@ const registerEmail = (navigateTo) => {
 
   registerUser.addEventListener('click', async (e) => {
     e.preventDefault();
-    const userName = document.querySelector('#userName').value;
+    const name = document.querySelector('#userName').value;
     const email = document.querySelector('#signUpEmail').value;
     const password = document.querySelector('#signUpPassword').value;
     const passwordError = document.querySelector('.passwordError');
     const emailError = document.querySelector('.emailError');
     const nameError = document.querySelector('.nameError');
-
 
     try {
       if (userName === '') {
@@ -54,16 +52,11 @@ const registerEmail = (navigateTo) => {
         nameError.textContent = 'El nombre de usuario no es valido.';
       }
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      updateProfile(auth.currentUser, {
-        displayName: userName,
-      }).then(() => {
-        saveUserName(auth.currentUser.displayName);
-        // Profile updated!
-        // ...
-      }).catch(() => {
-        // An error occurred
-        // ...
-      });
+
+      // Actualizar el perfil del usuario con el nombre
+      await updateProfile(userCredential.user, { displayName: name, photoURL: './img/avatarDefault(1).png' });
+
+      console.log(userCredential);
       passwordError.style.display = 'none';
       emailError.style.display = 'none';
       nameError.style.display = 'none';
