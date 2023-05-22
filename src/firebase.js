@@ -43,6 +43,9 @@ export const handleUserAuth = (post) => {
       console.log('Nombre del usuario:', currentUserName);
       console.log('Imagen del usuario:', currentUserImage);
 
+      // Guardar el correo electrónico del usuario en sessionStorage
+      sessionStorage.setItem('userEmail', user.email);
+
       // Verificar si 'post' está definido antes de llamar a 'savePost'
       if (typeof post !== 'undefined') {
         savePost(post);
@@ -53,6 +56,11 @@ export const handleUserAuth = (post) => {
     }
   });
 };
+
+
+
+
+
 
 
 
