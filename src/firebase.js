@@ -29,7 +29,8 @@ export const auth = getAuth(app);
 const db = getFirestore(app);
 
 export const savePost = (post) => {
-  addDoc(collection(db, 'publish'), {post})
+  let userEmail = sessionStorage.getItem('userEmail');
+  addDoc(collection(db, 'publish'), { post, userEmail })
 }
 
 export const getPost = () => getDocs(collection(db, 'publish'));
