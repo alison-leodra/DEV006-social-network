@@ -136,7 +136,7 @@ const home = (navegateTo) => {
 
     querySnapshot.forEach(docs => {
       const postData = docs.data();
-      console.log('docs', docs.data()); //transformar a un objeto de JS, ya no sera de Firebase
+      console.log('docs', docs.data()); // transformar a un objeto de JS, ya no sera de Firebase
 
       // Obtener imagen y usuario
       let userImage = postData.userImage;
@@ -159,17 +159,17 @@ const home = (navegateTo) => {
           </div>
         </div>
         `;
-        if (docs.data().userEmail === userEmail) {
-          html += `
+      if (docs.data().userEmail === userEmail) {
+        html += `
           <div class="dropdownPost">
             <div class="title pointerCursor">...</div>
             <div class="dropdown-container">
-              <div class="option delete" id="`+ docs.id +`">delete</div>
+              <div class="option delete" id="`+ docs.id + `">delete</div>
               <div class="option" id="edit">edit</div>
             </div>
           </div>`;
-        }
-        html += `</div>`;
+      }
+      html += `</div>`;
     });
 
     postContainer.innerHTML = html;
