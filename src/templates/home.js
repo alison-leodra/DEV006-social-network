@@ -1,4 +1,5 @@
 import { deleteDoc, doc, getFirestore, updateDoc, serverTimestamp } from "firebase/firestore";
+import { increment } from "firebase/firestore/lite";
 import { savePost, handleUserAuth, onGetPost } from '../firebase.js';
 import { auth } from '../firebase.js';
 let currentUserName = ''; // Variable para almacenar el nombre del usuario actual
@@ -75,7 +76,7 @@ const home = (navegateTo) => {
 
 
   form.appendChild(textarea);
-  
+
   form.append(img);
   form.append(pName);
   form.append(textarea);
@@ -122,6 +123,8 @@ const home = (navegateTo) => {
       let userName = postData.userName;
       let userEmail = sessionStorage.getItem("userEmail");
 
+      let likesCount = postData.likes || 0;
+
       html += `
       <div class="postUsersContainer">
         <div class="postUsersData">
@@ -129,29 +132,32 @@ const home = (navegateTo) => {
           <p class="userName">${userName}</p>
         </div>  
         `;
-        if (docs.data().userEmail === userEmail) {
-          html += `
-          <div class="dropdownPost">
-            <i class="fa-solid fa-ellipsis fa-2xl" style="color: #66fcf1;"></i>
-            <div class="dropdown-container">
-              <div class="option delete" postid="${docs.id}"><i class="fa-solid fa-trash fa-xl" style="color: #202833;"></i>Eliminar</div>
-              <div class="option edit" postid="${docs.id}"><i class="fa-solid fa-pen-to-square fa-xl" style="color: #202833;"></i>Editar</div>
-              <div class="option update" style="display:none;" postid="${docs.id}"><i class="fa-solid fa-floppy-disk fa-xl" style="color: #202833;"></i>Guardar</div>
-            </div>
-          </div>`;
-        }
+      if (docs.data().userEmail === userEmail) {
         html += `
+          <div class="dropdownPost">
+          <i class="fa-solid fa-ellipsis fa-2xl" style="color: #66fcf1;"></i>
+          <div class="dropdown-container">
+            <div class="option delete" postid="${docs.id}"><i class="fa-solid fa-trash fa-xl" style="color: #202833;"></i>Eliminar</div>
+            <div class="option edit" postid="${docs.id}"><i class="fa-solid fa-pen-to-square fa-xl" style="color: #202833;"></i>Editar</div>
+            <div class="option update" style="display:none;" postid="${docs.id}"><i class="fa-solid fa-floppy-disk fa-xl" style="color: #202833;"></i>Guardar</div>
+          </div>
+        </div>`;
+      }
+      html += `
         <textarea postid="${docs.id}" readOnly>${postData.post}</textarea>
         <div class="postInfoContainer">
           <div class="likesContainer">
-            <p class="likes"><i class="fa-regular fa-heart fa-2xl" style="color: #c5c6c8;"></i> 1</p>
+            <p class="likes" postid="${docs.id}">
+              <i class="fa-regular fa-heart fa-2xl" style="color: #c5c6c8;"></i>
+              <span>${likesCount}</span>
+            </p>
           </div>
           <div class="commentsContainer">
             <p class="comments"><i class="fa-regular fa-comment fa-2xl" style="color: #c5c6c8;"></i> 1</p>
           </div>
         </div>`;
-        
-        html += `</div>`;
+
+      html += `</div>`;
     });
 
     postContainer.innerHTML = html;
@@ -165,24 +171,24 @@ const home = (navegateTo) => {
       });
     })
 
-   let editBtns = document.querySelectorAll('.edit');
-   editBtns.forEach((btn) => {
-    btn.addEventListener('click',(e) => {
-      let textArea = document.querySelector("textArea[postid="+ e.target.getAttribute("postid") +"]");
-      textArea.removeAttribute('readOnly');
-      const end = textArea.value.length;
-      textArea.setSelectionRange(end, end);
-      textArea.focus();
-      e.target.style = "display:none;"
-      let updateBtn = e.target.nextElementSibling;
-      updateBtn.style = "display:block;"
-     })
-   }); 
-
-   let updateBtns = document.querySelectorAll('.update');
-   updateBtns.forEach((btn) => {
+    let editBtns = document.querySelectorAll('.edit');
+    editBtns.forEach((btn) => {
       btn.addEventListener('click', (e) => {
-        let textArea = document.querySelector("textArea[postid="+ e.target.getAttribute("postid") +"]");
+        let textArea = document.querySelector("textArea[postid=" + e.target.getAttribute("postid") + "]");
+        textArea.removeAttribute('readOnly');
+        const end = textArea.value.length;
+        textArea.setSelectionRange(end, end);
+        textArea.focus();
+        e.target.style = "display:none;"
+        let updateBtn = e.target.nextElementSibling;
+        updateBtn.style = "display:block;"
+      })
+    });
+
+    let updateBtns = document.querySelectorAll('.update');
+    updateBtns.forEach((btn) => {
+      btn.addEventListener('click', (e) => {
+        let textArea = document.querySelector("textArea[postid=" + e.target.getAttribute("postid") + "]");
         const docRef = doc(db, 'publish', e.target.getAttribute("postid"))
         updateDoc(docRef, {
           post: textArea.value,
@@ -193,7 +199,20 @@ const home = (navegateTo) => {
         editBtn.style = "display:block;"
       });
     })
-    
+
+    let likeIcons = document.querySelectorAll('.fa-heart');
+    likeIcons.forEach((icon) => {
+      icon.addEventListener('click', (e) => {
+        const postID = e.target.getAttribute('postid');
+        // Accede al documento correspondiente en la colección 'publish'
+        const postDocRef = doc(db, 'publish', postID);
+        // Incrementa el valor del campo 'likes' en 1
+        updateDoc(postDocRef, {
+          likes: increment(1)
+        });
+      });
+    });
+
   });
 
   return element;
