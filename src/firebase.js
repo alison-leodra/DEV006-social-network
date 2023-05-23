@@ -40,8 +40,6 @@ export const handleUserAuth = (post) => {
       currentUserName = user.displayName;
       currentUserImage = user.photoURL;
 
-      console.log('Nombre del usuario:', currentUserName);
-      console.log('Imagen del usuario:', currentUserImage);
 
       // Guardar el correo electrónico del usuario en sessionStorage
       sessionStorage.setItem('userEmail', user.email);
@@ -59,11 +57,6 @@ export const handleUserAuth = (post) => {
 
 
 
-
-
-
-
-
 export const savePost = (post) => {
   let userEmail = sessionStorage.getItem('userEmail');
   addDoc(collection(db, 'publish'), {
@@ -71,7 +64,9 @@ export const savePost = (post) => {
     userEmail,
     timestamp: serverTimestamp(),
     userName: currentUserName,
-    userImage: currentUserImage
+    userImage: currentUserImage,
+    likes: 0, // Agrega el campo 'likes' con valor predeterminado de 0
+    comments: 0
   });
 };
 
