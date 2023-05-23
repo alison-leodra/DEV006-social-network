@@ -1,4 +1,4 @@
-import { deleteDoc, doc, getFirestore } from "firebase/firestore";
+import { deleteDoc, doc, getFirestore, updateDoc, serverTimestamp } from "firebase/firestore";
 import { savePost, handleUserAuth, onGetPost } from '../firebase.js';
 import { auth } from '../firebase.js';
 
@@ -71,7 +71,7 @@ const home = (navegateTo) => {
   img.setAttribute('alt', 'profile photo');
 
   const user = auth.currentUser;
-  img.setAttribute('src', user.photoURL);
+  //img.setAttribute('src', user.photoURL);
 
   const dropdownTitle = document.createElement("div");
   dropdownTitle.classList.add("title", "pointerCursor");
@@ -88,8 +88,8 @@ const home = (navegateTo) => {
   menuDropdownContainer.appendChild(deletePostSelect);
 
   const editPost = document.createElement("div");
-  editPost.classList.add("option");
-  editPost.id = "edit";
+  editPost.classList.add("option", "edit");
+  //editPost.id = docs.id;
   editPost.textContent = "edit";
   menuDropdownContainer.appendChild(editPost);
 
@@ -149,7 +149,7 @@ const home = (navegateTo) => {
           <img src="${userImage}" alt="profile photo">
           <p class="userName">${userName}</p>
         </div>  
-        <textarea readOnly>${postData.post}</textarea>
+        <textarea postid="${docs.id}" readOnly>${postData.post}</textarea>
         <div class="postInfoContainer">
           <div class="likesContainer">
             <p class="likes"><i class="fa-regular fa-heart fa-2xl" style="color: #c5c6c8;"></i> 1</p>
@@ -164,8 +164,9 @@ const home = (navegateTo) => {
           <div class="dropdownPost">
             <div class="title pointerCursor">...</div>
             <div class="dropdown-container">
-              <div class="option delete" id="`+ docs.id +`">delete</div>
-              <div class="option" id="edit">edit</div>
+              <div class="option delete" postid="${docs.id}">delete</div>
+              <div class="option edit" postid="${docs.id}">edit</div>
+              <div class="option update" style="display:none;" postid="${docs.id}">save</div>
             </div>
           </div>`;
         }
@@ -178,11 +179,40 @@ const home = (navegateTo) => {
     let deleteBtns = document.querySelectorAll('.delete');
     deleteBtns.forEach((btn) => {
       btn.addEventListener('click', (e) => {
-        const docRef = doc(db, 'publish', e.target.id)
+        const docRef = doc(db, 'publish', e.target.getAttribute("postid"))
         deleteDoc(docRef);
       });
     })
 
+   let editBtns = document.querySelectorAll('.edit');
+   editBtns.forEach((btn) => {
+    btn.addEventListener('click',(e) => {
+      let textArea = document.querySelector("textArea[postid="+ e.target.getAttribute("postid") +"]");
+      textArea.removeAttribute('readOnly');
+      const end = textArea.value.length;
+      textArea.setSelectionRange(end, end);
+      textArea.focus();
+      e.target.style = "display:none;"
+      let updateBtn = e.target.nextElementSibling;
+      updateBtn.style = "display:block;"
+     })
+   }); 
+
+   let updateBtns = document.querySelectorAll('.update');
+   updateBtns.forEach((btn) => {
+      btn.addEventListener('click', (e) => {
+        let textArea = document.querySelector("textArea[postid="+ e.target.getAttribute("postid") +"]");
+        const docRef = doc(db, 'publish', e.target.getAttribute("postid"))
+        updateDoc(docRef, {
+          post: textArea.value,
+          timestamp: serverTimestamp()
+        });
+        e.target.style = "display:none;"
+        let editBtn = e.target.previousElementSibling;
+        editBtn.style = "display:block;"
+      });
+    })
+    
   });
 
   return element;

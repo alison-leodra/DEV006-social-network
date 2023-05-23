@@ -135,7 +135,7 @@ const login = (navigateTo) => {
         sessionStorage.setItem('userEmail', userCredential.user.email);
         navigateTo("/home");
       } catch (error) {
-        console.log(error.message);
+        console.log(error);
         console.log(error.code);
 
         if (error.code === "auth/invalid-email") {
