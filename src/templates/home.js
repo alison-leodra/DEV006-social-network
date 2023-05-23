@@ -134,7 +134,7 @@ const home = (navegateTo) => {
             <i class="fa-solid fa-ellipsis fa-2xl" style="color: #66fcf1;"></i>
               <div class="dropdown-container">
                 <div class="option delete" id="`+ docs.id +`"><i class="fa-solid fa-trash fa-xl" style="color: #202833;"></i>eliminar</div>
-                <div class="option" id="edit"><i class="fa-solid fa-pen-to-square fa-xl" style="color: #202833;"></i>edit</div>
+                <div class="option" id="`+ docs.id +`"><i class="fa-solid fa-pen-to-square fa-xl" style="color: #202833;"></i>edit</div>
               </div>
           </div>`;
         }
