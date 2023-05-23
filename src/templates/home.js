@@ -149,6 +149,7 @@ const home = (navegateTo) => {
       }
       html += `
         <textarea postid="${docs.id}" readOnly>${postData.post}</textarea>
+        <p class"editError></p>
         <div class="postInfoContainer">
           <div class="likesContainer">
             <p class="likes">
@@ -190,10 +191,20 @@ const home = (navegateTo) => {
     });
 
     let updateBtns = document.querySelectorAll('.update');
+    
+
     updateBtns.forEach((btn) => {
       btn.addEventListener('click', (e) => {
         let textArea = document.querySelector("textArea[postid=" + e.target.getAttribute("postid") + "]");
         const docRef = doc(db, 'publish', e.target.getAttribute("postid"))
+        const editError = document.querySelector('.editError');
+        
+        // Validar si el campo de texto está vacío
+        if (textArea.value.trim() === "") {
+          alert('Debes ingresar un texto');
+          return; // Evitar la actualización si el campo de texto está vacío
+        }
+
         updateDoc(docRef, {
           post: textArea.value,
           timestamp: serverTimestamp()
