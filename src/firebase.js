@@ -65,7 +65,8 @@ export const savePost = (post) => {
     userEmail,
     timestamp: serverTimestamp(),
     userName: currentUserName,
-    userImage: currentUserImage
+    userImage: currentUserImage,
+    likes: 0,
   });
 };
 

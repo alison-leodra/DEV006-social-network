@@ -142,7 +142,8 @@ footer {
   padding: 20px 0;
 }
 
-.forgotBtn, .returnLogIn {
+.forgotBtn,
+.returnLogIn {
   font-size: 14px;
   text-decoration: none;
   color: #66fcf1;
@@ -161,7 +162,8 @@ footer img {
 
 
 /* PAGINA DE REGISTRO */
-#signUpFormEmail, .postUsersContainer {
+#signUpFormEmail,
+.postUsersContainer {
   text-align: center;
   display: flex;
   flex-wrap: wrap;
@@ -322,7 +324,7 @@ textarea:focus {
   justify-content: space-between;
 }
 
-.postUsersContainer img{
+.postUsersContainer img {
   width: 80px;
   height: 80px;
   border-radius: 80px;
@@ -337,7 +339,7 @@ textarea:focus {
   margin-bottom: -5px;
 }
 
-.postUsersContainer p{
+.postUsersContainer p {
   margin-top: 50px;
   font-weight: bold;
 }
@@ -359,4 +361,10 @@ textarea:focus {
 
 .fa-regular {
   padding-right: 10px;
+}
+
+.likeBtn {
+  height: 20px;
+  width: 20px;
+  background: none;
 }
