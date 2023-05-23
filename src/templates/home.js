@@ -140,7 +140,7 @@ const home = (navegateTo) => {
           </div>`;
         }
         html += `
-        <textarea readOnly>${postData.post}</textarea>
+        <textarea postid="${docs.id}" readOnly>${postData.post}</textarea>
         <div class="postInfoContainer">
           <div class="likesContainer">
             <p class="likes"><i class="fa-regular fa-heart fa-2xl" style="color: #c5c6c8;"></i> 1</p>
