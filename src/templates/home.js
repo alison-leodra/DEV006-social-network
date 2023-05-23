@@ -163,6 +163,35 @@ const home = (navegateTo) => {
       });
     })
 
+    let editBtns = document.querySelectorAll('.edit');
+   editBtns.forEach((btn) => {
+    btn.addEventListener('click',(e) => {
+      let textArea = document.querySelector("textArea[postid="+ e.target.getAttribute("postid") +"]");
+      textArea.removeAttribute('readOnly');
+      const end = textArea.value.length;
+      textArea.setSelectionRange(end, end);
+      textArea.focus();
+      e.target.style = "display:none;"
+      let updateBtn = e.target.nextElementSibling;
+      updateBtn.style = "display:block;"
+     })
+   }); 
+
+   let updateBtns = document.querySelectorAll('.update');
+   updateBtns.forEach((btn) => {
+      btn.addEventListener('click', (e) => {
+        let textArea = document.querySelector("textArea[postid="+ e.target.getAttribute("postid") +"]");
+        const docRef = doc(db, 'publish', e.target.getAttribute("postid"))
+        updateDoc(docRef, {
+          post: textArea.value,
+          timestamp: serverTimestamp()
+        });
+        e.target.style = "display:none;"
+        let editBtn = e.target.previousElementSibling;
+        editBtn.style = "display:block;"
+      });
+    })
+
   });
 
   return element;

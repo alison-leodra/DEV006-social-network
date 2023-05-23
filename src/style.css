@@ -372,7 +372,7 @@ textarea:focus {
 }
 
 .dropdown-container {
-  display: none;
+  /* display: none; */
   width: 100px;
   height: 80px;
   background-color: #66fcf1;
