@@ -159,7 +159,7 @@ const home = (navegateTo) => {
     let deleteBtns = document.querySelectorAll('.delete');
     deleteBtns.forEach((btn) => {
       btn.addEventListener('click', (e) => {
-        const docRef = doc(db, 'publish', e.target.id)
+        const docRef = doc(db, 'publish', e.target.getAttribute("postid"))
         deleteDoc(docRef);
       });
     })
