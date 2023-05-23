@@ -146,8 +146,8 @@ const home = (navegateTo) => {
           <div class="likesContainer">
             <p class="likes"><i class="fa-regular fa-heart fa-2xl" style="color: #c5c6c8;"></i> 1</p>
           </div>
-          <div class="comentsContainer">
-            <p class="coments"><i class="fa-regular fa-comment fa-2xl" style="color: #c5c6c8;"></i> 1</p>
+          <div class="commentsContainer">
+            <p class="comments"><i class="fa-regular fa-comment fa-2xl" style="color: #c5c6c8;"></i> 1</p>
           </div>
         </div>`;
         
