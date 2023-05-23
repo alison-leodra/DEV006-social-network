@@ -1,4 +1,4 @@
-import { deleteDoc, doc, getFirestore, serverTimestamp, increment, updateDoc } from "firebase/firestore";
+import { deleteDoc, doc, getFirestore, updateDoc, serverTimestamp, increment } from "firebase/firestore";
 import { savePost, handleUserAuth, onGetPost } from '../firebase.js';
 import { auth } from '../firebase.js';
 let currentUserName = ''; // Variable para almacenar el nombre del usuario actual
@@ -146,8 +146,8 @@ const home = (navegateTo) => {
         <textarea postid="${docs.id}" readOnly>${postData.post}</textarea>
         <div class="postInfoContainer">
           <div class="likesContainer">
-            <p class="likes" postid="${docs.id}">
-              <i id="${docs.id}" class="fa-regular fa-heart fa-2xl" style="color: #c5c6c8;"></i>
+            <p class="likes">
+              <i postid="${docs.id}" class="fa-regular fa-heart fa-2xl" style="color: #c5c6c8;"></i>
               <span>${likesCount}</span>
             </p>
           </div>
