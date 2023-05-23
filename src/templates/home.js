@@ -127,16 +127,17 @@ const home = (navegateTo) => {
         <div class="postUsersData">
           <img src="${userImage}" alt="profile photo">
           <p class="userName">${userName}</p>
-        </div> `;
+        </div>  
+        `;
         if (docs.data().userEmail === userEmail) {
           html += `
           <div class="dropdownPost">
             <i class="fa-solid fa-ellipsis fa-2xl" style="color: #66fcf1;"></i>
-              <div class="dropdown-container">
-                <div class="option delete" id="`+ docs.id +`"><i class="fa-solid fa-trash fa-xl" style="color: #202833;"></i>eliminar</div>
-                <div class="option" id="`+ docs.id +`"><i class="fa-solid fa-pen-to-square fa-xl" style="color: #202833;"></i>edit</div>
-                <div class="option update" style="display:none;" postid="${docs.id}">save</div>
-                </div>
+            <div class="dropdown-container">
+              <div class="option delete" postid="${docs.id}"><i class="fa-solid fa-trash fa-xl" style="color: #202833;"></i>Eliminar</div>
+              <div class="option edit" postid="${docs.id}"><i class="fa-solid fa-pen-to-square fa-xl" style="color: #202833;"></i>Editar</div>
+              <div class="option update" style="display:none;" postid="${docs.id}"><i class="fa-solid fa-floppy-disk fa-xl" style="color: #202833;"></i>Guardar</div>
+            </div>
           </div>`;
         }
         html += `
@@ -148,8 +149,8 @@ const home = (navegateTo) => {
           <div class="comentsContainer">
             <p class="coments"><i class="fa-regular fa-comment fa-2xl" style="color: #c5c6c8;"></i> 1</p>
           </div>
-        </div>
-        `;
+        </div>`;
+        
         html += `</div>`;
     });
 
@@ -164,7 +165,7 @@ const home = (navegateTo) => {
       });
     })
 
-    let editBtns = document.querySelectorAll('.edit');
+   let editBtns = document.querySelectorAll('.edit');
    editBtns.forEach((btn) => {
     btn.addEventListener('click',(e) => {
       let textArea = document.querySelector("textArea[postid="+ e.target.getAttribute("postid") +"]");
@@ -192,7 +193,7 @@ const home = (navegateTo) => {
         editBtn.style = "display:block;"
       });
     })
-
+    
   });
 
   return element;
