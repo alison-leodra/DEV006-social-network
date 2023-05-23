@@ -147,7 +147,7 @@ const home = (navegateTo) => {
         <div class="postInfoContainer">
           <div class="likesContainer">
             <p class="likes" postid="${docs.id}">
-              <i class="fa-regular fa-heart fa-2xl" style="color: #c5c6c8;"></i>
+              <i id="${docs.id}" class="fa-regular fa-heart fa-2xl" style="color: #c5c6c8;"></i>
               <span>${likesCount}</span>
             </p>
           </div>
