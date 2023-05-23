@@ -69,7 +69,6 @@ export const savePost = (post) => {
     likes: 0,
   });
 };
-
 // obtiene los post de la coleccion "publish".
 export const getPost = () => getDocs(collection(db, 'publish'));
 

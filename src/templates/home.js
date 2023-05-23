@@ -190,16 +190,11 @@ const home = (navegateTo) => {
       console.log(btn);
       btn.addEventListener("click", (e) => {
         alert("hola");
-
         const incrementLike = increment(1);
-        console.log(e);
         const likeRef = doc(db, 'publish', e.target.id);
-        console.log(likeRef);
         updateDoc(likeRef, { likes: incrementLike });
-        console.log(likeRef);
       })
     })
-
   });
 
   return element;
