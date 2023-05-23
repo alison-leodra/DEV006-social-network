@@ -119,7 +119,7 @@ const home = (navegateTo) => {
     let html = '';
 
     querySnapshot.forEach(docs => {
-      const postData = docs.data();
+      const postData = docs.data(); //transformar a un objeto de JS
       console.log('docs', docs.data()); //transformar a un objeto de JS, ya no sera de Firebase
 
       // Obtener imagen y usuario
