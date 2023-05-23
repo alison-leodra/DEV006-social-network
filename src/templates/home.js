@@ -1,6 +1,8 @@
 import { deleteDoc, doc, getFirestore, updateDoc, serverTimestamp, increment } from "firebase/firestore";
 import { savePost, handleUserAuth, onGetPost } from '../firebase.js';
 import { auth } from '../firebase.js';
+
+
 let currentUserName = ''; // Variable para almacenar el nombre del usuario actual
 let currentUserImage = ''; // Variable para almacenar la imagen del usuario actual
 
@@ -14,9 +16,12 @@ function autoResize() {
   });
 }
 
+
+
 // Llama a autoResize() una vez al cargar el documento para ajustar los textareas existentes
 document.addEventListener("DOMContentLoaded", function () {
   autoResize();
+
 
   setInterval(autoResize, 100); // Ejecuta autoResize() periódicamente para ajustar nuevos textareas agregados dinámicamente
 });
@@ -134,13 +139,13 @@ const home = (navegateTo) => {
       if (docs.data().userEmail === userEmail) {
         html += `
           <div class="dropdownPost">
-          <i class="fa-solid fa-ellipsis fa-2xl" style="color: #66fcf1;"></i>
-          <div class="dropdown-container">
-            <div class="option delete" postid="${docs.id}"><i class="fa-solid fa-trash fa-xl" style="color: #202833;"></i>Eliminar</div>
-            <div class="option edit" postid="${docs.id}"><i class="fa-solid fa-pen-to-square fa-xl" style="color: #202833;"></i>Editar</div>
-            <div class="option update" style="display:none;" postid="${docs.id}"><i class="fa-solid fa-floppy-disk fa-xl" style="color: #202833;"></i>Guardar</div>
-          </div>
-        </div>`;
+              <i class="fa-solid fa-ellipsis fa-2xl" style="color: #66fcf1;"></i>
+            <div class="dropdown-container">
+              <div class="option delete" postid="${docs.id}"><i class="fa-solid fa-trash fa-xl" style="color: #202833;"></i>Eliminar</div>
+              <div class="option edit" postid="${docs.id}"><i class="fa-solid fa-pen-to-square fa-xl" style="color: #202833;"></i>Editar</div>
+              <div class="option update" style="display:none;" postid="${docs.id}"><i class="fa-solid fa-floppy-disk fa-xl" style="color: #202833;"></i>Guardar</div>
+            </div>
+          </div>`;
       }
       html += `
         <textarea postid="${docs.id}" readOnly>${postData.post}</textarea>
@@ -212,7 +217,18 @@ const home = (navegateTo) => {
       });
     });
 
+    // ELIMINAR Y EDITAR
+    const dropdownIcon = document.querySelector(".fa-ellipsis");
+    const dropdownContainer = document.querySelector(".dropdown-container");
+
+    // Agrega un controlador de eventos al hacer clic en el ícono de la lista desplegable
+    dropdownIcon.addEventListener("click", () => {
+      // Alternar la clase 'active' para mostrar u ocultar la lista desplegable
+      dropdownContainer.classList.toggle("active");
+    });
+
   });
+
 
   return element;
 };
