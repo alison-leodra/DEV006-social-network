@@ -1,5 +1,4 @@
-import { deleteDoc, doc, getFirestore, updateDoc, serverTimestamp } from "firebase/firestore";
-import { increment } from "firebase/firestore/lite";
+import { deleteDoc, doc, getFirestore, serverTimestamp, increment, updateDoc } from "firebase/firestore";
 import { savePost, handleUserAuth, onGetPost } from '../firebase.js';
 import { auth } from '../firebase.js';
 let currentUserName = ''; // Variable para almacenar el nombre del usuario actual
