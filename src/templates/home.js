@@ -72,9 +72,9 @@ const home = (navegateTo) => {
   const img = document.createElement('img');
   img.setAttribute('alt', 'profile photo');
 
-  const user = auth.currentUser;
-  img.setAttribute('src', user.photoURL);
-  // img.setAttribute('src', '../img/avatarDefault(1).png');
+  // const user = auth.currentUser;
+  // img.setAttribute('src', user.photoURL);
+  img.setAttribute('src', '../img/avatarDefault(1).png');
 
 
   form.appendChild(textarea);
@@ -140,8 +140,8 @@ const home = (navegateTo) => {
           <div class="dropdownPost">
               <i class="fa-solid fa-ellipsis fa-2xl" style="color: #66fcf1;"></i>
             <div class="dropdown-container">
-              <div class="option delete" postid="${docs.id}"><i class="fa-solid fa-trash fa-xl" style="color: #202833;"></i>Eliminar</div>
-              <div class="option edit" postid="${docs.id}"><i class="fa-solid fa-pen-to-square fa-xl" style="color: #202833;"></i>Editar</div>
+              <div class="option delete" postid="${docs.id}"><i class="fa-solid fa-trash" style="color: #202833;"></i>Eliminar</div>
+              <div class="option edit" postid="${docs.id}"><i class="fa-solid fa-pen-to-square" style="color: #202833;"></i>Editar</div>
               <div class="option update" style="display:none;" postid="${docs.id}"><i class="fa-solid fa-floppy-disk fa-xl" style="color: #202833;"></i>Guardar</div>
             </div>
           </div>`;
