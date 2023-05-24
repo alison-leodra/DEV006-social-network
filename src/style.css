@@ -381,6 +381,7 @@ textarea:focus {
   margin-left: -80px;
   margin-top: 45px;
   padding-right: 10px;
+  margin-right: -10px;
 }
 
 .dropdown-container {
