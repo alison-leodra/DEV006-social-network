@@ -290,6 +290,10 @@ textarea:focus {
     width: 50%;
     margin-top: 20px;
   }
+
+  .dropdownPost {
+    margin-right: 200px;
+  }
 }
 
 /* Extra large devices (large laptops and desktops, 1200px and up) */
@@ -305,6 +309,10 @@ textarea:focus {
   footer img {
     width: 50%;
     margin-top: 20px;
+  }
+
+  .dropdownPost {
+    margin-right: 200px;
   }
 }
 
