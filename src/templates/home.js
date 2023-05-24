@@ -72,9 +72,9 @@ const home = (navegateTo) => {
   const img = document.createElement('img');
   img.setAttribute('alt', 'profile photo');
 
-  // const user = auth.currentUser;
-  // img.setAttribute('src', user.photoURL);
-  img.setAttribute('src', '../img/avatarDefault(1).png');
+  const user = auth.currentUser;
+  img.setAttribute('src', user.photoURL);
+  // img.setAttribute('src', '../img/avatarDefault(1).png');
 
 
   form.appendChild(textarea);
