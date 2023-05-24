@@ -157,7 +157,7 @@ const home = (navegateTo) => {
             </p>
           </div>
           <div class="commentsContainer">
-            <p class="comments"><i class="fa-regular fa-comment fa-2xl" style="color: #c5c6c8;"></i> 0</p>
+            <p class="comments"><i class="fa-regular fa-comment fa-2xl" style="color: #202833;"></i> 0</p>
             <span></span>
           </div>
         </div>`;
