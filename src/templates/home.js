@@ -194,6 +194,14 @@ const home = (navegateTo) => {
       btn.addEventListener('click', (e) => {
         let textArea = document.querySelector("textArea[postid=" + e.target.getAttribute("postid") + "]");
         const docRef = doc(db, 'publish', e.target.getAttribute("postid"))
+        const editError = document.querySelector('.editError');
+        
+        // Validar si el campo de texto está vacío
+        if (textArea.value.trim() === "") {
+          alert('Debes ingresar un texto');
+          return; // Evitar la actualización si el campo de texto está vacío
+        }
+
         updateDoc(docRef, {
           post: textArea.value,
           timestamp: serverTimestamp()
