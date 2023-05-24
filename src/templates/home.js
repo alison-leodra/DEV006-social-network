@@ -142,7 +142,7 @@ const home = (navegateTo) => {
             <div class="dropdown-container">
               <div class="option delete" postid="${docs.id}"><i class="fa-solid fa-trash" style="color: #202833;"></i>Eliminar</div>
               <div class="option edit" postid="${docs.id}"><i class="fa-solid fa-pen-to-square" style="color: #202833;"></i>Editar</div>
-              <div class="option update" style="display:none;" postid="${docs.id}"><i class="fa-solid fa-floppy-disk fa-xl" style="color: #202833;"></i>Guardar</div>
+              <div class="option update" style="display:none;" postid="${docs.id}"><i class="fa-solid fa-floppy-disk" style="color: #202833;"></i>Guardar</div>
             </div>
           </div>`;
       }
