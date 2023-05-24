@@ -163,18 +163,49 @@ const home = (navegateTo) => {
         </div>`;
 
       html += `</div>`;
+
+      html += `
+        <div id="modal" class="modal">
+          <div class="modal-content">
+            <h2>¿Desea eliminar?</h2>
+              <button id="yesBtn">Sí</button>
+              <button id="noBtn">No</button>
+            </div>
+          </div>
+        </div>`;
     });
 
     postContainer.innerHTML = html;
     const db = getFirestore();
 
     let deleteBtns = document.querySelectorAll('.delete');
+    const modal = document.getElementById('modal');
+    const yesBtn = document.getElementById('yesBtn');
+    const noBtn = document.getElementById('noBtn');
+
+    function showModal(postid) {
+      modal.style.display = 'block';
+      yesBtn.setAttribute('postid', postid);
+    }
+
+    function hideModal() {
+      modal.style.display = 'none';
+    }
+
     deleteBtns.forEach((btn) => {
       btn.addEventListener('click', (e) => {
-        const docRef = doc(db, 'publish', e.target.getAttribute("postid"))
-        deleteDoc(docRef);
+        const postid = e.target.getAttribute("postid");
+        showModal(postid);
       });
-    })
+    });
+    yesBtn.addEventListener('click', (e) => {
+      const docRef = doc(db, 'publish', e.target.getAttribute("postid"))
+      deleteDoc(docRef);
+      hideModal();
+    });
+    noBtn.addEventListener('click', () => {
+      hideModal();
+    });
 
     let editBtns = document.querySelectorAll('.edit');
     editBtns.forEach((btn) => {
@@ -196,7 +227,7 @@ const home = (navegateTo) => {
         let textArea = document.querySelector("textArea[postid=" + e.target.getAttribute("postid") + "]");
         const docRef = doc(db, 'publish', e.target.getAttribute("postid"))
         const editError = document.querySelector('.editError');
-        
+
         // Validar si el campo de texto está vacío
         if (textArea.value.trim() === "") {
           editError.style.display = "block"
