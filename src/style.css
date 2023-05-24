@@ -207,6 +207,7 @@ input[type="checkbox"]:hover {
 .passwordError,
 .termsError,
 .emailError,
+.nameError,
 .postError {
   display: none;
   color: #66fcf1;

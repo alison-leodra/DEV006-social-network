@@ -47,17 +47,23 @@ const registerEmail = (navigateTo) => {
     const nameError = document.querySelector('.nameError');
 
     try {
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      if (name === "") {
+        nameError.style.display = 'block';
+        nameError.textContent = 'Ingrese nombre de usuario valido';
+      }
+      else {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
 
-      // Actualizar el perfil del usuario con el nombre
-      await updateProfile(userCredential.user, { displayName: name, photoURL:'./img/avatarDefault(1).png' });
+        // Actualizar el perfil del usuario con el nombre
+        await updateProfile(userCredential.user, { displayName: name, photoURL: './img/avatarDefault(1).png' });
 
-      console.log(userCredential);
-      passwordError.style.display = 'none';
-      emailError.style.display = 'none';
+        console.log(userCredential);
+        nameError.style.display = 'none';
+        passwordError.style.display = 'none';
+        emailError.style.display = 'none';
 
-      navigateTo('/userRegister');
-
+        navigateTo('/userRegister');
+      }
       // si se crea el usuario correctamente, no hay errores que mostrar
     } catch (error) {
       console.log(error.message);
@@ -66,18 +72,22 @@ const registerEmail = (navigateTo) => {
       if (error.code === 'auth/invalid-email') {
         emailError.style.display = 'block';
         passwordError.style.display = 'none';
+        nameError.style.display = 'none';
         emailError.textContent = 'El correo electrónico ingresado no es válido.';
       } else if (error.code === 'auth/email-already-in-use') {
         emailError.style.display = 'block';
         passwordError.style.display = 'none';
+        nameError.style.display = 'none';
         emailError.textContent = 'El correo electrónico ingresado ya está en uso.';
       } else if (error.code === 'auth/weak-password') {
         passwordError.style.display = 'block';
         emailError.style.display = 'none';
+        nameError.style.display = 'none';
         passwordError.textContent = 'La contraseña debe tener al menos 6 caracteres.';
       } else if (error.code === 'auth/missing-password') {
         passwordError.style.display = 'block';
         emailError.style.display = 'none';
+        nameError.style.display = 'none';
         passwordError.textContent = 'Debe ingresar una contraseña.';
       }
     }
