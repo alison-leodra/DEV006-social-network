@@ -1,11 +1,9 @@
-import { deleteDoc, doc, getFirestore, updateDoc, serverTimestamp, increment } from "firebase/firestore";
+import { deleteDoc, doc, getFirestore, updateDoc, serverTimestamp, arrayUnion, getDoc, arrayRemove } from "firebase/firestore";
 import { savePost, handleUserAuth, onGetPost } from '../firebase.js';
 import { auth } from '../firebase.js';
 
-
 let currentUserName = ''; // Variable para almacenar el nombre del usuario actual
 let currentUserImage = ''; // Variable para almacenar la imagen del usuario actual
-
 
 function autoResize() {
   const textareas = document.querySelectorAll("textarea");
@@ -74,9 +72,9 @@ const home = (navegateTo) => {
   const img = document.createElement('img');
   img.setAttribute('alt', 'profile photo');
 
-  // const user = auth.currentUser;
-  // img.setAttribute('src', user.photoURL);
-  img.setAttribute('src', '../img/avatarDefault(1).png');
+  const user = auth.currentUser;
+  img.setAttribute('src', user.photoURL);
+  // img.setAttribute('src', '../img/avatarDefault(1).png');
 
 
   form.appendChild(textarea);
@@ -90,6 +88,7 @@ const home = (navegateTo) => {
   container.appendChild(form);
   container.appendChild(postContainer);
   main.appendChild(container);
+
 
   homeContainer.append(main);
   element.append(homeContainer);
@@ -127,7 +126,7 @@ const home = (navegateTo) => {
       let userName = postData.userName;
       let userEmail = sessionStorage.getItem("userEmail");
 
-      let likesCount = postData.likes || 0;
+      let likesCount = postData.likes.length || 0;
 
       html += `
       <div class="postUsersContainer">
@@ -157,7 +156,8 @@ const home = (navegateTo) => {
             </p>
           </div>
           <div class="commentsContainer">
-            <p class="comments"><i class="fa-regular fa-comment fa-2xl" style="color: #c5c6c8;"></i> 1</p>
+            <p class="comments"><i class="fa-regular fa-comment fa-2xl" style="color: #c5c6c8;"></i> 0</p>
+            <span></span>
           </div>
         </div>`;
 
@@ -206,14 +206,25 @@ const home = (navegateTo) => {
 
     let likeIcons = document.querySelectorAll('.fa-heart');
     likeIcons.forEach((icon) => {
-      icon.addEventListener('click', (e) => {
+      icon.addEventListener('click', async (e) => {
         const postID = e.target.getAttribute('postid');
+        const userLike = auth.currentUser.uid;
         // Accede al documento correspondiente en la colección 'publish'
         const postDocRef = doc(db, 'publish', postID);
+
         // Incrementa el valor del campo 'likes' en 1
-        updateDoc(postDocRef, {
-          likes: increment(1)
-        });
+        const postDoc = await getDoc(postDocRef);
+        const likes = postDoc.data().likes;
+        console.log(likes);
+        if (!likes.includes(userLike)) {
+          updateDoc(postDocRef, {
+            likes: arrayUnion(userLike),
+          });
+        } else {
+          updateDoc(postDocRef, {
+            likes: arrayRemove(userLike),
+          });
+        }
       });
     });
 
