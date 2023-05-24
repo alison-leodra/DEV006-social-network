@@ -1,11 +1,9 @@
-import { deleteDoc, doc, getFirestore, increment, updateDoc } from "firebase/firestore";
+import { deleteDoc, doc, getFirestore, updateDoc, serverTimestamp, arrayUnion, getDoc, arrayRemove } from "firebase/firestore";
 import { savePost, handleUserAuth, onGetPost } from '../firebase.js';
 import { auth } from '../firebase.js';
 
-
 let currentUserName = ''; // Variable para almacenar el nombre del usuario actual
 let currentUserImage = ''; // Variable para almacenar la imagen del usuario actual
-
 
 function autoResize() {
   const textareas = document.querySelectorAll("textarea");
@@ -16,9 +14,12 @@ function autoResize() {
   });
 }
 
+
+
 // Llama a autoResize() una vez al cargar el documento para ajustar los textareas existentes
 document.addEventListener("DOMContentLoaded", function () {
   autoResize();
+
 
   setInterval(autoResize, 100); // Ejecuta autoResize() periódicamente para ajustar nuevos textareas agregados dinámicamente
 });
@@ -71,31 +72,11 @@ const home = (navegateTo) => {
   const img = document.createElement('img');
   img.setAttribute('alt', 'profile photo');
 
-  const user = auth.currentUser;
-  img.setAttribute('src', user.photoURL);
+  // const user = auth.currentUser;
+  // img.setAttribute('src', user.photoURL);
+  img.setAttribute('src', '../img/avatarDefault(1).png');
 
-  const dropdownTitle = document.createElement("div");
-  dropdownTitle.classList.add("title", "pointerCursor");
-  dropdownTitle.textContent = "...";
-  dropdownPost.appendChild(dropdownTitle);
 
-  const menuDropdownContainer = document.createElement("div");
-  menuDropdownContainer.classList.add("dropdown-container");
-
-  const deletePostSelect = document.createElement("div");
-  deletePostSelect.classList.add("option");
-  deletePostSelect.id = "delete";
-  deletePostSelect.textContent = "delete";
-  menuDropdownContainer.appendChild(deletePostSelect);
-
-  const editPost = document.createElement("div");
-  editPost.classList.add("option");
-  editPost.id = "edit";
-  editPost.textContent = "edit";
-  menuDropdownContainer.appendChild(editPost);
-
-  dropdownPost.appendChild(menuDropdownContainer);
-  dropdownPost.appendChild(textarea);
   form.appendChild(textarea);
 
   form.append(img);
@@ -137,13 +118,15 @@ const home = (navegateTo) => {
     let html = '';
 
     querySnapshot.forEach(docs => {
-      const postData = docs.data();
-      console.log('docs', docs.data()); // transformar a un objeto de JS, ya no sera de Firebase
+      const postData = docs.data(); //transformar a un objeto de JS
+      console.log('docs', docs.data()); //transformar a un objeto de JS, ya no sera de Firebase
 
       // Obtener imagen y usuario
       let userImage = postData.userImage;
       let userName = postData.userName;
       let userEmail = sessionStorage.getItem("userEmail");
+
+      let likesCount = postData.likes.length || 0;
 
       html += `
       <div class="postUsersContainer">
@@ -151,26 +134,32 @@ const home = (navegateTo) => {
           <img src="${userImage}" alt="profile photo">
           <p class="userName">${userName}</p>
         </div>  
-        <textarea readOnly>${postData.post}</textarea>
-        <div class="postInfoContainer">
-          <div class="likesContainer">
-            <button id="${docs.id}" class="likeBtn"><p class="likes"><i class="fa-regular fa-heart fa-2xl" style="color: #c5c6c8;"></i> 1</p></button>
-          </div>
-          <div class="comentsContainer">
-            <p class="coments"><i class="fa-regular fa-comment fa-2xl" style="color: #c5c6c8;"></i> 1</p>
-          </div>
-        </div>
         `;
       if (docs.data().userEmail === userEmail) {
         html += `
           <div class="dropdownPost">
-            <div class="title pointerCursor">...</div>
+              <i class="fa-solid fa-ellipsis fa-2xl" style="color: #66fcf1;"></i>
             <div class="dropdown-container">
-              <div class="option delete" id="`+ docs.id + `">delete</div>
-              <div class="option" id="edit">edit</div>
+              <div class="option delete" postid="${docs.id}"><i class="fa-solid fa-trash fa-xl" style="color: #202833;"></i>Eliminar</div>
+              <div class="option edit" postid="${docs.id}"><i class="fa-solid fa-pen-to-square fa-xl" style="color: #202833;"></i>Editar</div>
+              <div class="option update" style="display:none;" postid="${docs.id}"><i class="fa-solid fa-floppy-disk fa-xl" style="color: #202833;"></i>Guardar</div>
             </div>
           </div>`;
       }
+      html += `
+        <textarea postid="${docs.id}" readOnly>${postData.post}</textarea>
+        <div class="postInfoContainer">
+          <div class="likesContainer">
+            <p class="likes">
+              <i postid="${docs.id}" class="fa-regular fa-heart fa-2xl" style="color: #c5c6c8;"></i>
+              <span>${likesCount}</span>
+            </p>
+          </div>
+          <div class="commentsContainer">
+            <p class="comments"><i class="fa-regular fa-comment fa-2xl" style="color: #c5c6c8;"></i> 1</p>
+          </div>
+        </div>`;
+
       html += `</div>`;
     });
 
@@ -180,22 +169,76 @@ const home = (navegateTo) => {
     let deleteBtns = document.querySelectorAll('.delete');
     deleteBtns.forEach((btn) => {
       btn.addEventListener('click', (e) => {
-        const docRef = doc(db, 'publish', e.target.id)
+        const docRef = doc(db, 'publish', e.target.getAttribute("postid"))
         deleteDoc(docRef);
       });
     })
 
-    const likeBtn = document.querySelectorAll('.likeBtn');
-    likeBtn.forEach((btn) => {
-      console.log(btn);
-      btn.addEventListener("click", (e) => {
-        alert("hola");
-        const incrementLike = increment(1);
-        const likeRef = doc(db, 'publish', e.target.id);
-        updateDoc(likeRef, { likes: incrementLike });
+    let editBtns = document.querySelectorAll('.edit');
+    editBtns.forEach((btn) => {
+      btn.addEventListener('click', (e) => {
+        let textArea = document.querySelector("textArea[postid=" + e.target.getAttribute("postid") + "]");
+        textArea.removeAttribute('readOnly');
+        const end = textArea.value.length;
+        textArea.setSelectionRange(end, end);
+        textArea.focus();
+        e.target.style = "display:none;"
+        let updateBtn = e.target.nextElementSibling;
+        updateBtn.style = "display:block;"
       })
+    });
+
+    let updateBtns = document.querySelectorAll('.update');
+    updateBtns.forEach((btn) => {
+      btn.addEventListener('click', (e) => {
+        let textArea = document.querySelector("textArea[postid=" + e.target.getAttribute("postid") + "]");
+        const docRef = doc(db, 'publish', e.target.getAttribute("postid"))
+        updateDoc(docRef, {
+          post: textArea.value,
+          timestamp: serverTimestamp()
+        });
+        e.target.style = "display:none;"
+        let editBtn = e.target.previousElementSibling;
+        editBtn.style = "display:block;"
+      });
     })
+
+    let likeIcons = document.querySelectorAll('.fa-heart');
+    likeIcons.forEach((icon) => {
+      icon.addEventListener('click', async (e) => {
+        const postID = e.target.getAttribute('postid');
+        const userLike = auth.currentUser.uid;
+        // Accede al documento correspondiente en la colección 'publish'
+        const postDocRef = doc(db, 'publish', postID);
+
+        // Incrementa el valor del campo 'likes' en 1
+        const postDoc = await getDoc(postDocRef);
+        const likes = postDoc.data().likes;
+        console.log(likes);
+        if (!likes.includes(userLike)) {
+          updateDoc(postDocRef, {
+            likes: arrayUnion(userLike),
+          });
+        } else {
+          updateDoc(postDocRef, {
+            likes: arrayRemove(userLike),
+          });
+        }
+      });
+    });
+
+    // ELIMINAR Y EDITAR
+    const dropdownIcon = document.querySelector(".fa-ellipsis");
+    const dropdownContainer = document.querySelector(".dropdown-container");
+
+    // Agrega un controlador de eventos al hacer clic en el ícono de la lista desplegable
+    dropdownIcon.addEventListener("click", () => {
+      // Alternar la clase 'active' para mostrar u ocultar la lista desplegable
+      dropdownContainer.classList.toggle("active");
+    });
+
   });
+
 
   return element;
 };

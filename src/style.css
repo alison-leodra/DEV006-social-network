@@ -355,7 +355,7 @@ textarea:focus {
   margin-right: 20px;
 }
 
-.comentsContainer {
+.commentsContainer {
   margin-left: 100px;
 }
 
@@ -363,8 +363,40 @@ textarea:focus {
   padding-right: 10px;
 }
 
-.likeBtn {
-  height: 20px;
-  width: 20px;
-  background: none;
+/* DELET & EDIT */
+.dropdownPost {
+  text-align: right;
+  margin-bottom: -80px;
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  margin-left: -80px;
+  margin-top: 45px;
+  padding-right: 10px;
+}
+
+.dropdown-container {
+  display: none;
+  width: 100px;
+  height: 80px;
+  background-color: #66fcf1;
+  border-radius: 10px;
+  color: #202833;
+  padding-top: 2px;
+  cursor: pointer;
+}
+
+.dropdown-container div {
+  padding-top: 16px;
+  font-weight: bold;
+  text-transform: capitalize;
+  text-align: left;
+  padding-left: 10px;
+  cursor: pointer;
+}
+
+.dropdown-container i {
+  padding-right: 10px;
+}
+
+.dropdown-container.active {
+  display: block;
 }

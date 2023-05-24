@@ -41,8 +41,9 @@ export const handleUserAuth = (post) => {
       currentUserName = user.displayName;
       currentUserImage = user.photoURL;
 
-      console.log('Nombre del usuario:', currentUserName);
-      console.log('Imagen del usuario:', currentUserImage);
+
+      // Guardar el correo electrónico del usuario en sessionStorage
+      sessionStorage.setItem('userEmail', user.email);
 
       // Verificar si 'post' está definido antes de llamar a 'savePost'
       if (typeof post !== 'undefined') {
@@ -66,7 +67,8 @@ export const savePost = (post) => {
     timestamp: serverTimestamp(),
     userName: currentUserName,
     userImage: currentUserImage,
-    likes: 0,
+    likes: [], // Agrega el campo 'likes' con valor predeterminado de 0
+    comments: 0
   });
 };
 // obtiene los post de la coleccion "publish".
