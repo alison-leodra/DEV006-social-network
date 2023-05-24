@@ -72,9 +72,9 @@ const home = (navegateTo) => {
   const img = document.createElement('img');
   img.setAttribute('alt', 'profile photo');
 
-  const user = auth.currentUser;
-  //img.setAttribute('src', user.photoURL);
-  // img.setAttribute('src', '../img/avatarDefault(1).png');
+  // const user = auth.currentUser;
+  // img.setAttribute('src', user.photoURL);
+  img.setAttribute('src', '../img/avatarDefault(1).png');
 
 
   form.appendChild(textarea);
@@ -140,14 +140,15 @@ const home = (navegateTo) => {
           <div class="dropdownPost">
               <i class="fa-solid fa-ellipsis fa-2xl" style="color: #66fcf1;"></i>
             <div class="dropdown-container">
-              <div class="option delete" postid="${docs.id}"><i class="fa-solid fa-trash fa-xl" style="color: #202833;"></i>Eliminar</div>
-              <div class="option edit" postid="${docs.id}"><i class="fa-solid fa-pen-to-square fa-xl" style="color: #202833;"></i>Editar</div>
-              <div class="option update" style="display:none;" postid="${docs.id}"><i class="fa-solid fa-floppy-disk fa-xl" style="color: #202833;"></i>Guardar</div>
+              <div class="option delete" postid="${docs.id}"><i class="fa-solid fa-trash" style="color: #202833;"></i>Eliminar</div>
+              <div class="option edit" postid="${docs.id}"><i class="fa-solid fa-pen-to-square" style="color: #202833;"></i>Editar</div>
+              <div class="option update" style="display:none;" postid="${docs.id}"><i class="fa-solid fa-floppy-disk" style="color: #202833;"></i>Guardar</div>
             </div>
           </div>`;
       }
       html += `
         <textarea postid="${docs.id}" readOnly>${postData.post}</textarea>
+        <p class="editError">Debes ingresar un texto</p>
         <div class="postInfoContainer">
           <div class="likesContainer">
             <p class="likes">
@@ -156,12 +157,22 @@ const home = (navegateTo) => {
             </p>
           </div>
           <div class="commentsContainer">
-            <p class="comments"><i class="fa-regular fa-comment fa-2xl" style="color: #c5c6c8;"></i> 0</p>
+            <p class="comments"><i class="fa-regular fa-comment fa-2xl" style="color: #202833;"></i> 0</p>
             <span></span>
           </div>
         </div>`;
 
       html += `</div>`;
+
+      html += `
+        <div id="modal" class="modal">
+          <div class="modal-content">
+            <h2>¿Desea eliminar?</h2>
+              <button id="yesBtn">Sí</button>
+              <button id="noBtn">No</button>
+            </div>
+          </div>
+        </div>`;
     });
 
     html += `
@@ -186,7 +197,6 @@ const home = (navegateTo) => {
       modal.style.display = 'block';
       yesBtn.setAttribute('postid', postid);
     }
-    
     function hideModal() {
       modal.style.display = 'none';
     }
@@ -205,7 +215,6 @@ const home = (navegateTo) => {
     noBtn.addEventListener('click', () => {
       hideModal();
     });
-     
     let editBtns = document.querySelectorAll('.edit');
     editBtns.forEach((btn) => {
       btn.addEventListener('click', (e) => {
@@ -226,10 +235,19 @@ const home = (navegateTo) => {
       btn.addEventListener('click', (e) => {
         let textArea = document.querySelector("textArea[postid=" + e.target.getAttribute("postid") + "]");
         const docRef = doc(db, 'publish', e.target.getAttribute("postid"))
+        const editError = document.querySelector('.editError');
+
+        // Validar si el campo de texto está vacío
+        if (textArea.value.trim() === "") {
+          editError.style.display = "block"
+          return; // Evitar la actualización si el campo de texto está vacío
+        }
+
         updateDoc(docRef, {
           post: textArea.value,
           timestamp: serverTimestamp()
         });
+        editError.style.display = "none"
         e.target.style = "display:none;"
         let editBtn = e.target.previousElementSibling;
         editBtn.style = "display:block;"
