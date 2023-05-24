@@ -148,6 +148,7 @@ const home = (navegateTo) => {
       }
       html += `
         <textarea postid="${docs.id}" readOnly>${postData.post}</textarea>
+        <p class="editError">Debes ingresar un texto</p>
         <div class="postInfoContainer">
           <div class="likesContainer">
             <p class="likes">
@@ -198,7 +199,7 @@ const home = (navegateTo) => {
         
         // Validar si el campo de texto está vacío
         if (textArea.value.trim() === "") {
-          alert('Debes ingresar un texto');
+          editError.style.display = "block"
           return; // Evitar la actualización si el campo de texto está vacío
         }
 
@@ -206,6 +207,7 @@ const home = (navegateTo) => {
           post: textArea.value,
           timestamp: serverTimestamp()
         });
+        editError.style.display = "none"
         e.target.style = "display:none;"
         let editBtn = e.target.previousElementSibling;
         editBtn.style = "display:block;"
