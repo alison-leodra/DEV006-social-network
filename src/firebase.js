@@ -34,6 +34,7 @@ const db = getFirestore(app);
 
 // Obtener el nombre e imagen del usuario logeado
 export const handleUserAuth = (post) => {
+  // onAuthStateChanged se obtiene el usuario actual.
   onAuthStateChanged(auth, (user) => {
     if (user) {
       console.log('Datos del usuario:', user);
@@ -47,8 +48,9 @@ export const handleUserAuth = (post) => {
       // Verificar si 'post' está definido antes de llamar a 'savePost'
       if (typeof post !== 'undefined') {
         savePost(post);
-      } 
+      }
     } else {
+      // coloca foto por deafult.
       currentUserImage = './img/avatarDefault(1).png';
       savePost(post);
     }
@@ -56,7 +58,7 @@ export const handleUserAuth = (post) => {
 };
 
 
-
+// se guarda post con datos post, email, tiempo,nombreUsuario y foto de perfil.
 export const savePost = (post) => {
   let userEmail = sessionStorage.getItem('userEmail');
   addDoc(collection(db, 'publish'), {
@@ -65,14 +67,15 @@ export const savePost = (post) => {
     timestamp: serverTimestamp(),
     userName: currentUserName,
     userImage: currentUserImage,
-    likes: 0, // Agrega el campo 'likes' con valor predeterminado de 0
+    likes: [], // Agrega el campo 'likes' con valor predeterminado de 0
     comments: 0
   });
 };
-
-
+// obtiene los post de la coleccion "publish".
 export const getPost = () => getDocs(collection(db, 'publish'));
 
+
+// ordena las publicaiones.
 export const onGetPost = (callback) => {
   const q = query(collection(db, 'publish'), orderBy('timestamp', 'desc'));
   return onSnapshot(q, callback);
