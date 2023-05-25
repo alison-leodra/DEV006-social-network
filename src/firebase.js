@@ -1,14 +1,24 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from 'firebase/app';
-import { onAuthStateChanged } from 'firebase/auth';
-import { getAuth } from 'firebase/auth';
-import { getFirestore, collection, addDoc, getDocs, onSnapshot, doc, deleteDoc } from "firebase/firestore";
-import { query, orderBy, serverTimestamp } from "firebase/firestore";
+import {
+  onAuthStateChanged,
+  getAuth,
+} from 'firebase/auth';
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  getDocs,
+  onSnapshot,
+  doc,
+  deleteDoc,
+  query,
+  orderBy,
+  serverTimestamp,
+} from 'firebase/firestore';
 
 let currentUserName = ''; // Variable para almacenar el nombre del usuario actual
 let currentUserImage = ''; // Variable para almacenar la imagen del usuario actual
-
-
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -22,7 +32,6 @@ const firebaseConfig = {
   appId: '1:1010530380419:web:eca2efbfec7083dcea89b6',
 };
 
-
 // Initialize Firebase
 export const app = initializeApp(firebaseConfig);
 
@@ -32,6 +41,20 @@ export const auth = getAuth(app);
 // Initialize Cloud Firestore and get a reference to the service
 const db = getFirestore(app);
 
+// se guarda post con datos post, email, tiempo,nombreUsuario y foto de perfil.
+export const savePost = (post) => {
+  const userEmail = sessionStorage.getItem('userEmail');
+  addDoc(collection(db, 'publish'), {
+    post,
+    userEmail,
+    timestamp: serverTimestamp(),
+    userName: currentUserName,
+    userImage: currentUserImage,
+    likes: [], // Agrega el campo 'likes' con valor predeterminado de 0
+    comments: 0,
+  });
+};
+
 // Obtener el nombre e imagen del usuario logeado
 export const handleUserAuth = (post) => {
   // onAuthStateChanged se obtiene el usuario actual.
@@ -40,11 +63,8 @@ export const handleUserAuth = (post) => {
       console.log('Datos del usuario:', user);
       currentUserName = user.displayName;
       currentUserImage = user.photoURL;
-
-
       // Guardar el correo electrónico del usuario en sessionStorage
       sessionStorage.setItem('userEmail', user.email);
-
       // Verificar si 'post' está definido antes de llamar a 'savePost'
       if (typeof post !== 'undefined') {
         savePost(post);
@@ -57,23 +77,8 @@ export const handleUserAuth = (post) => {
   });
 };
 
-
-// se guarda post con datos post, email, tiempo,nombreUsuario y foto de perfil.
-export const savePost = (post) => {
-  let userEmail = sessionStorage.getItem('userEmail');
-  addDoc(collection(db, 'publish'), {
-    post,
-    userEmail,
-    timestamp: serverTimestamp(),
-    userName: currentUserName,
-    userImage: currentUserImage,
-    likes: [], // Agrega el campo 'likes' con valor predeterminado de 0
-    comments: 0
-  });
-};
 // obtiene los post de la coleccion "publish".
 export const getPost = () => getDocs(collection(db, 'publish'));
-
 
 // ordena las publicaiones.
 export const onGetPost = (callback) => {
@@ -85,6 +90,4 @@ export const onGetPost = (callback) => {
 export const deleteDocFirebase = (postId) => {
   const docRef = doc(db, 'publish', postId);
   return deleteDoc(docRef);
-}
-
-
+};

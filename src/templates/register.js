@@ -1,5 +1,4 @@
-import { async } from "regenerator-runtime";
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { auth } from '../firebase.js';
 
 const register = (navigateTo) => {
@@ -42,13 +41,11 @@ const register = (navigateTo) => {
   signInFormGoogle.addEventListener('click', async (e) => {
     e.preventDefault();
     const provider = new GoogleAuthProvider();
-    
     try {
       const credentials = await signInWithPopup(auth, provider);
       console.log(credentials);
       navigateTo('/home');
-    }
-    catch (error) {
+    } catch (error) {
       console.log(error);
     }
   });

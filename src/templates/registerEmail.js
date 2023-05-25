@@ -1,6 +1,5 @@
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { auth } from '../firebase.js';
-import error from './error.js';
 
 const registerEmail = (navigateTo) => {
   const template = `
@@ -47,17 +46,15 @@ const registerEmail = (navigateTo) => {
     const nameError = document.querySelector('.nameError');
 
     try {
-      if (name === "") {
+      if (name === '') {
         nameError.style.display = 'block';
         nameError.textContent = 'Ingrese nombre de usuario valido';
-      }
-      else {
+      } else {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
 
         // Actualizar el perfil del usuario con el nombre
         await updateProfile(userCredential.user, { displayName: name, photoURL: './img/avatarDefault(1).png' });
-
-        console.log(userCredential);
+        // console.log(userCredential);
         nameError.style.display = 'none';
         passwordError.style.display = 'none';
         emailError.style.display = 'none';
@@ -66,9 +63,8 @@ const registerEmail = (navigateTo) => {
       }
       // si se crea el usuario correctamente, no hay errores que mostrar
     } catch (error) {
-      console.log(error.message);
-      console.log(error.code);
-
+      // console.log(error.message);
+      // console.log(error.code);
       if (error.code === 'auth/invalid-email') {
         emailError.style.display = 'block';
         passwordError.style.display = 'none';

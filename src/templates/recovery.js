@@ -1,5 +1,5 @@
-import { auth } from '../firebase.js';
 import { sendPasswordResetEmail } from 'firebase/auth';
+import { auth } from '../firebase.js';
 
 const recovery = (navigateTo) => {
   const element = document.createElement('div');
@@ -45,7 +45,6 @@ const recovery = (navigateTo) => {
   returnLink.setAttribute('href', '#');
   returnLink.classList.add('returnLogIn');
   returnLink.textContent = 'Volver al inicio';
- 
 
   form.appendChild(heading);
   form.appendChild(emailInput);
@@ -64,7 +63,6 @@ const recovery = (navigateTo) => {
   const mailField = emailInput;
 
   resetPassword.addEventListener('click', async () => {
-    const emailError = document.querySelector('.emailError');
     const email = mailField.value;
     if (email !== '') {
       try {
