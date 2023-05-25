@@ -1,13 +1,15 @@
+/* eslint-disable no-use-before-define */
 // Import the functions you need from the SDKs you need
 import { initializeApp } from 'firebase/app';
-import { onAuthStateChanged } from 'firebase/auth';
-import { getAuth } from 'firebase/auth';
-import { getFirestore, collection, addDoc, getDocs, onSnapshot } from "firebase/firestore";
-import { query, orderBy, serverTimestamp } from "firebase/firestore";
+import { onAuthStateChanged, getAuth } from 'firebase/auth';
+
+import {
+  getFirestore, collection, addDoc, getDocs, onSnapshot,
+  query, orderBy, serverTimestamp,
+} from 'firebase/firestore';
 
 let currentUserName = ''; // Variable para almacenar el nombre del usuario actual
 let currentUserImage = ''; // Variable para almacenar la imagen del usuario actual
-
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -21,7 +23,6 @@ const firebaseConfig = {
   messagingSenderId: '1010530380419',
   appId: '1:1010530380419:web:eca2efbfec7083dcea89b6',
 };
-
 
 // Initialize Firebase
 export const app = initializeApp(firebaseConfig);
@@ -41,7 +42,6 @@ export const handleUserAuth = (post) => {
       currentUserName = user.displayName;
       currentUserImage = user.photoURL;
 
-
       // Guardar el correo electrónico del usuario en sessionStorage
       sessionStorage.setItem('userEmail', user.email);
 
@@ -57,10 +57,9 @@ export const handleUserAuth = (post) => {
   });
 };
 
-
 // se guarda post con datos post, email, tiempo,nombreUsuario y foto de perfil.
 export const savePost = (post) => {
-  let userEmail = sessionStorage.getItem('userEmail');
+  const userEmail = sessionStorage.getItem('userEmail');
   addDoc(collection(db, 'publish'), {
     post,
     userEmail,
@@ -68,17 +67,14 @@ export const savePost = (post) => {
     userName: currentUserName,
     userImage: currentUserImage,
     likes: [], // Agrega el campo 'likes' con valor predeterminado de 0
-    comments: 0
+    comments: 0,
   });
 };
 // obtiene los post de la coleccion "publish".
 export const getPost = () => getDocs(collection(db, 'publish'));
-
 
 // ordena las publicaiones.
 export const onGetPost = (callback) => {
   const q = query(collection(db, 'publish'), orderBy('timestamp', 'desc'));
   return onSnapshot(q, callback);
 };
-
-

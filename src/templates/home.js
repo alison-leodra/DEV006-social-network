@@ -1,34 +1,32 @@
-import { deleteDoc, doc, getFirestore, updateDoc, serverTimestamp, arrayUnion, getDoc, arrayRemove } from "firebase/firestore";
-import { savePost, handleUserAuth, onGetPost } from '../firebase.js';
-import { auth } from '../firebase.js';
-
-let currentUserName = ''; // Variable para almacenar el nombre del usuario actual
-let currentUserImage = ''; // Variable para almacenar la imagen del usuario actual
+import {
+  deleteDoc, doc, getFirestore, updateDoc, serverTimestamp, arrayUnion, getDoc, arrayRemove,
+} from 'firebase/firestore';
+import {
+  savePost, handleUserAuth, onGetPost, auth,
+} from '../firebase.js';
 
 function autoResize() {
-  const textareas = document.querySelectorAll("textarea");
+  const textareas = document.querySelectorAll('textarea');
 
   textareas.forEach((textarea) => {
-    textarea.style.height = "auto";
+    textarea.style.height = 'auto';
     textarea.style.height = `${textarea.scrollHeight}px`;
   });
 }
 
-
-
 // Llama a autoResize() una vez al cargar el documento para ajustar los textareas existentes
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener('DOMContentLoaded', () => {
   autoResize();
 
-
+  // eslint-disable-next-line max-len
   setInterval(autoResize, 100); // Ejecuta autoResize() periódicamente para ajustar nuevos textareas agregados dinámicamente
 });
 
-const home = (navegateTo) => {
-  const element = document.createElement("div");
+const home = () => {
+  const element = document.createElement('div');
 
-  const homeContainer = document.createElement("div");
-  homeContainer.classList.add("home");
+  const homeContainer = document.createElement('div');
+  homeContainer.classList.add('home');
 
   const templateHeader = `
     <header>
@@ -40,34 +38,33 @@ const home = (navegateTo) => {
 
   homeContainer.innerHTML = templateHeader;
 
-  const main = document.createElement("main");
-  const container = document.createElement("div");
-  container.classList.add("container");
+  const main = document.createElement('main');
+  const container = document.createElement('div');
+  container.classList.add('container');
 
-  const form = document.createElement("form");
-  form.setAttribute("id", "postForm");
+  const form = document.createElement('form');
+  form.setAttribute('id', 'postForm');
 
+  const pName = document.createElement('p');
+  pName.classList.add('userName');
 
-  const pName = document.createElement("p");
-  pName.classList.add("userName");
+  const textarea = document.createElement('textarea');
+  textarea.setAttribute('id', 'myTextarea');
+  textarea.classList.add('post');
+  textarea.setAttribute('placeholder', 'Escribe aquí...');
 
-  const textarea = document.createElement("textarea");
-  textarea.setAttribute("id", "myTextarea");
-  textarea.classList.add("post");
-  textarea.setAttribute("placeholder", "Escribe aquí...");
+  const pError = document.createElement('p');
+  pError.classList.add('postError');
 
-  const pError = document.createElement("p");
-  pError.classList.add("postError");
+  const publish = document.createElement('button');
+  publish.classList.add('publish');
+  publish.innerText = 'Publicar';
 
-  const publish = document.createElement("button");
-  publish.classList.add("publish");
-  publish.innerText = "Publicar";
+  const postContainer = document.createElement('div');
+  postContainer.setAttribute('id', 'postContainer');
 
-  const postContainer = document.createElement("div");
-  postContainer.setAttribute("id", "postContainer");
-
-  const dropdownPost = document.createElement("div");
-  dropdownPost.classList.add("dropwnPost");
+  const dropdownPost = document.createElement('div');
+  dropdownPost.classList.add('dropwnPost');
 
   const img = document.createElement('img');
   img.setAttribute('alt', 'profile photo');
@@ -75,7 +72,6 @@ const home = (navegateTo) => {
   // const user = auth.currentUser;
   // img.setAttribute('src', user.photoURL);
   img.setAttribute('src', '../img/avatarDefault(1).png');
-
 
   form.appendChild(textarea);
 
@@ -89,25 +85,23 @@ const home = (navegateTo) => {
   container.appendChild(postContainer);
   main.appendChild(container);
 
-
   homeContainer.append(main);
   element.append(homeContainer);
 
-  publish.addEventListener("click", (e) => {
+  publish.addEventListener('click', (e) => {
     e.preventDefault();
     const post = textarea.value;
-    const postError = document.querySelector(".postError");
+    const postError = document.querySelector('.postError');
 
-    if (post === "") {
-      postError.style.display = "block";
-      postError.textContent = "Debes ingresar un mensaje.";
+    if (post === '') {
+      postError.style.display = 'block';
+      postError.textContent = 'Debes ingresar un mensaje.';
     } else {
       savePost(post);
-      textarea.value = "";
-      postError.style.display = "none";
+      textarea.value = '';
+      postError.style.display = 'none';
     }
   });
-
 
   handleUserAuth(); // Invocar handleUserAuth para obtener la imagen y el usuario
 
@@ -117,16 +111,16 @@ const home = (navegateTo) => {
 
     let html = '';
 
-    querySnapshot.forEach(docs => {
-      const postData = docs.data(); //transformar a un objeto de JS
-      console.log('docs', docs.data()); //transformar a un objeto de JS, ya no sera de Firebase
+    querySnapshot.forEach((docs) => {
+      const postData = docs.data(); // transformar a un objeto de JS
+      console.log('docs', docs.data()); // transformar a un objeto de JS, ya no sera de Firebase
 
       // Obtener imagen y usuario
-      let userImage = postData.userImage;
-      let userName = postData.userName;
-      let userEmail = sessionStorage.getItem("userEmail");
+      const userImage = postData.userImage;
+      const userName = postData.userName;
+      const userEmail = sessionStorage.getItem('userEmail');
 
-      let likesCount = postData.likes.length || 0;
+      const likesCount = postData.likes.length || 0;
 
       html += `
       <div class="postUsersContainer">
@@ -162,7 +156,7 @@ const home = (navegateTo) => {
           </div>
         </div>`;
 
-      html += `</div>`;
+      html += '</div>';
 
       html += `
         <div id="modal" class="modal">
@@ -178,7 +172,7 @@ const home = (navegateTo) => {
     postContainer.innerHTML = html;
     const db = getFirestore();
 
-    let deleteBtns = document.querySelectorAll('.delete');
+    const deleteBtns = document.querySelectorAll('.delete');
     const modal = document.getElementById('modal');
     const yesBtn = document.getElementById('yesBtn');
     const noBtn = document.getElementById('noBtn');
@@ -194,12 +188,12 @@ const home = (navegateTo) => {
 
     deleteBtns.forEach((btn) => {
       btn.addEventListener('click', (e) => {
-        const postid = e.target.getAttribute("postid");
+        const postid = e.target.getAttribute('postid');
         showModal(postid);
       });
     });
     yesBtn.addEventListener('click', (e) => {
-      const docRef = doc(db, 'publish', e.target.getAttribute("postid"))
+      const docRef = doc(db, 'publish', e.target.getAttribute('postid'));
       deleteDoc(docRef);
       hideModal();
     });
@@ -207,45 +201,45 @@ const home = (navegateTo) => {
       hideModal();
     });
 
-    let editBtns = document.querySelectorAll('.edit');
+    const editBtns = document.querySelectorAll('.edit');
     editBtns.forEach((btn) => {
       btn.addEventListener('click', (e) => {
-        let textArea = document.querySelector("textArea[postid=" + e.target.getAttribute("postid") + "]");
+        const textArea = document.querySelector(`textArea[postid=${e.target.getAttribute('postid')}]`);
         textArea.removeAttribute('readOnly');
         const end = textArea.value.length;
         textArea.setSelectionRange(end, end);
         textArea.focus();
-        e.target.style = "display:none;"
-        let updateBtn = e.target.nextElementSibling;
-        updateBtn.style = "display:block;"
-      })
+        e.target.style = 'display:none;';
+        const updateBtn = e.target.nextElementSibling;
+        updateBtn.style = 'display:block;';
+      });
     });
 
-    let updateBtns = document.querySelectorAll('.update');
+    const updateBtns = document.querySelectorAll('.update');
     updateBtns.forEach((btn) => {
       btn.addEventListener('click', (e) => {
-        let textArea = document.querySelector("textArea[postid=" + e.target.getAttribute("postid") + "]");
-        const docRef = doc(db, 'publish', e.target.getAttribute("postid"))
+        const textArea = document.querySelector(`textArea[postid=${e.target.getAttribute('postid')}]`);
+        const docRef = doc(db, 'publish', e.target.getAttribute('postid'));
         const editError = document.querySelector('.editError');
 
         // Validar si el campo de texto está vacío
-        if (textArea.value.trim() === "") {
-          editError.style.display = "block"
+        if (textArea.value.trim() === '') {
+          editError.style.display = 'block';
           return; // Evitar la actualización si el campo de texto está vacío
         }
 
         updateDoc(docRef, {
           post: textArea.value,
-          timestamp: serverTimestamp()
+          timestamp: serverTimestamp(),
         });
-        editError.style.display = "none"
-        e.target.style = "display:none;"
-        let editBtn = e.target.previousElementSibling;
-        editBtn.style = "display:block;"
+        editError.style.display = 'none';
+        e.target.style = 'display:none;';
+        const editBtn = e.target.previousElementSibling;
+        editBtn.style = 'display:block;';
       });
-    })
+    });
 
-    let likeIcons = document.querySelectorAll('.fa-heart');
+    const likeIcons = document.querySelectorAll('.fa-heart');
     likeIcons.forEach((icon) => {
       icon.addEventListener('click', async (e) => {
         const postID = e.target.getAttribute('postid');
@@ -270,20 +264,17 @@ const home = (navegateTo) => {
     });
 
     // ELIMINAR Y EDITAR
-    const dropdownIcon = document.querySelector(".fa-ellipsis");
-    const dropdownContainer = document.querySelector(".dropdown-container");
+    const dropdownIcon = document.querySelector('.fa-ellipsis');
+    const dropdownContainer = document.querySelector('.dropdown-container');
 
     // Agrega un controlador de eventos al hacer clic en el ícono de la lista desplegable
-    dropdownIcon.addEventListener("click", () => {
+    dropdownIcon.addEventListener('click', () => {
       // Alternar la clase 'active' para mostrar u ocultar la lista desplegable
-      dropdownContainer.classList.toggle("active");
+      dropdownContainer.classList.toggle('active');
     });
-
   });
-
 
   return element;
 };
 
 export default home;
-

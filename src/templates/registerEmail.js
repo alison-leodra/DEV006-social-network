@@ -1,6 +1,5 @@
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { auth } from '../firebase.js';
-import error from './error.js';
 
 const registerEmail = (navigateTo) => {
   const template = `
@@ -47,11 +46,10 @@ const registerEmail = (navigateTo) => {
     const nameError = document.querySelector('.nameError');
 
     try {
-      if (name === "") {
+      if (name === '') {
         nameError.style.display = 'block';
         nameError.textContent = 'Ingrese nombre de usuario valido';
-      }
-      else {
+      } else {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
 
         // Actualizar el perfil del usuario con el nombre

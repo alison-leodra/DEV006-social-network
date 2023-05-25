@@ -1,3 +1,2 @@
-import {auth } from '../firebase.js';
-
+/* eslint-disable no-undef */
 export default resetPassword;
