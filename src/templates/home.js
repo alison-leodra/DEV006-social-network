@@ -270,13 +270,17 @@ const home = (navegateTo) => {
     });
 
     // ELIMINAR Y EDITAR
-    const dropdownIcon = document.querySelector(".fa-ellipsis");
-    const dropdownContainer = document.querySelector(".dropdown-container");
+    const dropdownIcons = document.querySelectorAll(".fa-ellipsis");
 
     // Agrega un controlador de eventos al hacer clic en el ícono de la lista desplegable
-    dropdownIcon.addEventListener("click", () => {
-      // Alternar la clase 'active' para mostrar u ocultar la lista desplegable
-      dropdownContainer.classList.toggle("active");
+    dropdownIcons.forEach((dropdownIcon) => {
+      dropdownIcon.addEventListener("click", () => {
+        // Encuentra el contenedor de la lista desplegable correspondiente al ícono actual
+        const dropdownContainer = dropdownIcon.parentElement.querySelector(".dropdown-container");
+    
+        // Alternar la clase 'active' para mostrar u ocultar la lista desplegable
+        dropdownContainer.classList.toggle("active");
+      });
     });
 
   });
