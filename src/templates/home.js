@@ -198,14 +198,19 @@ const home = (navegateTo) => {
         showModal(postid);
       });
     });
+
+    // CORRECCION FUNCION
     yesBtn.addEventListener('click', (e) => {
       const docRef = doc(db, 'publish', e.target.getAttribute("postid"))
       deleteDoc(docRef);
       hideModal();
     });
+
     noBtn.addEventListener('click', () => {
       hideModal();
     });
+
+
 
     let editBtns = document.querySelectorAll('.edit');
     editBtns.forEach((btn) => {
