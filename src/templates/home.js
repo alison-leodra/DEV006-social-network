@@ -2,7 +2,8 @@ import {
   deleteDoc, doc, getFirestore, updateDoc, serverTimestamp, arrayUnion, getDoc, arrayRemove,
 } from 'firebase/firestore';
 import {
-  savePost, handleUserAuth, onGetPost, auth,
+  savePost, handleUserAuth, onGetPost, auth, refDocLiked, likesArray, incrementLike,
+  decrementLike, currentUser,
 } from '../firebase.js';
 
 function autoResize() {
@@ -69,9 +70,9 @@ const home = () => {
   const img = document.createElement('img');
   img.setAttribute('alt', 'profile photo');
 
-  // const user = auth.currentUser;
-  // img.setAttribute('src', user.photoURL);
-  img.setAttribute('src', '../img/avatarDefault(1).png');
+  const user = auth.currentUser;
+  img.setAttribute('src', user.photoURL);
+  // img.setAttribute('src', '../img/avatarDefault(1).png');
 
   form.appendChild(textarea);
 
@@ -243,34 +244,31 @@ const home = () => {
     likeIcons.forEach((icon) => {
       icon.addEventListener('click', async (e) => {
         const postID = e.target.getAttribute('postid');
-        const userLike = auth.currentUser.uid;
+        const userLike = currentUser().uid;
         // Accede al documento correspondiente en la colección 'publish'
-        const postDocRef = doc(db, 'publish', postID);
-
+        const postDocRef = refDocLiked(postID);
         // Incrementa el valor del campo 'likes' en 1
-        const postDoc = await getDoc(postDocRef);
-        const likes = postDoc.data().likes;
-        console.log(likes);
+        const likes = await likesArray(postDocRef);
         if (!likes.includes(userLike)) {
-          updateDoc(postDocRef, {
-            likes: arrayUnion(userLike),
-          });
+          incrementLike(postDocRef, userLike);
         } else {
-          updateDoc(postDocRef, {
-            likes: arrayRemove(userLike),
-          });
+          decrementLike(postDocRef, userLike);
         }
       });
     });
 
     // ELIMINAR Y EDITAR
-    const dropdownIcon = document.querySelector('.fa-ellipsis');
-    const dropdownContainer = document.querySelector('.dropdown-container');
+    const dropdownIcons = document.querySelectorAll('.fa-ellipsis');
 
     // Agrega un controlador de eventos al hacer clic en el ícono de la lista desplegable
-    dropdownIcon.addEventListener('click', () => {
-      // Alternar la clase 'active' para mostrar u ocultar la lista desplegable
-      dropdownContainer.classList.toggle('active');
+    dropdownIcons.forEach((dropdownIcon) => {
+      dropdownIcon.addEventListener('click', () => {
+        // Encuentra el contenedor de la lista desplegable correspondiente al ícono actual
+        const dropdownContainer = dropdownIcon.parentElement.querySelector('.dropdown-container');
+
+        // Alternar la clase 'active' para mostrar u ocultar la lista desplegable
+        dropdownContainer.classList.toggle('active');
+      });
     });
   });
 

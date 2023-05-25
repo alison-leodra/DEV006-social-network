@@ -5,8 +5,9 @@ import { onAuthStateChanged, getAuth } from 'firebase/auth';
 
 import {
   getFirestore, collection, addDoc, getDocs, onSnapshot,
-  query, orderBy, serverTimestamp,
+  query, orderBy, serverTimestamp, doc, getDoc, updateDoc, arrayUnion, arrayRemove,
 } from 'firebase/firestore';
+import { async } from 'regenerator-runtime';
 
 let currentUserName = ''; // Variable para almacenar el nombre del usuario actual
 let currentUserImage = ''; // Variable para almacenar la imagen del usuario actual
@@ -77,4 +78,31 @@ export const getPost = () => getDocs(collection(db, 'publish'));
 export const onGetPost = (callback) => {
   const q = query(collection(db, 'publish'), orderBy('timestamp', 'desc'));
   return onSnapshot(q, callback);
+};
+
+export const refDocLiked = (postID) => {
+  const refDoc = doc(db, 'publish', postID);
+  return refDoc;
+};
+
+export const currentUser = () => {
+  const UserLoged = auth.currentUser;
+  return UserLoged;
+};
+export const likesArray = async (postDocRef) => {
+  const post = await getDoc(postDocRef);
+  const likes = post.data().likes;
+  return likes;
+};
+
+export const incrementLike = (postDocRef, userLike) => {
+  updateDoc(postDocRef, { // sacar esta
+    likes: arrayUnion(userLike), // sacar esta
+  });
+};
+
+export const decrementLike = (postDocRef, userLike) => {
+  updateDoc(postDocRef, { // sacar esta
+    likes: arrayRemove(userLike), // sacar esta
+  });
 };
