@@ -1,5 +1,5 @@
 import { deleteDoc, doc, getFirestore, updateDoc, serverTimestamp, arrayUnion, getDoc, arrayRemove } from "firebase/firestore";
-import { savePost, handleUserAuth, onGetPost } from '../firebase.js';
+import { savePost, handleUserAuth, onGetPost, deleteDocFirebase } from '../firebase.js';
 import { auth } from '../firebase.js';
 
 let currentUserName = ''; // Variable para almacenar el nombre del usuario actual
@@ -72,9 +72,9 @@ const home = (navegateTo) => {
   const img = document.createElement('img');
   img.setAttribute('alt', 'profile photo');
 
-  const user = auth.currentUser;
-  img.setAttribute('src', user.photoURL);
-  // img.setAttribute('src', '../img/avatarDefault(1).png');
+  //const user = auth.currentUser;
+  //img.setAttribute('src', user.photoURL);
+  img.setAttribute('src', '../img/avatarDefault(1).png');
 
 
   form.appendChild(textarea);
@@ -287,7 +287,7 @@ const home = (navegateTo) => {
       dropdownIcon.addEventListener("click", () => {
         // Encuentra el contenedor de la lista desplegable correspondiente al ícono actual
         const dropdownContainer = dropdownIcon.parentElement.querySelector(".dropdown-container");
-    
+
         // Alternar la clase 'active' para mostrar u ocultar la lista desplegable
         dropdownContainer.classList.toggle("active");
       });

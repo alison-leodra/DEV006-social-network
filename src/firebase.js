@@ -2,7 +2,7 @@
 import { initializeApp } from 'firebase/app';
 import { onAuthStateChanged } from 'firebase/auth';
 import { getAuth } from 'firebase/auth';
-import { getFirestore, collection, addDoc, getDocs, onSnapshot } from "firebase/firestore";
+import { getFirestore, collection, addDoc, getDocs, onSnapshot, doc, deleteDoc } from "firebase/firestore";
 import { query, orderBy, serverTimestamp } from "firebase/firestore";
 
 let currentUserName = ''; // Variable para almacenar el nombre del usuario actual
