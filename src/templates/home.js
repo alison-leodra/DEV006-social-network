@@ -1,11 +1,9 @@
-import { deleteDoc, doc, getFirestore, updateDoc, serverTimestamp, increment } from "firebase/firestore";
-import { savePost, handleUserAuth, onGetPost } from '../firebase.js';
+import { doc, getFirestore, serverTimestamp, arrayUnion, getDoc, arrayRemove } from "firebase/firestore";
+import { savePost, handleUserAuth, onGetPost, deleteDocFirebase, updatePost } from '../firebase.js';
 import { auth } from '../firebase.js';
-
 
 let currentUserName = ''; // Variable para almacenar el nombre del usuario actual
 let currentUserImage = ''; // Variable para almacenar la imagen del usuario actual
-
 
 function autoResize() {
   const textareas = document.querySelectorAll("textarea");
@@ -91,6 +89,7 @@ const home = (navegateTo) => {
   container.appendChild(postContainer);
   main.appendChild(container);
 
+
   homeContainer.append(main);
   element.append(homeContainer);
 
@@ -127,7 +126,7 @@ const home = (navegateTo) => {
       let userName = postData.userName;
       let userEmail = sessionStorage.getItem("userEmail");
 
-      let likesCount = postData.likes || 0;
+      let likesCount = postData.likes.length || 0;
 
       html += `
       <div class="postUsersContainer">
@@ -141,101 +140,172 @@ const home = (navegateTo) => {
           <div class="dropdownPost">
               <i class="fa-solid fa-ellipsis fa-2xl" style="color: #66fcf1;"></i>
             <div class="dropdown-container">
-              <div class="option delete" postid="${docs.id}"><i class="fa-solid fa-trash fa-xl" style="color: #202833;"></i>Eliminar</div>
-              <div class="option edit" postid="${docs.id}"><i class="fa-solid fa-pen-to-square fa-xl" style="color: #202833;"></i>Editar</div>
-              <div class="option update" style="display:none;" postid="${docs.id}"><i class="fa-solid fa-floppy-disk fa-xl" style="color: #202833;"></i>Guardar</div>
+              <div class="option delete" postId="${docs.id}"><i class="fa-solid fa-trash" style="color: #202833;"></i>Eliminar</div>
+              <div class="option edit" postId="${docs.id}"><i class="fa-solid fa-pen-to-square" style="color: #202833;"></i>Editar</div>
+              <div class="option update" style="display:none;" postId="${docs.id}"><i class="fa-solid fa-floppy-disk" style="color: #202833;"></i>Guardar</div>
             </div>
           </div>`;
       }
       html += `
-        <textarea postid="${docs.id}" readOnly>${postData.post}</textarea>
-        <p class"editError></p>
+        <textarea postId="${docs.id}" readOnly>${postData.post}</textarea>
+        <p class="editError">Debes ingresar un texto</p>
         <div class="postInfoContainer">
           <div class="likesContainer">
             <p class="likes">
-              <i postid="${docs.id}" class="fa-regular fa-heart fa-2xl" style="color: #c5c6c8;"></i>
+              <i postId="${docs.id}" class="fa-regular fa-heart fa-2xl" style="color: #c5c6c8;"></i>
               <span>${likesCount}</span>
             </p>
           </div>
           <div class="commentsContainer">
-            <p class="comments"><i class="fa-regular fa-comment fa-2xl" style="color: #c5c6c8;"></i> 1</p>
+            <p class="comments"><i class="fa-regular fa-comment fa-2xl" style="color: #202833;"></i> 0</p>
+            <span></span>
           </div>
         </div>`;
 
       html += `</div>`;
+
+      html += `
+        <div id="modal" class="modal">
+          <div class="modal-content">
+            <h2>¿Desea eliminar?</h2>
+              <button id="yesBtn">Sí</button>
+              <button id="noBtn">No</button>
+            </div>
+          </div>
+        </div>`;
     });
 
     postContainer.innerHTML = html;
     const db = getFirestore();
 
     let deleteBtns = document.querySelectorAll('.delete');
+    const modal = document.getElementById('modal');
+    const yesBtn = document.getElementById('yesBtn');
+    const noBtn = document.getElementById('noBtn');
+
+    function showModal(postId) {
+      modal.style.display = 'block';
+      yesBtn.setAttribute('postId', postId);
+    }
+
+    function hideModal() {
+      modal.style.display = 'none';
+    }
+
     deleteBtns.forEach((btn) => {
       btn.addEventListener('click', (e) => {
-        const docRef = doc(db, 'publish', e.target.getAttribute("postid"))
-        deleteDoc(docRef);
+        const postId = e.target.getAttribute("postId");
+        showModal(postId);
       });
-    })
+    });
 
+    yesBtn.addEventListener('click', (e) => {
+      const postId = e.target.getAttribute('postId')
+      deleteDocFirebase(postId)
+        .then(() => {
+          hideModal();
+        })
+        .catch((error) => {
+          console.error('Error al eliminar el documento:', error);
+        });
+    });
+
+    noBtn.addEventListener('click', () => {
+      hideModal();
+    });
+
+    const handleEditClick = (postId, textArea, editBtn, updateBtn) => {
+      textArea.removeAttribute('readonly');
+      const end = textArea.value.length;
+      textArea.setSelectionRange(end, end);
+      textArea.focus();
+      editBtn.style.display = "none";
+      updateBtn.style.display = "block";
+    };
+    
     let editBtns = document.querySelectorAll('.edit');
     editBtns.forEach((btn) => {
       btn.addEventListener('click', (e) => {
-        let textArea = document.querySelector("textArea[postid=" + e.target.getAttribute("postid") + "]");
-        textArea.removeAttribute('readOnly');
-        const end = textArea.value.length;
-        textArea.setSelectionRange(end, end);
-        textArea.focus();
-        e.target.style = "display:none;"
-        let updateBtn = e.target.nextElementSibling;
-        updateBtn.style = "display:block;"
-      })
+        let textArea = document.querySelector(`textarea[postId="${e.target.getAttribute("postId")}"]`);
+        const postId = e.target.getAttribute("postId");
+        const editBtn = e.target;
+        const updateBtn = e.target.nextElementSibling;
+        handleEditClick(postId, textArea, editBtn, updateBtn);
+      });
     });
-
-    let updateBtns = document.querySelectorAll('.update');
     
 
+
+    // Validar y actualizar el contenido del post en la base de datos
+    const handleUpdateClick = (postId, textArea) => {
+      const editError = document.querySelector('.editError');
+
+      // Validar si el campo de texto está vacío
+      if (textArea.value.trim() === "") {
+        editError.style.display = "block";
+        return; // Evitar la actualización si el campo de texto está vacío
+      }
+
+      // Llamar a la función de Firebase para actualizar el post
+      updatePost(postId, textArea.value)
+        .then(() => {
+          editError.style.display = "none";
+          const updateBtn = document.querySelector(`.update[postId="${postId}"]`);
+          updateBtn.style.display = "none";
+          const editBtn = document.querySelector(`.edit[postId="${postId}"]`);
+          editBtn.style.display = "block";
+        })
+        .catch((error) => {
+          // Manejar el error en caso de fallo en la actualización
+          console.error("Error al actualizar el post:", error);
+        });
+    };
+
+    let updateBtns = document.querySelectorAll('.update');
     updateBtns.forEach((btn) => {
       btn.addEventListener('click', (e) => {
-        let textArea = document.querySelector("textArea[postid=" + e.target.getAttribute("postid") + "]");
-        const docRef = doc(db, 'publish', e.target.getAttribute("postid"))
-        const editError = document.querySelector('.editError');
-        
-        // Validar si el campo de texto está vacío
-        if (textArea.value.trim() === "") {
-          alert('Debes ingresar un texto');
-          return; // Evitar la actualización si el campo de texto está vacío
-        }
-
-        updateDoc(docRef, {
-          post: textArea.value,
-          timestamp: serverTimestamp()
-        });
-        e.target.style = "display:none;"
-        let editBtn = e.target.previousElementSibling;
-        editBtn.style = "display:block;"
+        let textArea = document.querySelector(`textarea[postId="${e.target.getAttribute("postId")}"]`);
+        const postId = e.target.getAttribute("postId");
+        handleUpdateClick(postId, textArea);
       });
-    })
+    });
 
     let likeIcons = document.querySelectorAll('.fa-heart');
     likeIcons.forEach((icon) => {
-      icon.addEventListener('click', (e) => {
-        const postID = e.target.getAttribute('postid');
+      icon.addEventListener('click', async (e) => {
+        const postID = e.target.getAttribute('postId');
+        const userLike = auth.currentUser.uid;
         // Accede al documento correspondiente en la colección 'publish'
         const postDocRef = doc(db, 'publish', postID);
+
         // Incrementa el valor del campo 'likes' en 1
-        updateDoc(postDocRef, {
-          likes: increment(1)
-        });
+        const postDoc = await getDoc(postDocRef);
+        const likes = postDoc.data().likes;
+        console.log(likes);
+        if (!likes.includes(userLike)) {
+          updateDoc(postDocRef, {
+            likes: arrayUnion(userLike),
+          });
+        } else {
+          updateDoc(postDocRef, {
+            likes: arrayRemove(userLike),
+          });
+        }
       });
     });
 
     // ELIMINAR Y EDITAR
-    const dropdownIcon = document.querySelector(".fa-ellipsis");
-    const dropdownContainer = document.querySelector(".dropdown-container");
+    const dropdownIcons = document.querySelectorAll(".fa-ellipsis");
 
     // Agrega un controlador de eventos al hacer clic en el ícono de la lista desplegable
-    dropdownIcon.addEventListener("click", () => {
-      // Alternar la clase 'active' para mostrar u ocultar la lista desplegable
-      dropdownContainer.classList.toggle("active");
+    dropdownIcons.forEach((dropdownIcon) => {
+      dropdownIcon.addEventListener("click", () => {
+        // Encuentra el contenedor de la lista desplegable correspondiente al ícono actual
+        const dropdownContainer = dropdownIcon.parentElement.querySelector(".dropdown-container");
+
+        // Alternar la clase 'active' para mostrar u ocultar la lista desplegable
+        dropdownContainer.classList.toggle("active");
+      });
     });
 
   });

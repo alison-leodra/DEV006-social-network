@@ -2,8 +2,19 @@
 import { initializeApp } from 'firebase/app';
 import { onAuthStateChanged } from 'firebase/auth';
 import { getAuth } from 'firebase/auth';
-import { getFirestore, collection, addDoc, getDocs, onSnapshot } from "firebase/firestore";
-import { query, orderBy, serverTimestamp } from "firebase/firestore";
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  getDocs,
+  onSnapshot,
+  deleteDoc,
+  doc,
+  query,
+  orderBy,
+  serverTimestamp,
+  updateDoc
+} from "firebase/firestore";
 
 let currentUserName = ''; // Variable para almacenar el nombre del usuario actual
 let currentUserImage = ''; // Variable para almacenar la imagen del usuario actual
@@ -32,6 +43,7 @@ export const auth = getAuth(app);
 // Initialize Cloud Firestore and get a reference to the service
 const db = getFirestore(app);
 
+
 // Obtener el nombre e imagen del usuario logeado
 export const handleUserAuth = (post) => {
   onAuthStateChanged(auth, (user) => {
@@ -47,7 +59,7 @@ export const handleUserAuth = (post) => {
       // Verificar si 'post' está definido antes de llamar a 'savePost'
       if (typeof post !== 'undefined') {
         savePost(post);
-      } 
+      }
     } else {
       currentUserImage = './img/avatarDefault(1).png';
       savePost(post);
@@ -56,7 +68,7 @@ export const handleUserAuth = (post) => {
 };
 
 
-
+// GUARDAR DATOS POST
 export const savePost = (post) => {
   let userEmail = sessionStorage.getItem('userEmail');
   addDoc(collection(db, 'publish'), {
@@ -73,9 +85,24 @@ export const savePost = (post) => {
 
 export const getPost = () => getDocs(collection(db, 'publish'));
 
+
+// OBTENER POST
 export const onGetPost = (callback) => {
   const q = query(collection(db, 'publish'), orderBy('timestamp', 'desc'));
   return onSnapshot(q, callback);
+};
+
+
+// BORRAR POST
+export const deleteDocFirebase = (postId) => {
+  const docRef = doc(db, 'publish', postId);
+  return deleteDoc(docRef);
+}
+
+// UPDATE POST
+export const updatePost = (postId, newPost) => {
+  const postRef = doc(db, 'publish', postId);
+  return updateDoc(postRef, { post: newPost });
 };
 
 
