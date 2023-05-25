@@ -81,4 +81,10 @@ export const onGetPost = (callback) => {
   return onSnapshot(q, callback);
 };
 
+// BORRAR POST
+export const deleteDocFirebase = (postId) => {
+  const docRef = doc(db, 'publish', postId);
+  return deleteDoc(docRef);
+}
+
 
