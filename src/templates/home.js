@@ -201,9 +201,14 @@ const home = (navegateTo) => {
 
     // CORRECCION FUNCION
     yesBtn.addEventListener('click', (e) => {
-      const docRef = doc(db, 'publish', e.target.getAttribute("postid"))
-      deleteDoc(docRef);
-      hideModal();
+      const postId = e.target.getAttribute('postId')
+      deleteDocFirebase(postId)
+        .then(() => {
+          hideModal();
+        })
+        .catch((error) => {
+          console.error('Error al eliminar el documento:', error);
+        });
     });
 
     noBtn.addEventListener('click', () => {
