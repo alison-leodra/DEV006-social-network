@@ -1,4 +1,4 @@
-import { deleteDoc, doc, getFirestore, updateDoc, serverTimestamp, arrayUnion, getDoc, arrayRemove } from "firebase/firestore";
+import { doc, getFirestore, updateDoc, serverTimestamp, arrayUnion, getDoc, arrayRemove } from "firebase/firestore";
 import { savePost, handleUserAuth, onGetPost, deleteDocFirebase } from '../firebase.js';
 import { auth } from '../firebase.js';
 
@@ -201,7 +201,7 @@ const home = (navegateTo) => {
 
     // CORRECCION FUNCION
     yesBtn.addEventListener('click', (e) => {
-      const postId = e.target.getAttribute('postId')
+      const postId = e.target.getAttribute('postId');
       deleteDocFirebase(postId)
         .then(() => {
           hideModal();
