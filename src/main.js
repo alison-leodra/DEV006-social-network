@@ -8,13 +8,13 @@ import home from './templates/home.js';
 import recovery from './templates/recovery.js';
 
 const routes = [
-  { path: '/', component: login },
+  { path: './', component: login },
   { path: '/error', component: error },
   { path: '/register', component: register },
-  { path: '/registerEmail', component: registerEmail },
+  { path: './registerEmail', component: registerEmail },
   { path: '/userRegister', component: userRegister },
   { path: '/home', component: home },
-  { path: '/recovery', component: recovery },
+  { path: './recovery', component: recovery },
 ];
 
 const defaultRoute = '/';
