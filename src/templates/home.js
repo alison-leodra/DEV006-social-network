@@ -3,16 +3,12 @@ import {
   getFirestore,
   updateDoc,
   serverTimestamp,
-  arrayUnion,
-  getDoc,
-  arrayRemove,
 } from 'firebase/firestore';
 import {
   savePost,
   handleUserAuth,
   onGetPost,
   deleteDocFirebase,
-  auth,
   refDocLiked,
   currentUser,
   likesArray,
@@ -83,9 +79,9 @@ const home = () => {
   const img = document.createElement('img');
   img.setAttribute('alt', 'profile photo');
 
-  const user = auth.currentUser;
-  img.setAttribute('src', user.photoURL);
-  // img.setAttribute('src', '../img/avatarDefault(1).png');
+  // const user = auth.currentUser;
+  // img.setAttribute('src', user.photoURL);
+  img.setAttribute('src', '../img/avatarDefault(1).png');
   form.appendChild(textarea);
 
   form.append(img);
@@ -261,29 +257,22 @@ const home = () => {
       });
     });
 
-    // const likeIcons = document.querySelectorAll('.fa-heart');
-    // likeIcons.forEach((icon) => {
-    //   icon.addEventListener('click', async (e) => {
-    //     const postID = e.target.getAttribute('postid');
-    //     const userLike = auth.currentUser.uid;
-    //     // Accede al documento correspondiente en la colección 'publish'
-    //     const postDocRef = doc(db, 'publish', postID);
-
-    //     // Incrementa el valor del campo 'likes' en 1
-    //     const postDoc = await getDoc(postDocRef);
-    //     const likes = postDoc.data().likes;
-    //     console.log(likes);
-    //     if (!likes.includes(userLike)) {
-    //       updateDoc(postDocRef, {
-    //         likes: arrayUnion(userLike),
-    //       });
-    //     } else {
-    //       updateDoc(postDocRef, {
-    //         likes: arrayRemove(userLike),
-    //       });
-    //     }
-    //   });
-    // });
+    const likeIcons = document.querySelectorAll('.fa-heart');
+    likeIcons.forEach((icon) => {
+      icon.addEventListener('click', async (e) => {
+        const postID = e.target.getAttribute('postid');
+        const userLike = currentUser().uid;
+        // Accede al documento correspondiente en la colección 'publish'
+        const postDocRef = refDocLiked(postID);
+        // Incrementa el valor del campo 'likes' en 1 id nuevo.
+        const likes = await likesArray(postDocRef);
+        if (!likes.includes(userLike)) {
+          incrementLike(postDocRef, userLike);
+        } else {
+          decrementLike(postDocRef, userLike);
+        }
+      });
+    });
 
     // ELIMINAR Y EDITAR
     const dropdownIcons = document.querySelectorAll('.fa-ellipsis');

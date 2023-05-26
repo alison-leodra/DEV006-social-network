@@ -9,12 +9,16 @@ import {
   collection,
   addDoc,
   getDocs,
+  getDoc,
   onSnapshot,
   doc,
   deleteDoc,
   query,
   orderBy,
   serverTimestamp,
+  updateDoc,
+  arrayUnion,
+  arrayRemove,
 } from 'firebase/firestore';
 
 let currentUserName = ''; // Variable para almacenar el nombre del usuario actual
