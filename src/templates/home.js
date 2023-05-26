@@ -1,8 +1,5 @@
 import {
-  doc,
   getFirestore,
-  updateDoc,
-  serverTimestamp,
 } from 'firebase/firestore';
 import {
   savePost,
@@ -14,6 +11,7 @@ import {
   likesArray,
   incrementLike,
   decrementLike,
+  updateFirebaseDocument,
 } from '../firebase.js';
 
 function autoResize() {
@@ -237,7 +235,6 @@ const home = () => {
     updateBtns.forEach((btn) => {
       btn.addEventListener('click', (e) => {
         const textArea = document.querySelector(`textArea[postid="${e.target.getAttribute('postid')}"]`);
-        const docRef = doc(db, 'publish', e.target.getAttribute('postid'));
         const editError = document.querySelector('.editError');
 
         // Validar si el campo de texto está vacío
@@ -246,10 +243,10 @@ const home = () => {
           return; // Evitar la actualización si el campo de texto está vacío
         }
 
-        updateDoc(docRef, {
-          post: textArea.value,
-          timestamp: serverTimestamp(),
-        });
+        const postId = e.target.getAttribute('postid');
+        const postValue = textArea.value;
+
+        updateFirebaseDocument(postId, postValue);
         editError.style.display = 'none';
         e.target.style = 'display:none;';
         const editBtn = e.target.previousElementSibling;

@@ -120,3 +120,11 @@ export const decrementLike = (postDocRef, userLike) => {
     likes: arrayRemove(userLike), // sacar esta
   });
 };
+
+export const updateFirebaseDocument = (postId, postValue) => {
+  const docRef = doc(db, 'publish', postId);
+  return updateDoc(docRef, {
+    post: postValue,
+    timestamp: serverTimestamp(),
+  });
+};
