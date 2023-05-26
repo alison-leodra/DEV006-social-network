@@ -56,7 +56,7 @@ const recovery = (navigateTo) => {
 
   const returnLogIn = returnLink;
   returnLogIn.addEventListener('click', async () => {
-    navigateTo('/');
+    navigateTo('./');
   });
 
   const resetPassword = forgotButton;
