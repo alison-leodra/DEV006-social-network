@@ -63,9 +63,7 @@ export const handleUserAuth = (post) => {
       console.log('Datos del usuario:', user);
       currentUserName = user.displayName;
       currentUserImage = user.photoURL;
-      // Guardar el correo electrónico del usuario en sessionStorage
       sessionStorage.setItem('userEmail', user.email);
-      // Verificar si 'post' está definido antes de llamar a 'savePost'
       if (typeof post !== 'undefined') {
         savePost(post);
       }
