@@ -7,7 +7,7 @@ import {
   getFirestore, collection, addDoc, getDocs, onSnapshot,
   query, orderBy, serverTimestamp, doc, getDoc, updateDoc, arrayUnion, arrayRemove,
 } from 'firebase/firestore';
-import { async } from 'regenerator-runtime';
+// import { async } from 'regenerator-runtime';
 
 let currentUserName = ''; // Variable para almacenar el nombre del usuario actual
 let currentUserImage = ''; // Variable para almacenar la imagen del usuario actual

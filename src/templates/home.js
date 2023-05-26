@@ -1,5 +1,5 @@
 import {
-  deleteDoc, doc, getFirestore, updateDoc, serverTimestamp, arrayUnion, getDoc, arrayRemove,
+  deleteDoc, doc, getFirestore, updateDoc, serverTimestamp,
 } from 'firebase/firestore';
 import {
   savePost, handleUserAuth, onGetPost, auth, refDocLiked, likesArray, incrementLike,
@@ -247,7 +247,7 @@ const home = () => {
         const userLike = currentUser().uid;
         // Accede al documento correspondiente en la colección 'publish'
         const postDocRef = refDocLiked(postID);
-        // Incrementa el valor del campo 'likes' en 1
+        // Incrementa el valor del campo 'likes' en 1 id nuevo.
         const likes = await likesArray(postDocRef);
         if (!likes.includes(userLike)) {
           incrementLike(postDocRef, userLike);
