@@ -89,3 +89,30 @@ export const deleteDocFirebase = (postId) => {
   const docRef = doc(db, 'publish', postId);
   return deleteDoc(docRef);
 };
+
+export const refDocLiked = (postID) => {
+  const refDoc = doc(db, 'publish', postID);
+  return refDoc;
+};
+
+export const currentUser = () => {
+  const UserLoged = auth.currentUser;
+  return UserLoged;
+};
+export const likesArray = async (postDocRef) => {
+  const post = await getDoc(postDocRef);
+  const likes = post.data().likes;
+  return likes;
+};
+
+export const incrementLike = (postDocRef, userLike) => {
+  updateDoc(postDocRef, { // sacar esta
+    likes: arrayUnion(userLike), // sacar esta
+  });
+};
+
+export const decrementLike = (postDocRef, userLike) => {
+  updateDoc(postDocRef, { // sacar esta
+    likes: arrayRemove(userLike), // sacar esta
+  });
+};

@@ -13,6 +13,11 @@ import {
   onGetPost,
   deleteDocFirebase,
   auth,
+  refDocLiked,
+  currentUser,
+  likesArray,
+  incrementLike,
+  decrementLike,
 } from '../firebase.js';
 
 function autoResize() {
@@ -279,30 +284,6 @@ const home = () => {
     //     }
     //   });
     // });
-
-    const likeIcons = document.querySelectorAll('.fa-heart');
-    likeIcons.forEach((icon) => {
-      icon.addEventListener('click', async (e) => {
-        const postID = e.target.getAttribute('postid');
-        const userLike = auth.currentUser.uid;
-        // Accede al documento correspondiente en la colección 'publish'
-        const postDocRef = doc(db, 'publish', postID);
-
-        // Incrementa el valor del campo 'likes' en 1
-        const postDoc = await getDoc(postDocRef);
-        const likes = postDoc.data().likes;
-        console.log(likes);
-        if (!likes.includes(userLike)) {
-          updateDoc(postDocRef, {
-            likes: arrayUnion(userLike),
-          });
-        } else {
-          updateDoc(postDocRef, {
-            likes: arrayRemove(userLike),
-          });
-        }
-      });
-    });
 
     // ELIMINAR Y EDITAR
     const dropdownIcons = document.querySelectorAll('.fa-ellipsis');
