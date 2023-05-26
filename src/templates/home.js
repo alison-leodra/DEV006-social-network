@@ -178,7 +178,6 @@ const home = () => {
     });
 
     postContainer.innerHTML = html;
-    const db = getFirestore();
 
     const deleteBtns = document.querySelectorAll('.delete');
     const modal = document.getElementById('modal');
