@@ -1,7 +1,4 @@
 import {
-  getFirestore,
-} from 'firebase/firestore';
-import {
   savePost,
   handleUserAuth,
   onGetPost,
