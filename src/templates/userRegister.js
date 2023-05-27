@@ -28,7 +28,7 @@ const userRegister = (navigateTo) => {
   // Agrega el evento "click" al botón "Registrarse"
   logInRegister.addEventListener('click', (e) => {
     e.preventDefault();
-    navigateTo('./');
+    navigateTo('/');
   });
 
   return element.firstChild;
