@@ -1,9 +1,14 @@
 import {
-  deleteDoc, doc, getFirestore, updateDoc, serverTimestamp,
-} from 'firebase/firestore';
-import {
-  savePost, handleUserAuth, onGetPost, auth, refDocLiked, likesArray, incrementLike,
-  decrementLike, currentUser,
+  savePost,
+  handleUserAuth,
+  onGetPost,
+  deleteDocFirebase,
+  refDocLiked,
+  currentUser,
+  likesArray,
+  incrementLike,
+  decrementLike,
+  updateFirebaseDocument,
 } from '../firebase.js';
 
 function autoResize() {
@@ -18,9 +23,8 @@ function autoResize() {
 // Llama a autoResize() una vez al cargar el documento para ajustar los textareas existentes
 document.addEventListener('DOMContentLoaded', () => {
   autoResize();
-
-  // eslint-disable-next-line max-len
-  setInterval(autoResize, 100); // Ejecuta autoResize() periódicamente para ajustar nuevos textareas agregados dinámicamente
+  // Ejecuta autoResize() periódicamente para ajustar nuevos textareas agregados dinámicamente
+  setInterval(autoResize, 100);
 });
 
 const home = () => {
@@ -31,8 +35,8 @@ const home = () => {
 
   const templateHeader = `
     <header>
-      <div class="imgLogo">
-        <img src="./img/logo2.png" alt="logo">
+      <div class='imgLogo'>
+        <img src='./img/logo2.png' alt='logo'>
       </div>
     </header>
   `;
@@ -70,10 +74,9 @@ const home = () => {
   const img = document.createElement('img');
   img.setAttribute('alt', 'profile photo');
 
-  const user = auth.currentUser;
-  img.setAttribute('src', user.photoURL);
-  // img.setAttribute('src', '../img/avatarDefault(1).png');
-
+  // const user = auth.currentUser;
+  // img.setAttribute('src', user.photoURL);
+  img.setAttribute('src', '../img/avatarDefault(1).png');
   form.appendChild(textarea);
 
   form.append(img);
@@ -113,8 +116,9 @@ const home = () => {
     let html = '';
 
     querySnapshot.forEach((docs) => {
-      const postData = docs.data(); // transformar a un objeto de JS
-      console.log('docs', docs.data()); // transformar a un objeto de JS, ya no sera de Firebase
+      // transformar a un objeto de JS
+      const postData = docs.data();
+      console.log('docs', docs.data());
 
       // Obtener imagen y usuario
       const userImage = postData.userImage;
@@ -124,35 +128,35 @@ const home = () => {
       const likesCount = postData.likes.length || 0;
 
       html += `
-      <div class="postUsersContainer">
-        <div class="postUsersData">
-          <img src="${userImage}" alt="profile photo">
-          <p class="userName">${userName}</p>
+      <div class='postUsersContainer'>
+        <div class='postUsersData'>
+          <img src='${userImage}' alt='profile photo'>
+          <p class='userName'>${userName}</p>
         </div>  
         `;
       if (docs.data().userEmail === userEmail) {
         html += `
-          <div class="dropdownPost">
-              <i class="fa-solid fa-ellipsis fa-2xl" style="color: #66fcf1;"></i>
-            <div class="dropdown-container">
-              <div class="option delete" postid="${docs.id}"><i class="fa-solid fa-trash" style="color: #202833;"></i>Eliminar</div>
-              <div class="option edit" postid="${docs.id}"><i class="fa-solid fa-pen-to-square" style="color: #202833;"></i>Editar</div>
-              <div class="option update" style="display:none;" postid="${docs.id}"><i class="fa-solid fa-floppy-disk" style="color: #202833;"></i>Guardar</div>
+          <div class='dropdownPost'>
+              <i class='fa-solid fa-ellipsis fa-2xl' style='color: #66fcf1;'></i>
+            <div class='dropdown-container'>
+              <div class='option delete' postid='${docs.id}'><i class='fa-solid fa-trash' style='color: #202833;'></i>Eliminar</div>
+              <div class='option edit' postid='${docs.id}'><i class='fa-solid fa-pen-to-square' style='color: #202833;'></i>Editar</div>
+              <div class='option update' style='display:none;' postid='${docs.id}'><i class='fa-solid fa-floppy-disk' style='color: #202833;'></i>Guardar</div>
             </div>
           </div>`;
       }
       html += `
-        <textarea postid="${docs.id}" readOnly>${postData.post}</textarea>
-        <p class="editError">Debes ingresar un texto</p>
-        <div class="postInfoContainer">
-          <div class="likesContainer">
-            <p class="likes">
-              <i postid="${docs.id}" class="fa-regular fa-heart fa-2xl" style="color: #c5c6c8;"></i>
+        <textarea postid='${docs.id}' readOnly>${postData.post}</textarea>
+        <p class='editError'>Debes ingresar un texto</p>
+        <div class='postInfoContainer'>
+          <div class='likesContainer'>
+            <p class='likes'>
+              <i postid='${docs.id}' class='fa-regular fa-heart fa-2xl' style='color: #c5c6c8;'></i>
               <span>${likesCount}</span>
             </p>
           </div>
-          <div class="commentsContainer">
-            <p class="comments"><i class="fa-regular fa-comment fa-2xl" style="color: #202833;"></i> 0</p>
+          <div class='commentsContainer'>
+            <p class='comments'><i class='fa-regular fa-comment fa-2xl' style='color: #202833;'></i> 0</p>
             <span></span>
           </div>
         </div>`;
@@ -160,18 +164,17 @@ const home = () => {
       html += '</div>';
 
       html += `
-        <div id="modal" class="modal">
-          <div class="modal-content">
+        <div id='modal' class='modal'>
+          <div class='modal-content'>
             <h2>¿Desea eliminar?</h2>
-              <button id="yesBtn">Sí</button>
-              <button id="noBtn">No</button>
+              <button id='yesBtn'>Sí</button>
+              <button id='noBtn'>No</button>
             </div>
           </div>
         </div>`;
     });
 
     postContainer.innerHTML = html;
-    const db = getFirestore();
 
     const deleteBtns = document.querySelectorAll('.delete');
     const modal = document.getElementById('modal');
@@ -193,11 +196,19 @@ const home = () => {
         showModal(postid);
       });
     });
+
+    // CORRECCION FUNCION
     yesBtn.addEventListener('click', (e) => {
-      const docRef = doc(db, 'publish', e.target.getAttribute('postid'));
-      deleteDoc(docRef);
-      hideModal();
+      const postId = e.target.getAttribute('postId');
+      deleteDocFirebase(postId)
+        .then(() => {
+          hideModal();
+        })
+        .catch((error) => {
+          console.error('Error al eliminar el documento:', error);
+        });
     });
+
     noBtn.addEventListener('click', () => {
       hideModal();
     });
@@ -205,7 +216,7 @@ const home = () => {
     const editBtns = document.querySelectorAll('.edit');
     editBtns.forEach((btn) => {
       btn.addEventListener('click', (e) => {
-        const textArea = document.querySelector(`textArea[postid=${e.target.getAttribute('postid')}]`);
+        const textArea = document.querySelector(`textArea[postid="${e.target.getAttribute('postid')}"]`);
         textArea.removeAttribute('readOnly');
         const end = textArea.value.length;
         textArea.setSelectionRange(end, end);
@@ -219,8 +230,7 @@ const home = () => {
     const updateBtns = document.querySelectorAll('.update');
     updateBtns.forEach((btn) => {
       btn.addEventListener('click', (e) => {
-        const textArea = document.querySelector(`textArea[postid=${e.target.getAttribute('postid')}]`);
-        const docRef = doc(db, 'publish', e.target.getAttribute('postid'));
+        const textArea = document.querySelector(`textArea[postid="${e.target.getAttribute('postid')}"]`);
         const editError = document.querySelector('.editError');
 
         // Validar si el campo de texto está vacío
@@ -229,10 +239,10 @@ const home = () => {
           return; // Evitar la actualización si el campo de texto está vacío
         }
 
-        updateDoc(docRef, {
-          post: textArea.value,
-          timestamp: serverTimestamp(),
-        });
+        const postId = e.target.getAttribute('postid');
+        const postValue = textArea.value;
+
+        updateFirebaseDocument(postId, postValue);
         editError.style.display = 'none';
         e.target.style = 'display:none;';
         const editBtn = e.target.previousElementSibling;
@@ -271,7 +281,6 @@ const home = () => {
       });
     });
   });
-
   return element;
 };
 

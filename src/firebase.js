@@ -1,17 +1,29 @@
 /* eslint-disable no-use-before-define */
 // Import the functions you need from the SDKs you need
 import { initializeApp } from 'firebase/app';
-import { onAuthStateChanged, getAuth } from 'firebase/auth';
-
 import {
-  getFirestore, collection, addDoc, getDocs, onSnapshot,
-  query, orderBy, serverTimestamp, doc, getDoc, updateDoc, arrayUnion, arrayRemove,
+  onAuthStateChanged,
+  getAuth,
+} from 'firebase/auth';
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  getDocs,
+  getDoc,
+  onSnapshot,
+  doc,
+  deleteDoc,
+  query,
+  orderBy,
+  serverTimestamp,
+  updateDoc,
+  arrayUnion,
+  arrayRemove,
 } from 'firebase/firestore';
-// import { async } from 'regenerator-runtime';
 
 let currentUserName = ''; // Variable para almacenar el nombre del usuario actual
 let currentUserImage = ''; // Variable para almacenar la imagen del usuario actual
-
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -34,30 +46,6 @@ export const auth = getAuth(app);
 // Initialize Cloud Firestore and get a reference to the service
 const db = getFirestore(app);
 
-// Obtener el nombre e imagen del usuario logeado
-export const handleUserAuth = (post) => {
-  // onAuthStateChanged se obtiene el usuario actual.
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      console.log('Datos del usuario:', user);
-      currentUserName = user.displayName;
-      currentUserImage = user.photoURL;
-
-      // Guardar el correo electrónico del usuario en sessionStorage
-      sessionStorage.setItem('userEmail', user.email);
-
-      // Verificar si 'post' está definido antes de llamar a 'savePost'
-      if (typeof post !== 'undefined') {
-        savePost(post);
-      }
-    } else {
-      // coloca foto por deafult.
-      currentUserImage = './img/avatarDefault(1).png';
-      savePost(post);
-    }
-  });
-};
-
 // se guarda post con datos post, email, tiempo,nombreUsuario y foto de perfil.
 export const savePost = (post) => {
   const userEmail = sessionStorage.getItem('userEmail');
@@ -71,6 +59,27 @@ export const savePost = (post) => {
     comments: 0,
   });
 };
+
+// Obtener el nombre e imagen del usuario logeado
+export const handleUserAuth = (post) => {
+  // onAuthStateChanged se obtiene el usuario actual.
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      console.log('Datos del usuario:', user);
+      currentUserName = user.displayName;
+      currentUserImage = user.photoURL;
+      sessionStorage.setItem('userEmail', user.email);
+      if (typeof post !== 'undefined') {
+        savePost(post);
+      }
+    } else {
+      // coloca foto por deafult.
+      currentUserImage = './img/avatarDefault(1).png';
+      savePost(post);
+    }
+  });
+};
+
 // obtiene los post de la coleccion "publish".
 export const getPost = () => getDocs(collection(db, 'publish'));
 
@@ -78,6 +87,12 @@ export const getPost = () => getDocs(collection(db, 'publish'));
 export const onGetPost = (callback) => {
   const q = query(collection(db, 'publish'), orderBy('timestamp', 'desc'));
   return onSnapshot(q, callback);
+};
+
+// BORRAR POST
+export const deleteDocFirebase = (postId) => {
+  const docRef = doc(db, 'publish', postId);
+  return deleteDoc(docRef);
 };
 
 export const refDocLiked = (postID) => {
@@ -104,5 +119,13 @@ export const incrementLike = (postDocRef, userLike) => {
 export const decrementLike = (postDocRef, userLike) => {
   updateDoc(postDocRef, { // sacar esta
     likes: arrayRemove(userLike), // sacar esta
+  });
+};
+
+export const updateFirebaseDocument = (postId, postValue) => {
+  const docRef = doc(db, 'publish', postId);
+  return updateDoc(docRef, {
+    post: postValue,
+    timestamp: serverTimestamp(),
   });
 };

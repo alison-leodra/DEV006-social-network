@@ -1,5 +1,4 @@
 import { signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-
 import { auth } from '../firebase.js';
 
 const login = (navigateTo) => {
@@ -8,9 +7,9 @@ const login = (navigateTo) => {
   loginContainer.classList.add('login');
 
   const templateHeader = ` <header>
-  <div class="imgLogo">
-    <img src="./img/logo2.png" alt="logo">
-    <h2 class="tittle">Encuentra a tus compañeros de juego perfectos</h2>
+  <div class='imgLogo'>
+    <img src='./img/logo2.png' alt='logo'>
+    <h2 class='tittle'>Encuentra a tus compañeros de juego perfectos</h2>
   </div>
 </header> `;
 
@@ -48,7 +47,6 @@ const login = (navigateTo) => {
   logInBtn.setAttribute('type', 'button');
   logInBtn.classList.add('logInbtn');
   logInBtn.innerText = 'Inciar con correo';
-
   const loginGoogleBtn = document.createElement('img');
   loginGoogleBtn.setAttribute('src', './img/btn_google_signin_dark_normal_web.png');
   loginGoogleBtn.setAttribute('alt', 'google btn');
@@ -95,8 +93,6 @@ const login = (navigateTo) => {
   loginContainer.append(main);
   loginContainer.append(registerFooter);
   element.append(loginContainer);
-
-  // Obtiene el botón "Registrarse" por su clase
 
   // Agrega el evento "click" al botón "Registrarse"
   signUpButton.addEventListener('click', (e) => {
@@ -147,7 +143,6 @@ const login = (navigateTo) => {
       }
     }
   });
-
   const signInFormGoogle = element.querySelector('.logInGoogle');
   // Agrega el evento "click" al botón "Registrarse"
   signInFormGoogle.addEventListener('click', async (e) => {

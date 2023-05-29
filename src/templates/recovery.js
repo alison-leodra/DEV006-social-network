@@ -63,8 +63,6 @@ const recovery = (navigateTo) => {
   const mailField = emailInput;
 
   resetPassword.addEventListener('click', async () => {
-    // eslint-disable-next-line no-shadow
-    const emailError = document.querySelector('.emailError');
     const email = mailField.value;
     if (email !== '') {
       try {

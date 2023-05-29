@@ -41,7 +41,6 @@ const register = (navigateTo) => {
   signInFormGoogle.addEventListener('click', async (e) => {
     e.preventDefault();
     const provider = new GoogleAuthProvider();
-
     try {
       const credentials = await signInWithPopup(auth, provider);
       console.log(credentials);
