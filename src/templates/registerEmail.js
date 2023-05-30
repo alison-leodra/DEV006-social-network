@@ -6,7 +6,7 @@ const registerEmail = (navigateTo) => {
   <div class="registerEmail">
       <header>
       <div class="imgLogo">
-        <img src="./img/logo2.png" alt="logo">
+        <img src="/assets/img/logo2.png" alt="logo">
       </div>
     </header>
 
@@ -25,7 +25,7 @@ const registerEmail = (navigateTo) => {
     </main>
 
     <footer>
-      <img src="./img/Sin título-4.png" alt="footer">
+      <img src="/assets/img/Sin título-4.png" alt="footer">
     </footer>
     </div>
   `;
@@ -53,7 +53,7 @@ const registerEmail = (navigateTo) => {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
 
         // Actualizar el perfil del usuario con el nombre
-        await updateProfile(userCredential.user, { displayName: name, photoURL: './img/avatarDefault(1).png' });
+        await updateProfile(userCredential.user, { displayName: name, photoURL: '/assets/img/avatarDefault(1).png' });
         // console.log(userCredential);
         nameError.style.display = 'none';
         passwordError.style.display = 'none';

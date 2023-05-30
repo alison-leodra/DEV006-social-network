@@ -8,7 +8,7 @@ const login = (navigateTo) => {
 
   const templateHeader = ` <header>
   <div class='imgLogo'>
-    <img src='./img/logo2.png' alt='logo'>
+    <img src='/assets/img/logo2.png' alt='logo'>
     <h2 class='tittle'>Encuentra a tus compañeros de juego perfectos</h2>
   </div>
 </header> `;
@@ -48,7 +48,7 @@ const login = (navigateTo) => {
   logInBtn.classList.add('logInbtn');
   logInBtn.innerText = 'Inciar con correo';
   const loginGoogleBtn = document.createElement('img');
-  loginGoogleBtn.setAttribute('src', './img/btn_google_signin_dark_normal_web.png');
+  loginGoogleBtn.setAttribute('src', '/assets/img/btn_google_signin_dark_normal_web.png');
   loginGoogleBtn.setAttribute('alt', 'google btn');
   loginGoogleBtn.classList.add('logInGoogle');
 
@@ -60,7 +60,7 @@ const login = (navigateTo) => {
 
   const registerFooter = document.createElement('footer');
   const imgGeneral = document.createElement('img');
-  imgGeneral.setAttribute('src', './img/Sin título-4.png');
+  imgGeneral.setAttribute('src', '/assets/img/Sin título-4.png');
   imgGeneral.setAttribute('alt', 'dos personas jugando videojuegos');
 
   const signUpButton = document.createElement('a');

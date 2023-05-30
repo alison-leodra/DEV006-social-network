@@ -9,6 +9,7 @@ import {
   incrementLike,
   decrementLike,
   updateFirebaseDocument,
+  auth,
 } from '../firebase.js';
 
 function autoResize() {
@@ -36,7 +37,7 @@ const home = () => {
   const templateHeader = `
     <header>
       <div class='imgLogo'>
-        <img src='./img/logo2.png' alt='logo'>
+        <img src='/assets/img/logo2.png' alt='logo'>
       </div>
     </header>
   `;
@@ -74,9 +75,9 @@ const home = () => {
   const img = document.createElement('img');
   img.setAttribute('alt', 'profile photo');
 
-  // const user = auth.currentUser;
-  // img.setAttribute('src', user.photoURL);
-  img.setAttribute('src', '../img/avatarDefault(1).png');
+  const user = auth.currentUser;
+  img.setAttribute('src', user.photoURL);
+  // img.setAttribute('src', './assets/img/avatarDefault(1).png');
   form.appendChild(textarea);
 
   form.append(img);
