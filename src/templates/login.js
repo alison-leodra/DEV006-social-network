@@ -46,7 +46,7 @@ const login = (navigateTo) => {
   const logInBtn = document.createElement('button');
   logInBtn.setAttribute('type', 'button');
   logInBtn.classList.add('logInbtn');
-  logInBtn.innerText = 'Inciar con correo';
+  logInBtn.innerText = 'Iniciar con correo';
   const loginGoogleBtn = document.createElement('img');
   loginGoogleBtn.setAttribute('src', '/assets/img/btn_google_signin_dark_normal_web.png');
   loginGoogleBtn.setAttribute('alt', 'google btn');
