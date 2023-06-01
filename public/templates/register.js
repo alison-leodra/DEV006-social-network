@@ -6,7 +6,7 @@ const register = (navigateTo) => {
     <div class="registroOption">
       <header>
         <div class="imgLogo">
-          <img src="/assets/img/logo2.png" alt="logo">
+          <img src="./img/logo2.png" alt="logo">
         </div>
       </header>
 
@@ -14,13 +14,13 @@ const register = (navigateTo) => {
         <div class="container">
           <form id="signInFormFirst">
             <button type="button" class="signInFormEmail">Registrarse con correo</button>
-            <img src="/assets/img/btn_google_signin_dark_normal_web.png" alt="google btn" id="googleBtn" class="signInFormGoogle">
+            <img src="./img/btn_google_signin_dark_normal_web.png" alt="google btn" id="googleBtn" class="signInFormGoogle">
           </form>
         </div>
       </main>
 
       <footer>
-        <img src="/assets/img/Sin título-4.png" alt="footer">
+        <img src="./img/Sin título-4.png" alt="footer">
       </footer>
     </div>
   `;

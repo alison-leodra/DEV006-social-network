@@ -9,7 +9,6 @@ import {
   incrementLike,
   decrementLike,
   updateFirebaseDocument,
-  auth,
 } from '../firebase.js';
 
 function autoResize() {
@@ -37,7 +36,7 @@ const home = () => {
   const templateHeader = `
     <header>
       <div class='imgLogo'>
-        <img src='/assets/img/logo2.png' alt='logo'>
+        <img src='./img/logo2.png' alt='logo'>
       </div>
     </header>
   `;
@@ -75,9 +74,9 @@ const home = () => {
   const img = document.createElement('img');
   img.setAttribute('alt', 'profile photo');
 
-  const user = auth.currentUser;
-  img.setAttribute('src', user.photoURL);
-  // img.setAttribute('src', './assets/img/avatarDefault(1).png');
+  // const user = auth.currentUser;
+  // img.setAttribute('src', user.photoURL);
+  img.setAttribute('src', '../img/avatarDefault(1).png');
   form.appendChild(textarea);
 
   form.append(img);
@@ -162,11 +161,11 @@ const home = () => {
           </div>
         </div>`;
 
-      html += `</div>`;
+      html += '</div>';
 
       html += `
-        <div id="modal" class="modal">
-          <div class="modal-content">
+        <div id='modal' class='modal'>
+          <div class='modal-content'>
             <h2>¿Desea eliminar?</h2>
               <button id='yesBtn'>Sí</button>
               <button id='noBtn'>No</button>
@@ -186,6 +185,7 @@ const home = () => {
       modal.style.display = 'block';
       yesBtn.setAttribute('postid', postid);
     }
+
     function hideModal() {
       modal.style.display = 'none';
     }
@@ -212,10 +212,10 @@ const home = () => {
     noBtn.addEventListener('click', () => {
       hideModal();
     });
+
     const editBtns = document.querySelectorAll('.edit');
     editBtns.forEach((btn) => {
       btn.addEventListener('click', (e) => {
-      
         const textArea = document.querySelector(`textArea[postid="${e.target.getAttribute('postid')}"]`);
         textArea.removeAttribute('readOnly');
         const end = textArea.value.length;

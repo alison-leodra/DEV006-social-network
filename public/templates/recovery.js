@@ -9,7 +9,7 @@ const recovery = (navigateTo) => {
   const templateHeader = `
     <header>
       <div class="imgLogo">
-        <img src="/assets/img/logo2.png" alt="logo">
+        <img src="./img/logo2.png" alt="logo">
       </div>
     </header>
   `;

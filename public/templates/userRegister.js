@@ -3,7 +3,7 @@ const userRegister = (navigateTo) => {
   <div class="userRegister">
     <header>
       <div class="imgLogo">
-        <img src="/assets/img/logo2.png" alt="logo">
+        <img src="./img/logo2.png" alt="logo">
       </div>
     </header>
     <main>
@@ -14,7 +14,7 @@ const userRegister = (navigateTo) => {
       </div>
       </main>
     <footer>
-      <img src="/assets/img/UserRegister.png" alt="footer">
+      <img src="./img/UserRegister.png" alt="footer">
     </footer>
   </div>
   `;
